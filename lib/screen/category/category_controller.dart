@@ -1,3 +1,4 @@
+import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -26,23 +27,46 @@ class CategoryController extends GetxController {
 
   TextEditingController textEditingControllerSearch = TextEditingController();
 
-  CategoryController() {
-    // final DataAppCustomerController dataAppCustomerController = Get.find();
-    // if (dataAppCustomerController.inputModelProducts != null &&
-    //     dataAppCustomerController.inputModelProducts!.categoryId != null) {
-    //   categoryCurrent.value =
-    //   dataAppCustomerController.inputModelProducts!.categoryId!;
-    //   if (mapTypeActionSort[
-    //   dataAppCustomerController.inputModelProducts!.filterProducts] ==
-    //       "discount") {
-    //     isChooseDiscountSort.value = true;
-    //   } else if (mapTypeActionSort[
-    //   dataAppCustomerController.inputModelProducts!.filterProducts] !=
-    //       null) {
-    //     sortByShow.value = mapTypeActionSort[
-    //     dataAppCustomerController.inputModelProducts!.filterProducts];
-    //   }
-    // }
+  // CategoryController() {
+  // final DataAppCustomerController dataAppCustomerController = Get.find();
+  // if (dataAppCustomerController.inputModelProducts != null &&
+  //     dataAppCustomerController.inputModelProducts!.categoryId != null) {
+  //   categoryCurrent.value =
+  //   dataAppCustomerController.inputModelProducts!.categoryId!;
+  //   if (mapTypeActionSort[
+  //   dataAppCustomerController.inputModelProducts!.filterProducts] ==
+  //       "discount") {
+  //     isChooseDiscountSort.value = true;
+  //   } else if (mapTypeActionSort[
+  //   dataAppCustomerController.inputModelProducts!.filterProducts] !=
+  //       null) {
+  //     sortByShow.value = mapTypeActionSort[
+  //     dataAppCustomerController.inputModelProducts!.filterProducts];
+  //   }
+  // }
+  // }
+  var listProduct = [].obs;
+  @override
+  void onInit() async {
+    // TODO: implement onInit
+    super.onInit();
+    await getListProduct();
+  }
+
+  Future<void> getListProduct() async {
+    final response = await API.share.GetListProduct();
+    try {
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+        // print(data);
+        var datadefault = Product.fromJson(response.data);
+        print("Number of list product ${datadefault.data!.length}");
+        listProduct.addAll(
+            datadefault.data!.map((e) => DataProduct.fromJson(e.toJson())));
+      }
+    } catch (e) {
+      // status.value = AppState.ERROR;
+    }
   }
 
   void init() {

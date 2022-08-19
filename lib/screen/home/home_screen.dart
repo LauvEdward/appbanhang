@@ -471,6 +471,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           image: API.share.baseSite + "/${e.image}",
                           description: e.description,
                           title: e.title,
+                          id: e.id,
                         ))
                     .toList()),
           ],

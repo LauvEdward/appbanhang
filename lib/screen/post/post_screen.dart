@@ -59,7 +59,7 @@ class PostScreen extends StatelessWidget {
   Widget postItem(NewsPostData url) {
     return InkWell(
       onTap: (() {
-        Get.to(() => PostDetailScreen(product: url));
+        Get.to(() => PostDetailScreen(id: url.id));
       }),
       child: Container(
         margin: EdgeInsets.all(10),

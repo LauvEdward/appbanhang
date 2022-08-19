@@ -16,11 +16,11 @@ class PostDetailController extends GetxController {
   }
 
   Future<void> getNewsDetail() async {
-    final response = await API.share.GetNewsDetail(id.value);
+    final response = await API.share.GetNewsDetail(id);
     try {
       // var data = response.data["data"];
       print(response.data);
-      var data = NewsDetailsData.fromJson(response.data["data"]);
+      data = NewsDetailsData.fromJson(response.data["data"]);
       if (response.statusCode != 200) {
         status.value = AppState.ERROR;
       } else {

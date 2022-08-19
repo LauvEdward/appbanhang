@@ -1,5 +1,6 @@
 import 'package:appbanhang/component/empty_image_widget/saha_empty_image.dart';
 import 'package:appbanhang/component/loading/loading_container.dart';
+import 'package:appbanhang/screen/post/detail/post_detail_screen.dart';
 import 'package:appbanhang/screen/product/product_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class NewsItem extends StatelessWidget {
       this.showCart = true,
       this.image,
       this.title,
+      this.id,
       this.description})
       : super(key: key);
 
@@ -21,6 +23,7 @@ class NewsItem extends StatelessWidget {
   String? title;
   String? image;
   String? description;
+  String? id;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +41,9 @@ class NewsItem extends StatelessWidget {
         child: Stack(
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => PostDetailScreen(id: this.id));
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

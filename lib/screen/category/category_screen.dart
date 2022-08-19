@@ -1,3 +1,5 @@
+import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,23 +25,15 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  // final CustomerConfigController configController = Get.find();
-  //
-  // final DataAppCustomerController dataAppCustomerController = Get.find();
-
-  CategoryController categoryController1 = new CategoryController();
-
-  // ScrollController _scrollController = new ScrollController();
-
-  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  CategoryController categoryController1 = Get.put(CategoryController());
 
   @override
   void initState() {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
-    ////  ////  ////  ////  ////  ////
     return Scaffold(
       backgroundColor: Colors.grey[300],
       // key: _scaffoldKey,
@@ -170,37 +164,37 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         color: Colors.white.withOpacity(0.8),
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: listImage.length,
+                            itemCount: categoryController1.listProduct.length,
                             itemBuilder: (context, index) {
                               return buildItem(
                                   category:
-                                      Category(imageUrl: listImage[index]));
+                                      categoryController1.listProduct[index]);
                             }),
                       ),
                     ),
                   ],
                 ),
-                if (categoryController1.categoriesChild.isNotEmpty)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 60,
-                          // width: Get.width,
-                          color: Colors.white.withOpacity(0.8),
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  categoryController1.categoriesChild.length,
-                              itemBuilder: (context, index) {
-                                return buildItemChild(
-                                    category: categoryController1
-                                        .categoriesChild[index]);
-                              }),
-                        ),
-                      ),
-                    ],
-                  ),
+                // if (categoryController1.categoriesChild.isNotEmpty)
+                //   Row(
+                //     children: [
+                //       Expanded(
+                //         child: Container(
+                //           height: 60,
+                //           // width: Get.width,
+                //           color: Colors.white.withOpacity(0.8),
+                //           child: ListView.builder(
+                //               scrollDirection: Axis.horizontal,
+                //               itemCount:
+                //                   categoryController1.categoriesChild.length,
+                //               itemBuilder: (context, index) {
+                //                 return buildItemChild(
+                //                     category: categoryController1
+                //                         .categoriesChild[index]);
+                //               }),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
               ],
             ),
             // Expanded(child: buildList()),
@@ -316,7 +310,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  Widget buildItem({Category? category}) {
+  Widget buildItem({DataProduct? category}) {
     return Obx(
       () => Container(
         width: 80,
@@ -335,9 +329,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ),
         child: InkWell(
           onTap: () {
-            categoryController1.setCategoryCurrent(category);
+            // categoryController1.setCategoryCurrent(category);
 
-            categoryController1.searchProduct(idCategory: category.id);
+            // categoryController1.searchProduct(idCategory: category.id);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -346,10 +340,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(5),
-                  child: category.imageUrl == null
+                  child: category!.image == null
                       ? Center(child: Icon(Icons.view_module_rounded))
                       : CachedNetworkImage(
-                          imageUrl: category.imageUrl ?? "",
+                          imageUrl: API.share.baseSite + "/${category.image}",
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
@@ -366,7 +360,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
               ),
               Text(
-                'Cho em bé',
+                category.name ?? "",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

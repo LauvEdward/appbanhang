@@ -40,7 +40,7 @@ class DataProduct {
   String? banner;
   List<Pro>? pro;
 
-  DataProduct(
+  DataProduct(listProduct,
       {this.id,
       this.user,
       this.name,

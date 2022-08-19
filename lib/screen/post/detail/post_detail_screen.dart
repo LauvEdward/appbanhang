@@ -7,9 +7,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  final NewsPostData product;
+  final String? id;
 
-  const PostDetailScreen({Key? key, required this.product}) : super(key: key);
+  const PostDetailScreen({Key? key, required this.id}) : super(key: key);
   @override
   _PostDetailScreenState createState() => _PostDetailScreenState();
 }
@@ -21,7 +21,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     // TODO: implement initState
     super.initState();
     _postDetailController =
-        Get.put(PostDetailController(widget.product.id ?? ""));
+        Get.put(PostDetailController(int.parse(widget.id ?? "")));
   }
 
   @override
