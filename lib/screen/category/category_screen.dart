@@ -1,5 +1,6 @@
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
+import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -134,73 +135,92 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ],
         automaticallyImplyLeading: true,
       ),
-      body: Obx(
-        () => Column(
-          children: [
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                        child:
-                            buildItemOrderBy(title: "Phổ biến", key: "views")),
-                    Expanded(
-                        child: buildItemOrderBy(
-                            title: "Mới nhất", key: "created_at")),
-                    Expanded(
-                        child:
-                            buildItemOrderBy(title: "Bán chạy", key: "sales")),
-                    Expanded(
-                        child: buildItemOrderBy(title: "Giá", key: "price")),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 100,
-                        // width: Get.width,
-                        color: Colors.white.withOpacity(0.8),
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: categoryController1.listProduct.length,
-                            itemBuilder: (context, index) {
-                              return buildItem(
-                                  category:
-                                      categoryController1.listProduct[index]);
-                            }),
+      body: Obx(() {
+        if (categoryController1.status == AppState.DONE) {
+          return Column(
+            children: [
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                          child: buildItemOrderBy(
+                              title: "Phổ biến", key: "views")),
+                      Expanded(
+                          child: buildItemOrderBy(
+                              title: "Mới nhất", key: "created_at")),
+                      Expanded(
+                          child: buildItemOrderBy(
+                              title: "Bán chạy", key: "sales")),
+                      Expanded(
+                          child: buildItemOrderBy(title: "Giá", key: "price")),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 100,
+                          // width: Get.width,
+                          color: Colors.white.withOpacity(0.8),
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: categoryController1.listProduct.length,
+                              itemBuilder: (context, index) {
+                                return buildItem(
+                                    category:
+                                        categoryController1.listProduct[index]);
+                              }),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                // if (categoryController1.categoriesChild.isNotEmpty)
-                //   Row(
-                //     children: [
-                //       Expanded(
-                //         child: Container(
-                //           height: 60,
-                //           // width: Get.width,
-                //           color: Colors.white.withOpacity(0.8),
-                //           child: ListView.builder(
-                //               scrollDirection: Axis.horizontal,
-                //               itemCount:
-                //                   categoryController1.categoriesChild.length,
-                //               itemBuilder: (context, index) {
-                //                 return buildItemChild(
-                //                     category: categoryController1
-                //                         .categoriesChild[index]);
-                //               }),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-              ],
-            ),
-            // Expanded(child: buildList()),
-          ],
-        ),
-      ),
+                    ],
+                  ),
+                  // if (categoryController1.categoriesChild.isNotEmpty)
+                  //   Row(
+                  //     children: [
+                  //       Expanded(
+                  //         child: Container(
+                  //           height: 60,
+                  //           // width: Get.width,
+                  //           color: Colors.white.withOpacity(0.8),
+                  //           child: ListView.builder(
+                  //               scrollDirection: Axis.horizontal,
+                  //               itemCount:
+                  //                   categoryController1.categoriesChild.length,
+                  //               itemBuilder: (context, index) {
+                  //                 return buildItemChild(
+                  //                     category: categoryController1
+                  //                         .categoriesChild[index]);
+                  //               }),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                ],
+              ),
+              Expanded(child: buildList()),
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: Container(
+              //     padding: EdgeInsets.all(10),
+              //     decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(20),
+              //         color: Colors.blue),
+              //     child: Text(
+              //       "Tải thêm",
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //       ),
+              //     ),
+              //   ),
+              // )
+            ],
+          );
+        } else {
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
+      }),
     );
   }
 
@@ -297,15 +317,50 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget buildList() {
     return SingleChildScrollView(
-      child: Wrap(
-        children: listImage
-            .map(
-              (e) => ProductItem(
-                width: Get.width / 2,
-                // image: e,
+      child: Column(
+        children: [
+          Wrap(
+            children: categoryController1.listAllProduct
+                .map(
+                  (e) => ProductItem(
+                    width: Get.width / 2,
+                    product: e,
+                    // image: listImage[0],
+                    image: e.proDir == null
+                        ? listImage[0]
+                        : API.share.baseSite +
+                            '/upload/img/products/' +
+                            e.proDir +
+                            "/${e.image}",
+                  ),
+                )
+                .toList(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: InkWell(
+              onTap: () {
+                categoryController1.page.value += 1;
+                categoryController1.getAllCategory();
+              },
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.blue),
+                  child: Text(
+                    "Tải thêm",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
-            )
-            .toList(),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -340,7 +395,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(5),
-                  child: category!.image == null
+                  child: category.image == null
                       ? Center(child: Icon(Icons.view_module_rounded))
                       : CachedNetworkImage(
                           imageUrl: API.share.baseSite + "/${category.image}",

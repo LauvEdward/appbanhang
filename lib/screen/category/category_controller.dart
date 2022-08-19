@@ -1,5 +1,6 @@
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
+import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -17,8 +18,9 @@ class CategoryController extends GetxController {
   var categoryCurrent = (-1).obs;
   var categoryCurrentChild = (-1).obs;
   var textSearch = "".obs;
-  var sortByShow = "views".obs;
+  var sortByShow = "pho_bien".obs;
   var descendingShow = true.obs;
+  var page = 1.obs;
   var currentPage = 1;
   var isChooseDiscountSort = false.obs;
   var canLoadMore = true;
@@ -26,31 +28,15 @@ class CategoryController extends GetxController {
   String? sortByCurrent;
 
   TextEditingController textEditingControllerSearch = TextEditingController();
-
-  // CategoryController() {
-  // final DataAppCustomerController dataAppCustomerController = Get.find();
-  // if (dataAppCustomerController.inputModelProducts != null &&
-  //     dataAppCustomerController.inputModelProducts!.categoryId != null) {
-  //   categoryCurrent.value =
-  //   dataAppCustomerController.inputModelProducts!.categoryId!;
-  //   if (mapTypeActionSort[
-  //   dataAppCustomerController.inputModelProducts!.filterProducts] ==
-  //       "discount") {
-  //     isChooseDiscountSort.value = true;
-  //   } else if (mapTypeActionSort[
-  //   dataAppCustomerController.inputModelProducts!.filterProducts] !=
-  //       null) {
-  //     sortByShow.value = mapTypeActionSort[
-  //     dataAppCustomerController.inputModelProducts!.filterProducts];
-  //   }
-  // }
-  // }
   var listProduct = [].obs;
+  var listAllProduct = [].obs;
+  var status = AppState.LOADING.obs;
   @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
     await getListProduct();
+    await getAllCategory();
   }
 
   Future<void> getListProduct() async {
@@ -119,5 +105,23 @@ class CategoryController extends GetxController {
     }
   }
 
-  Future<void> getAllCategory() async {}
+  Future<void> getAllCategory() async {
+    final response = await API.share
+        .GetAllProduct(sortByShow.value, textSearch.value, page.value);
+    try {
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+        print(data);
+        // var datadefault = Pro.fromJson(data);
+        print("getAllCategory ${data.length}");
+        listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
+        status.value = AppState.DONE;
+        return;
+      }
+      status.value = AppState.LOADING;
+    } catch (e) {
+      status.value = AppState.ERROR;
+      print(e);
+    }
+  }
 }

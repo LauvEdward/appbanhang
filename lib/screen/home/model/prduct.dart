@@ -134,7 +134,7 @@ class Pro {
   String? contents;
   String? time;
   Null? tags;
-  String? proDir;
+  dynamic proDir;
   Null? multiImage;
   Null? imgDir;
   String? status;
@@ -240,7 +240,7 @@ class Pro {
     contents = json['contents'];
     time = json['time'];
     tags = json['tags'];
-    proDir = json['pro_dir'];
+    proDir = json['pro_dir'] == null ? null : json['pro_dir'];
     multiImage = json['multi_image'];
     imgDir = json['img_dir'];
     status = json['status'];
@@ -295,7 +295,7 @@ class Pro {
     data['contents'] = this.contents;
     data['time'] = this.time;
     data['tags'] = this.tags;
-    data['pro_dir'] = this.proDir;
+    data['pro_dir'] = this.proDir ?? "";
     data['multi_image'] = this.multiImage;
     data['img_dir'] = this.imgDir;
     data['status'] = this.status;

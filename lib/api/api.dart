@@ -44,4 +44,14 @@ class API {
         .get(baseUrl + '/news/detail', queryParameters: {"news_id": id});
     return response;
   }
+  Future<Response> GetAllProduct(String sort, String search, int page) async {
+    final dio = Dio();
+    final response = await dio
+        .get(baseUrl + '/product', queryParameters: {
+          "sort" : sort,
+          "search": search,
+      "page": page
+    });
+    return response;
+  }
 }
