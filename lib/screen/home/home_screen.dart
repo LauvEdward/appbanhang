@@ -1,6 +1,8 @@
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/component/widget/news_widget.dart';
+import 'package:appbanhang/screen/category/category_controller.dart';
 import 'package:appbanhang/screen/category/category_screen.dart';
+import 'package:appbanhang/screen/category/categroy_filter_screen.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -194,10 +196,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              Column(
                 children: [
                   SvgPicture.asset(
-                    "assets/svg/delivery_truck.svg",
+                    "assets/svg/safe.svg",
                     height: 30,
                     width: 30,
                   ),
@@ -205,15 +207,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 10,
                   ),
                   Text(
-                    'Giao hàng',
+                    'Giao hàng\ntoàn quốc',
                     style: TextStyle(color: Colors.grey[600], fontSize: 13),
                   ),
                 ],
               ),
-              Row(
+              Column(
                 children: [
                   SvgPicture.asset(
-                    "assets/svg/clock.svg",
+                    "assets/svg/truck.svg",
                     height: 30,
                     width: 30,
                   ),
@@ -221,15 +223,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 10,
                   ),
                   Text(
-                    'Giao hàng',
+                    'Giao hàng\nnội thành 2 giờ',
                     style: TextStyle(color: Colors.grey[600], fontSize: 13),
                   ),
                 ],
               ),
-              Row(
+              Column(
                 children: [
                   SvgPicture.asset(
-                    "assets/svg/box.svg",
+                    "assets/svg/hot_outline.svg",
                     height: 30,
                     width: 30,
                   ),
@@ -237,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 10,
                   ),
                   Text(
-                    '1 đổi 1',
+                    '1 đổi 1 trong\n15 ngày',
                     style: TextStyle(color: Colors.grey[600], fontSize: 13),
                   ),
                 ],
@@ -354,67 +356,74 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 padding: EdgeInsets.all(10),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
+                child: Container(
                   child: SizedBox(
                       width: (Get.width / 4.7) *
-                          (homeController.listProduct.length / 2).ceil(),
-                      child: Wrap(
-                        runSpacing: 15,
-                        children: homeController.listProduct
-                            .map((e) => GestureDetector(
-                                  onTap: () {
-                                    // Get.to(() => CategoryScreen());
-                                  },
-                                  child: SizedBox(
-                                    width: Get.width / 4.7,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey[300]!,
-                                              blurRadius: 10,
-                                              offset: Offset(
-                                                  4, 7), // Shadow position
-                                            ),
-                                          ]),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: CachedNetworkImage(
-                                              width: Get.width / 7.5,
-                                              height: Get.width / 7.5,
-                                              fit: BoxFit.cover,
-                                              imageUrl: API.share.baseSite +
-                                                  '/${e.image}',
-                                              placeholder: (context, url) =>
-                                                  SahaLoadingContainer(),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      SahaEmptyImage(),
+                          (homeController.listCategory.length / 2).ceil(),
+                      child: Center(
+                        child: Wrap(
+                          runSpacing: 15,
+                          children: homeController.listCategory
+                              .map((e) => GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => CategoryFilterScreen(
+                                          categoryid: e.id));
+
+                                      // categoryScreen.update();
+                                      // var index = categoryScreen.indexWhere((element) => element.id == id);
+                                      // categoryScreen.
+                                    },
+                                    child: SizedBox(
+                                      width: Get.width / 4.7,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            decoration:
+                                                BoxDecoration(boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey[300]!,
+                                                blurRadius: 10,
+                                                offset: Offset(
+                                                    4, 7), // Shadow position
+                                              ),
+                                            ]),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: CachedNetworkImage(
+                                                width: Get.width / 7.5,
+                                                height: Get.width / 7.5,
+                                                fit: BoxFit.cover,
+                                                imageUrl: API.share.baseSite +
+                                                    '/${e.image}',
+                                                placeholder: (context, url) =>
+                                                    SahaLoadingContainer(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        SahaEmptyImage(),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        AutoSizeText(
-                                          e.name,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              height: 1),
-                                          maxLines: 2,
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          AutoSizeText(
+                                            e.name,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                height: 1),
+                                            maxLines: 2,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ))
-                            .toList(),
+                                  ))
+                              .toList(),
+                        ),
                       )),
                 ),
               ),

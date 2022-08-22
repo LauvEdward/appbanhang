@@ -7,36 +7,80 @@ import 'package:get/get.dart';
 import '../../model/category.dart';
 import '../../model/product.dart';
 
-class CategoryController extends GetxController {
-  var isLoadingScreen = false.obs;
-  var isLoadingCategory = false.obs;
-  var isLoadingProduct = true.obs;
-  var isLoadingProductMore = false.obs;
-  var categories = RxList<Category>();
-  var categoriesChild = RxList<Category>();
-  var products = RxList<Product>();
-  var categoryCurrent = (-1).obs;
-  var categoryCurrentChild = (-1).obs;
-  var textSearch = "".obs;
-  var sortByShow = "pho_bien".obs;
-  var descendingShow = true.obs;
-  var page = 1.obs;
-  var currentPage = 1;
-  var isChooseDiscountSort = false.obs;
-  var canLoadMore = true;
-  var isDown = false.obs;
-  String? sortByCurrent;
+enum Sort { pho_bien, moi_nhat, ban_chay, price_asc, price_desc }
 
-  TextEditingController textEditingControllerSearch = TextEditingController();
+extension SortType on Sort {
+  String get name {
+    switch (this) {
+      case Sort.pho_bien:
+        return 'Phổ biến';
+      case Sort.moi_nhat:
+        return 'Mới nhất';
+      case Sort.ban_chay:
+        return 'Bán chạy';
+      case Sort.price_asc:
+        return 'Giá cao';
+      case Sort.price_desc:
+        return 'Thấp';
+    }
+  }
+
+  String get sortType {
+    switch (this) {
+      case Sort.pho_bien:
+        return 'pho_bien';
+      case Sort.moi_nhat:
+        return 'moi_nhat';
+      case Sort.ban_chay:
+        return 'ban_chay';
+      case Sort.price_asc:
+        return 'price_asc';
+      case Sort.price_desc:
+        return 'price_desc';
+    }
+  }
+}
+
+class CategoryController extends GetxController {
+  var textSearch = "".obs;
+  var sortByShow = Sort.pho_bien.obs;
+  var categoryCurrent = (-1).obs;
+  var page = 1.obs;
   var listProduct = [].obs;
   var listAllProduct = [].obs;
   var status = AppState.LOADING.obs;
+  var isLoadingAll = false;
+  TextEditingController textEditingControllerSearch = TextEditingController();
+  // var isLoading
   @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
-    await getListProduct();
+    await getListCategory();
     await getAllCategory();
+  }
+
+  void resetValue() {
+    textSearch = "".obs;
+    sortByShow = Sort.pho_bien.obs;
+    page = 1.obs;
+    isLoadingAll = true;
+  }
+
+  Future<void> getListCategory() async {
+    final response = await API.share.GetCategory();
+    try {
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+        // print(data);
+        // var datadefault = Product.fromJson(response.data);
+        // print("Number of list product ${datadefault.data!.length}");
+        listProduct.addAll(data.map((e) => CategoryProduct.fromJson(e)));
+      }
+    } catch (e) {
+      print(e);
+      // status.value = AppState.ERROR;
+    }
   }
 
   Future<void> getListProduct() async {
@@ -45,75 +89,31 @@ class CategoryController extends GetxController {
       if (response.statusCode == 200) {
         var data = response.data["data"];
         // print(data);
-        var datadefault = Product.fromJson(response.data);
-        print("Number of list product ${datadefault.data!.length}");
-        listProduct.addAll(
-            datadefault.data!.map((e) => DataProduct.fromJson(e.toJson())));
+        // var datadefault = Product.fromJson(response.data);
+        // print("Number of list product ${datadefault.data!.length}");
+        listProduct.addAll(data.map((e) => Product.fromJson(e.toJson())));
       }
     } catch (e) {
       // status.value = AppState.ERROR;
     }
   }
 
-  void init() {
-    super.onInit();
-    getAllCategory();
-    searchProduct(
-        search: textSearch.value,
-        sortBy: sortByShow.value,
-        descending: descendingShow.value,
-        idCategory: categoryCurrent.value != -1 ? categoryCurrent.value : null);
-  }
-
-  void sortDiscount() async {
-    if (isChooseDiscountSort.value) {
-      List<Product> listProductDiscount = [];
-      products.forEach((element) {
-        // if (element.productDiscount != null) {
-        //   listProductDiscount.add(element);
-        // }
-      });
-      products(listProductDiscount);
-    }
-  }
-
-  Future<bool?> searchProduct(
-      {String? search,
-      bool? descending,
-      String? sortBy,
-      int? idCategory,
-      int? idCategoryChild,
-      bool isLoadMore = false}) async {}
-
-  void setCategoryCurrent(Category category) {
-    categoryCurrent.value = category.id ?? -1;
-    categoryCurrentChild.value = -1;
-    if (category.id == null) {
-      categoriesChild([]);
-    } else {
-      categoriesChild(category.listCategoryChild);
-    }
-  }
-
-  void setCategoryCurrentChild(Category category) {
-    isLoadingProduct.value = true;
-    categoryCurrentChild.value = category.id ?? -1;
-    if (category.id == null) {
-      categoriesChild([]);
-    } else {
-      categoriesChild(category.listCategoryChild);
-    }
-  }
-
   Future<void> getAllCategory() async {
+    // status.value = AppState.LOADING;
+    // all product
     final response = await API.share
-        .GetAllProduct(sortByShow.value, textSearch.value, page.value);
+        .GetAllProduct(sortByShow.value.sortType, textSearch.value, page.value);
     try {
       if (response.statusCode == 200) {
         var data = response.data["data"];
         print(data);
         // var datadefault = Pro.fromJson(data);
         print("getAllCategory ${data.length}");
+        if (isLoadingAll == true) {
+          page.value = 1;
+          listAllProduct.clear();
+          isLoadingAll = false;
+        }
         listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
         status.value = AppState.DONE;
         return;

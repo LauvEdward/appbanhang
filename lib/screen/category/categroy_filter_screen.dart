@@ -1,4 +1,5 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/screen/category/category_filter_controller.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,22 +17,28 @@ import '../../model/category.dart';
 import 'category_controller.dart';
 
 // ignore: must_be_immutable
-class CategoryScreen extends StatefulWidget {
+class CategoryFilterScreen extends StatefulWidget {
   bool autoSearch;
+  String? categoryid;
 
-  CategoryScreen({Key? key, this.autoSearch = false}) : super(key: key);
+  CategoryFilterScreen({Key? key, this.autoSearch = false, this.categoryid})
+      : super(key: key);
 
   @override
-  _CategoryScreenState createState() => _CategoryScreenState();
+  _CategoryScreenFilterState createState() => _CategoryScreenFilterState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
   ScrollController _scrollController = ScrollController();
-  CategoryController? categoryController1 = Get.put(CategoryController());
+  CategoryFilterController? categoryController1;
 
   @override
   void initState() {
     super.initState();
+    categoryController1 = Get.put(CategoryFilterController());
+    categoryController1!.categoryid = RxString(widget.categoryid ?? "");
+    categoryController1!.getAllCategory();
+    categoryController1!.getListProduct();
   }
 
   @override
@@ -152,26 +159,28 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           child: buildItemOrderBy(sortpro: Sort.price_asc)),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 100,
-                          // width: Get.width,
-                          color: Colors.white.withOpacity(0.8),
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  categoryController1!.listProduct.length,
-                              itemBuilder: (context, index) {
-                                return buildItem(
-                                    category: categoryController1!
-                                        .listProduct[index]);
-                              }),
-                        ),
-                      ),
-                    ],
-                  )
+                  widget.categoryid == null
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 100,
+                                // width: Get.width,
+                                color: Colors.white.withOpacity(0.8),
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        categoryController1!.listProduct.length,
+                                    itemBuilder: (context, index) {
+                                      return buildItem(
+                                          category: categoryController1!
+                                              .listProduct[index]);
+                                    }),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
                   // if (categoryController1.categoriesChild.isNotEmpty)
                   //   Row(
                   //     children: [
@@ -223,17 +232,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget buildItemOrderBy({Sort? sortpro, Function? onTap}) {
     return Obx(
       () {
+        // bool? selected = categoryController1!.sortByShow.value ==
+        //     sortpro!.sortType; // = key == categoryController1.sortByShow.value;
+
         return InkWell(
           onTap: () {
             categoryController1!.isLoadingAll = true;
-            categoryController1!.sortByShow.value = sortpro!;
+            categoryController1!.sortByShow.value = sortpro!.sortType;
             categoryController1!.getAllCategory();
             _scrollController.animateTo(0,
                 duration: Duration(milliseconds: 500), curve: Curves.ease);
           },
           child: Row(
             children: [
-              categoryController1!.sortByShow.value == sortpro
+              categoryController1!.sortByShow.value == sortpro!.sortType
                   ? VerticalDivider(
                       color: Colors.grey,
                       width: 1,
@@ -250,7 +262,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           Padding(
                             padding:
                                 const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                            child: Text(sortpro!.name),
+                            child: Text(sortpro.name),
                           ),
                           // key == "price" && selected
                           //     ? (Transform.rotate(
@@ -269,7 +281,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                       Container(
                         height: 2,
-                        color: categoryController1!.sortByShow.value == sortpro
+                        color: categoryController1!.sortByShow.value ==
+                                sortpro.sortType
                             ? Colors.blue
                             : null,
                         child: Row(
@@ -281,7 +294,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   ),
                 ),
               ),
-              categoryController1!.sortByShow.value == sortpro
+              categoryController1!.sortByShow.value == sortpro.sortType
                   ? VerticalDivider(
                       color: Colors.grey,
                       width: 1,
@@ -300,65 +313,58 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget buildList() {
     return Obx(
-      () => RefreshIndicator(
-        onRefresh: () async {
-          // await Future.delayed(const Duration(seconds: 1));
-          categoryController1!.resetValue();
-          categoryController1!.getAllCategory();
-        },
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            children: [
-              Wrap(
-                children: categoryController1!.listAllProduct
-                    .map(
-                      (e) => ProductItem(
-                        width: Get.width / 2,
-                        product: e,
-                        // image: listImage[0],
-                        image: e.proDir == null
-                            ? listImage[0]
-                            : API.share.baseSite +
-                                '/upload/img/products/' +
-                                e.proDir +
-                                "/${e.image}",
-                      ),
-                    )
-                    .toList(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: InkWell(
-                  onTap: () {
-                    categoryController1!.page.value += 1;
-                    categoryController1!.getAllCategory();
-                  },
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.blue),
-                      child: Text(
-                        "Tải thêm",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+      () => SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: [
+            Wrap(
+              children: categoryController1!.listAllProduct
+                  .map(
+                    (e) => ProductItem(
+                      width: Get.width / 2,
+                      product: e,
+                      // image: listImage[0],
+                      image: e.proDir == null
+                          ? listImage[0]
+                          : API.share.baseSite +
+                              '/upload/img/products/' +
+                              e.proDir +
+                              "/${e.image}",
+                    ),
+                  )
+                  .toList(),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: () {
+                  categoryController1!.page.value += 1;
+                  categoryController1!.getAllCategory();
+                },
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue),
+                    child: Text(
+                      "Tải thêm",
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 
-  Widget buildItem({CategoryProduct? category}) {
+  Widget buildItem({DataProduct? category}) {
     return Obx(
       () => Container(
         width: 80,

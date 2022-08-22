@@ -271,29 +271,35 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       fontSize: 16),
                 ),
           Divider(),
-          Row(
-            children: [
-              Container(
-                height: 50,
-                width: 3,
-                color: Colors.blue,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      'Mã sản phẩm: ${productDetailController!.productdetail.data.item.id}'),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                      'Thương hiệu: ${productDetailController!.productdetail.data.item.descriptionSeo}'),
-                ],
-              ),
-            ],
+          Container(
+            child: Row(
+              children: [
+                Container(
+                  height: 50,
+                  width: 3,
+                  color: Colors.blue,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Wrap(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            'Mã sản phẩm: ${productDetailController!.productdetail.data.item.id}'),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                            'Thương hiệu: ${productDetailController!.productdetail.data.item.descriptionSeo}'),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

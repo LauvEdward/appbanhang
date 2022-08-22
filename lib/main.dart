@@ -1,6 +1,8 @@
+import 'package:appbanhang/screen/account/authen_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'screen/account/account_controller.dart';
 import 'splash/splash_screen.dart';
 
 void main() {

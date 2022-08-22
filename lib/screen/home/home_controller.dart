@@ -1,10 +1,13 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/model/category.dart';
 import 'package:appbanhang/model/product.dart';
 import 'package:appbanhang/screen/home/model/news.dart';
+import 'package:appbanhang/screen/home/model/news_detail.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  var listCategory = [].obs;
   var listProduct = [].obs;
   var listHotProduct = [].obs;
   var listNewProduct = [].obs;
@@ -12,6 +15,7 @@ class HomeController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    await getListCategory();
     await getListProduct();
     await getListHotProduct();
     await getListNewProduct();
@@ -29,6 +33,22 @@ class HomeController extends GetxController {
             datadefault.data!.map((e) => DataProduct.fromJson(e.toJson())));
       }
     } catch (e) {
+      // status.value = AppState.ERROR;
+    }
+  }
+
+  Future<void> getListCategory() async {
+    final response = await API.share.GetCategory();
+    try {
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+        // print(data);
+        // var datadefault = Product.fromJson(response.data);
+        // print("Number of list product ${datadefault.data!.length}");
+        listCategory.addAll(data.map((e) => CategoryProduct.fromJson(e)));
+      }
+    } catch (e) {
+      print(e);
       // status.value = AppState.ERROR;
     }
   }

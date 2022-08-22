@@ -22,7 +22,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    WidgetsBinding.instance!.addPostFrameCallback((_) {});
     super.initState();
   }
 

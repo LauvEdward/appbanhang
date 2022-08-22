@@ -1,51 +1,92 @@
-class Category {
-  Category({
-    this.id,
-    this.name,
-    this.imageUrl,
-    this.createdAt,
-    this.updatedAt,
-    this.isShowHome,
-    this.totalProducts = 0,
-    this.listCategoryChild,
-    this.categoryId,
-  });
-  int? id;
-  int? categoryId;
+class CategoryProduct {
+  String? id;
+  String? user;
   String? name;
-  dynamic imageUrl;
-  bool? isShowHome;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  List<Category>? listCategoryChild;
-  int? totalProducts = 0;
+  String? titleSeo;
+  String? keywordSeo;
+  String? descriptionSeo;
+  String? image;
+  String? alias;
+  String? parentId;
+  String? description;
+  String? home;
+  String? sort;
+  String? hot;
+  String? coupon;
+  String? focus;
+  String? lang;
+  String? gender;
+  String? banner;
+  String? contents;
+  String? mota;
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        imageUrl: json["image_url"] == null ? null : json["image_url"],
-        isShowHome: json["is_show_home"] == null ? null : json['is_show_home'],
-        totalProducts:
-            json["total_products"] == null ? null : json["total_products"],
-        categoryId: json["category_id"] == null ? null : json["category_id"],
-        listCategoryChild: json["category_children"] == null
-            ? null
-            : List<Category>.from(
-                json["category_children"].map((x) => Category.fromJson(x))),
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-      );
+  CategoryProduct(
+      {this.id,
+      this.user,
+      this.name,
+      this.titleSeo,
+      this.keywordSeo,
+      this.descriptionSeo,
+      this.image,
+      this.alias,
+      this.parentId,
+      this.description,
+      this.home,
+      this.sort,
+      this.hot,
+      this.coupon,
+      this.focus,
+      this.lang,
+      this.gender,
+      this.banner,
+      this.contents,
+      this.mota});
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "image_url": imageUrl,
-    "is_show_home": isShowHome,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
-      };
+  CategoryProduct.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    user = json['user'];
+    name = json['name'];
+    titleSeo = json['title_seo'];
+    keywordSeo = json['keyword_seo'];
+    descriptionSeo = json['description_seo'];
+    image = json['image'];
+    alias = json['alias'];
+    parentId = json['parent_id'];
+    description = json['description'];
+    home = json['home'];
+    sort = json['sort'];
+    hot = json['hot'];
+    coupon = json['coupon'];
+    focus = json['focus'];
+    lang = json['lang'];
+    gender = json['gender'];
+    banner = json['banner'];
+    contents = json['contents'];
+    mota = json['mota'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id ?? "";
+    data['user'] = this.user ?? "";
+    data['name'] = this.name ?? "";
+    data['title_seo'] = this.titleSeo ?? "";
+    data['keyword_seo'] = this.keywordSeo ?? "";
+    data['description_seo'] = this.descriptionSeo ?? "";
+    data['image'] = this.image ?? "";
+    data['alias'] = this.alias ?? "";
+    data['parent_id'] = this.parentId ?? "";
+    data['description'] = this.description ?? "";
+    data['home'] = this.home ?? "";
+    data['sort'] = this.sort ?? "";
+    data['hot'] = this.hot ?? "";
+    data['coupon'] = this.coupon ?? "";
+    data['focus'] = this.focus ?? "";
+    data['lang'] = this.lang ?? "";
+    data['gender'] = this.gender ?? "";
+    data['banner'] = this.banner ?? "";
+    data['contents'] = this.contents ?? "";
+    data['mota'] = this.mota ?? "";
+    return data;
+  }
 }
