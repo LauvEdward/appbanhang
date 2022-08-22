@@ -18,7 +18,38 @@ class MyRegisterScreen extends StatelessWidget {
       backgroundColor: Colors.white70,
       body: SingleChildScrollView(
         child: Container(
-          child: Column(children: [inforUser(), inforContract(), address()]),
+          child: Column(children: [
+            inforUser(),
+            inforContract(),
+            address(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Đăng nhập',
+                    style: TextStyle(
+                      color: Color(0xff4c505b),
+                      fontSize: 27,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: const Color(0xff4c505b),
+                    child: IconButton(
+                      color: Colors.white,
+                      onPressed: () {
+                        // _onLoginButtonPressed();
+                      },
+                      icon: const Icon(Icons.arrow_back),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]),
         ),
       ),
     );
@@ -148,6 +179,7 @@ class MyRegisterScreen extends StatelessWidget {
               Container(
                 height: 50,
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -245,6 +277,11 @@ class MyRegisterScreen extends StatelessWidget {
                 onTap: () {
                   Get.to(() => ListProvice(
                         provice: _controller.arrProvice,
+                        changeText: (String text, String id) {
+                          _controller.district.value = "";
+                          _controller.provice.value = text;
+                          _controller.proviceid.value = id;
+                        },
                       ));
                 },
                 child: Container(
@@ -253,44 +290,66 @@ class MyRegisterScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Chọn tỉnh thành phố"),
-                          Icon(Icons.arrow_drop_down)
-                        ],
+                    child: Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(_controller.provice.value == ""
+                                ? "Chọn tỉnh thành phố"
+                                : _controller.provice.value),
+                            Icon(Icons.arrow_drop_down)
+                          ],
+                        ),
                       ),
                     )),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5, bottom: 5),
-                child: Text(
-                  "Chọn xã/Phường",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    _controller.provice.value == ""
+                        ? "Xã Phường"
+                        : _controller.provice.value,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               InkWell(
-                onTap: () {
-                  // Get.to(() => ListProviceScreen());
+                onTap: () async {
+                  if (_controller.provice.isEmpty) {
+                    print("object");
+                  } else {
+                    await _controller.getdistrict(_controller.proviceid.value);
+                    Get.to(() => ListProvice(
+                          provice: _controller.arrDistrict,
+                          changeText: (String text, String id) {
+                            _controller.district.value = text;
+                          },
+                        ));
+                  }
                 },
-                child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Chọn xã phường"),
-                          Icon(Icons.arrow_drop_down)
-                        ],
+                child: Obx(
+                  () => Container(
+                      height: 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    )),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(_controller.district.value == ""
+                                ? "Chọn xã phường"
+                                : _controller.district.value),
+                            Icon(Icons.arrow_drop_down)
+                          ],
+                        ),
+                      )),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),

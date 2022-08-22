@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:get/get.dart';
 
-class ListProvice extends StatelessWidget {
-  final List<Provice> provice;
+typedef StringCallback = Function(String text, String id);
 
-  ListProvice({Key? key, required this.provice}) : super(key: key);
+class ListProvice extends StatelessWidget {
+  final List provice;
+  final StringCallback changeText;
+  ListProvice({Key? key, required this.provice, required this.changeText})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -25,18 +28,24 @@ class ListProvice extends StatelessWidget {
               children: provice
                   .map((e) => Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          height: 50,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              // color: Colors.black38,
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2),
-                              borderRadius: BorderRadius.circular(3)),
-                          child: Center(
-                            child: Text(
-                              e.name ?? "",
-                              style: TextStyle(fontSize: 15),
+                        child: InkWell(
+                          onTap: () {
+                            changeText(e.name ?? "", e.id);
+                            Get.back();
+                          },
+                          child: Container(
+                            height: 50,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                // color: Colors.black38,
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.2),
+                                borderRadius: BorderRadius.circular(3)),
+                            child: Center(
+                              child: Text(
+                                e.name ?? "",
+                                style: TextStyle(fontSize: 15),
+                              ),
                             ),
                           ),
                         ),

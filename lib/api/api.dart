@@ -91,4 +91,11 @@ class API {
     final response = await dio.get(baseUrl + '/address/province');
     return response;
   }
+
+  Future<Response> getDistrict(int id) async {
+    final dio = Dio();
+    final response = await dio.get(baseUrl + '/address/district',
+        queryParameters: {"province_id": id});
+    return response;
+  }
 }

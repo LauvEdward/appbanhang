@@ -38,3 +38,31 @@ class Provice {
     return data;
   }
 }
+
+class District {
+  String? id;
+  String? code;
+  String? value;
+  String? name;
+  String? tinhId;
+
+  District({this.id, this.code, this.value, this.name, this.tinhId});
+
+  District.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    code = json['code'];
+    value = json['value'];
+    name = json['name'];
+    tinhId = json['tinh_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['code'] = this.code;
+    data['value'] = this.value;
+    data['name'] = this.name;
+    data['tinh_id'] = this.tinhId;
+    return data;
+  }
+}
