@@ -303,8 +303,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
       () => RefreshIndicator(
         onRefresh: () async {
           // await Future.delayed(const Duration(seconds: 1));
-          categoryController1!.resetValue();
-          categoryController1!.getAllCategory();
+          categoryController1!.isLoadingAll = true;
+          categoryController1!.sortByShow.value = Sort.pho_bien;
+          categoryController1!.categoryCurrent.value = 0;
+          await categoryController1!.getAllCategory();
         },
         child: SingleChildScrollView(
           controller: _scrollController,
@@ -366,11 +368,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-                color: Colors.blue,
-                width:
-                    categoryController1!.categoryCurrent.value == category!.id
-                        ? 2
-                        : 0),
+                color: categoryController1!.categoryCurrent.value ==
+                        int.parse(category!.id ?? "")
+                    ? Colors.blue
+                    : Colors.white),
           ),
           color: categoryController1!.categoryCurrent.value == category.id
               ? Colors.white
@@ -379,11 +380,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
         child: InkWell(
           onTap: () {
             categoryController1!.isLoadingAll = true;
+            categoryController1!.categoryCurrent.value =
+                int.parse(category.id ?? "");
             // categoryController1.
-            // categoryController1.getAllCategory();
+            categoryController1!.getAllCategory();
             // categoryController1.setCategoryCurrent(category);
-
-            // categoryController1.searchProduct(idCategory: category.id);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

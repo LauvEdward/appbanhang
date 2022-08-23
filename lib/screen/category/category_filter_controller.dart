@@ -10,10 +10,10 @@ import '../../model/product.dart';
 
 class CategoryFilterController extends GetxController {
   var textSearch = "".obs;
-  var sortByShow = Sort.pho_bien.toString().obs;
+  var sortByShow = Sort.pho_bien.obs;
   var categoryCurrent = (-1).obs;
   var page = 1.obs;
-  var categoryid = "".obs;
+  var categoryid = 0.obs;
 
   TextEditingController textEditingControllerSearch = TextEditingController();
   var listProduct = [].obs;
@@ -25,19 +25,31 @@ class CategoryFilterController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    // await getAllCategoryByCategory();
   }
 
   Future<void> getAllCategoryByCategory() async {
     final response = await API.share.GetAllProductByCatrgory(
-        sortByShow.value, textSearch.value, int.parse(categoryid.value));
+        sortByShow.value.sortType, textSearch.value, categoryid.value);
+
     try {
       if (response.statusCode == 200) {
-        var data = response.data["data"]["child"];
-        print(data);
+        var data = response.data["data"]["category"]["pro"];
+        // print(data);
+        // int? value = data["pro"] == null ? 0 : 1;
         // var datadefault = Pro.fromJson(data);
-        print("getAllCategory ${data.length}");
+        // print("getAllCategory ${data.length}");
         listAllProduct.clear();
-        listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
+        if (categoryid.value == 195) {
+          listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
+        } else {
+          for (var listPro in data) {
+            if (listPro["pro"].length > 0) {
+              listAllProduct.addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+            }
+          }
+        }
+
         status.value = AppState.DONE;
         return;
       }
@@ -48,72 +60,46 @@ class CategoryFilterController extends GetxController {
     }
   }
 
-  Future<void> getListProduct() async {
-    final response = await API.share.GetListProduct();
-    try {
-      if (response.statusCode == 200) {
-        var data = response.data["data"];
-        // print(data);
-        // var datadefault = Product.fromJson(response.data);
-        // print("Number of list product ${datadefault.data!.length}");
-        listProduct.addAll(data.map((e) => Product.fromJson(e.toJson())));
-      }
-    } catch (e) {
-      // status.value = AppState.ERROR;
-    }
-  }
+  // Future<void> getListProduct() async {
+  //   final response = await API.share.GetListProduct();
+  //   try {
+  //     if (response.statusCode == 200) {
+  //       var data = response.data["data"];
+  //       // print(data);
+  //       // var datadefault = Product.fromJson(response.data);
+  //       // print("Number of list product ${datadefault.data!.length}");
+  //       listProduct.addAll(data.map((e) => Product.fromJson(e.toJson())));
+  //     }
+  //   } catch (e) {
+  //     // status.value = AppState.ERROR;
+  //   }
+  // }
 
-  Future<void> getAllCategory() async {
-    if (categoryid == null || categoryid == "") {
-      // status.value = AppState.LOADING;
-      // all product
-      final response = await API.share
-          .GetAllProduct(sortByShow.value, textSearch.value, page.value);
-      try {
-        if (response.statusCode == 200) {
-          var data = response.data["data"];
-          print(data);
-          // var datadefault = Pro.fromJson(data);
-          print("getAllCategory ${data.length}");
-          if (isLoadingAll == true) {
-            page.value = 1;
-            listAllProduct.clear();
-            isLoadingAll = false;
-          }
-          listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
-          status.value = AppState.DONE;
-          return;
-        }
-        status.value = AppState.LOADING;
-      } catch (e) {
-        status.value = AppState.ERROR;
-        print(e);
-      }
-    } else {
-      // status.value = AppState.LOADING;
-      final response = await API.share.GetAllProductByCatrgory(
-          sortByShow.value, textSearch.value, int.parse(categoryid.value));
-      try {
-        if (response.statusCode == 200) {
-          var data = response.data["data"]["child"];
-          print(data);
-          // var datadefault = Pro.fromJson(data);
-          print("getAllCategory ${data.length}");
-          listAllProduct.clear();
-          for (var listPro in data) {
-            if (listPro["pro"].length > 0) {
-              listAllProduct.addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
-            }
-          }
-          print("======> ${listAllProduct.length}");
-          status.value = AppState.DONE;
-          // return;
-        }
-        // status.value = AppState.LOADING;
-      } catch (e) {
-        status.value = AppState.ERROR;
-        print(e);
-      }
-    }
-  }
+  // Future<void> getAllCategory() async {
+  //   final response = await API.share.GetAllProductByCatrgory(
+  //       sortByShow.value.sortType,
+  //       textSearch.value,
+  //       int.parse(categoryid.value));
+  //   try {
+  //     if (response.statusCode == 200) {
+  //       var data = response.data["data"]["child"];
+  //       print(data);
+  //       // var datadefault = Pro.fromJson(data);
+  //       print("getAllCategory ${data.length}");
+  //       listAllProduct.clear();
+  //       for (var listPro in data) {
+  //         if (listPro["pro"].length > 0) {
+  //           listAllProduct.addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+  //         }
+  //       }
+  //       print("======> ${listAllProduct.length}");
+  //       status.value = AppState.DONE;
+  //       // return;
+  //     }
+  //     // status.value = AppState.LOADING;
+  //   } catch (e) {
+  //     status.value = AppState.ERROR;
+  //     print(e);
+  //   }
+  // }
 }

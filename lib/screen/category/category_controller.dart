@@ -1,4 +1,5 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/model/product_detail.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,7 +45,7 @@ extension SortType on Sort {
 class CategoryController extends GetxController {
   var textSearch = "".obs;
   var sortByShow = Sort.pho_bien.obs;
-  var categoryCurrent = (-1).obs;
+  var categoryCurrent = 0.obs;
   var page = 1.obs;
   var listProduct = [].obs;
   var listAllProduct = [].obs;
@@ -58,13 +59,6 @@ class CategoryController extends GetxController {
     super.onInit();
     await getListCategory();
     await getAllCategory();
-  }
-
-  void resetValue() {
-    textSearch = "".obs;
-    sortByShow = Sort.pho_bien.obs;
-    page = 1.obs;
-    isLoadingAll = true;
   }
 
   Future<void> getListCategory() async {
@@ -98,30 +92,83 @@ class CategoryController extends GetxController {
     }
   }
 
+  // Future<void> getAllCategory() async {
+  //   // status.value = AppState.LOADING;
+  //   // all product
+  //   final response = await API.share
+  //       .GetAllProduct(sortByShow.value.sortType, textSearch.value, page.value);
+  //   try {
+  //     if (response.statusCode == 200) {
+  //       var data = response.data["data"];
+  //       print(data);
+  //       // var datadefault = Pro.fromJson(data);
+  //       print("getAllCategory ${data.length}");
+  //       if (isLoadingAll == true) {
+  //         page.value = 1;
+  //         listAllProduct.clear();
+  //         isLoadingAll = false;
+  //       }
+  //       listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
+  //       status.value = AppState.DONE;
+  //       return;
+  //     }
+  //     status.value = AppState.LOADING;
+  //   } catch (e) {
+  //     status.value = AppState.ERROR;
+  //     print(e);
+  //   }
+  // }
   Future<void> getAllCategory() async {
-    // status.value = AppState.LOADING;
-    // all product
-    final response = await API.share
-        .GetAllProduct(sortByShow.value.sortType, textSearch.value, page.value);
-    try {
-      if (response.statusCode == 200) {
-        var data = response.data["data"];
-        print(data);
-        // var datadefault = Pro.fromJson(data);
-        print("getAllCategory ${data.length}");
-        if (isLoadingAll == true) {
-          page.value = 1;
-          listAllProduct.clear();
-          isLoadingAll = false;
+    if (categoryCurrent.value == 0) {
+      // status.value = AppState.LOADING;
+      // all product
+      final response = await API.share.GetAllProduct(
+          sortByShow.value.sortType, textSearch.value, page.value);
+      try {
+        if (response.statusCode == 200) {
+          var data = response.data["data"];
+          print(data);
+          // var datadefault = Pro.fromJson(data);
+          print("getAllCategory ${data.length}");
+          if (isLoadingAll == true) {
+            page.value = 1;
+            listAllProduct.clear();
+            isLoadingAll = false;
+          }
+          listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
+          status.value = AppState.DONE;
+          return;
         }
-        listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
-        status.value = AppState.DONE;
-        return;
+        status.value = AppState.LOADING;
+      } catch (e) {
+        status.value = AppState.ERROR;
+        print(e);
       }
-      status.value = AppState.LOADING;
-    } catch (e) {
-      status.value = AppState.ERROR;
-      print(e);
+    } else {
+      // status.value = AppState.LOADING;
+      final response = await API.share.GetAllProductByCatrgory(
+          sortByShow.value.sortType, textSearch.value, categoryCurrent.value);
+      try {
+        if (response.statusCode == 200) {
+          var data = response.data["data"]["child"];
+          print(data);
+          // var datadefault = Pro.fromJson(data);
+          print("getAllCategory ${data.length}");
+          listAllProduct.clear();
+          for (var listPro in data) {
+            if (listPro["pro"].length > 0) {
+              listAllProduct.addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+            }
+          }
+          print("======> ${listAllProduct.length}");
+          status.value = AppState.DONE;
+          // return;
+        }
+        // status.value = AppState.LOADING;
+      } catch (e) {
+        status.value = AppState.ERROR;
+        print(e);
+      }
     }
   }
 }

@@ -25,7 +25,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 300,
       width: width,
       child: Container(
         decoration: BoxDecoration(boxShadow: [

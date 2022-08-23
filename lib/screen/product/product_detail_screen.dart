@@ -271,20 +271,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       fontSize: 16),
                 ),
           Divider(),
-          Container(
-            child: Row(
-              children: [
-                Container(
-                  height: 50,
-                  width: 3,
-                  color: Colors.blue,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Wrap(
-                  children: [
-                    Column(
+          Center(
+            child: Container(
+              child: Row(
+                children: [
+                  Container(
+                    height: 50,
+                    width: 3,
+                    color: Colors.blue,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -293,12 +293,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           height: 8,
                         ),
                         Text(
-                            'Thương hiệu: ${productDetailController!.productdetail.data.item.descriptionSeo}'),
+                          'Thương hiệu: ${productDetailController!.productdetail.data.item.descriptionSeo}',
+                          maxLines: 1,
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

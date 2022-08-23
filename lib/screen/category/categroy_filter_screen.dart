@@ -36,9 +36,9 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
   void initState() {
     super.initState();
     categoryController1 = Get.put(CategoryFilterController());
-    categoryController1!.categoryid = RxString(widget.categoryid ?? "");
-    categoryController1!.getAllCategory();
-    categoryController1!.getListProduct();
+    categoryController1!.categoryid.value = int.parse(widget.categoryid ?? "0");
+    categoryController1!.getAllCategoryByCategory();
+    // categoryController1!.getListProduct();
   }
 
   @override
@@ -159,28 +159,26 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                           child: buildItemOrderBy(sortpro: Sort.price_asc)),
                     ],
                   ),
-                  widget.categoryid == null
-                      ? Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 100,
-                                // width: Get.width,
-                                color: Colors.white.withOpacity(0.8),
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        categoryController1!.listProduct.length,
-                                    itemBuilder: (context, index) {
-                                      return buildItem(
-                                          category: categoryController1!
-                                              .listProduct[index]);
-                                    }),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Container(
+                  //         height: 100,
+                  //         // width: Get.width,
+                  //         color: Colors.white.withOpacity(0.8),
+                  //         child: ListView.builder(
+                  //             scrollDirection: Axis.horizontal,
+                  //             itemCount:
+                  //                 categoryController1!.listProduct.length,
+                  //             itemBuilder: (context, index) {
+                  //               return buildItem(
+                  //                   category: categoryController1!
+                  //                       .listProduct[index]);
+                  //             }),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // )
                   // if (categoryController1.categoriesChild.isNotEmpty)
                   //   Row(
                   //     children: [
@@ -232,20 +230,17 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
   Widget buildItemOrderBy({Sort? sortpro, Function? onTap}) {
     return Obx(
       () {
-        // bool? selected = categoryController1!.sortByShow.value ==
-        //     sortpro!.sortType; // = key == categoryController1.sortByShow.value;
-
         return InkWell(
           onTap: () {
             categoryController1!.isLoadingAll = true;
-            categoryController1!.sortByShow.value = sortpro!.sortType;
-            categoryController1!.getAllCategory();
+            categoryController1!.sortByShow.value = sortpro!;
+            categoryController1!.getAllCategoryByCategory();
             _scrollController.animateTo(0,
                 duration: Duration(milliseconds: 500), curve: Curves.ease);
           },
           child: Row(
             children: [
-              categoryController1!.sortByShow.value == sortpro!.sortType
+              categoryController1!.sortByShow.value == sortpro
                   ? VerticalDivider(
                       color: Colors.grey,
                       width: 1,
@@ -262,7 +257,7 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                           Padding(
                             padding:
                                 const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                            child: Text(sortpro.name),
+                            child: Text(sortpro!.name),
                           ),
                           // key == "price" && selected
                           //     ? (Transform.rotate(
@@ -281,8 +276,7 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                       ),
                       Container(
                         height: 2,
-                        color: categoryController1!.sortByShow.value ==
-                                sortpro.sortType
+                        color: categoryController1!.sortByShow.value == sortpro
                             ? Colors.blue
                             : null,
                         child: Row(
@@ -294,7 +288,7 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                   ),
                 ),
               ),
-              categoryController1!.sortByShow.value == sortpro.sortType
+              categoryController1!.sortByShow.value == sortpro
                   ? VerticalDivider(
                       color: Colors.grey,
                       width: 1,
@@ -339,7 +333,7 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
               child: InkWell(
                 onTap: () {
                   categoryController1!.page.value += 1;
-                  categoryController1!.getAllCategory();
+                  categoryController1!.getAllCategoryByCategory();
                 },
                 child: Align(
                   alignment: Alignment.center,
