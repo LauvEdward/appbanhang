@@ -1,3 +1,4 @@
+import 'package:appbanhang/model/profile.dart';
 import 'package:appbanhang/model/user.dart';
 import 'package:dio/dio.dart';
 
@@ -96,6 +97,22 @@ class API {
     final dio = Dio();
     final response = await dio.get(baseUrl + '/address/district',
         queryParameters: {"province_id": id});
+    return response;
+  }
+
+  Future<Response> registerUser(Profile user) async {
+    final dio = Dio();
+    final response =
+        await dio.get(baseUrl + '/address/district', queryParameters: {
+      "email": user.email,
+      "password": user.password,
+      "fullname": user.fullname,
+      "phone": user.phone,
+      "bank_account": user.bankAccount,
+      "ghichu": user.ghichu,
+      "sex": user.sex,
+      "province": user.addressProvince,
+    });
     return response;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/model/profile.dart';
 import 'package:appbanhang/model/provice.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyRegisterController extends GetxController {
@@ -9,6 +11,14 @@ class MyRegisterController extends GetxController {
   var district = "".obs;
   var districtid = "".obs;
   List<District> arrDistrict = [];
+  // information user
+  var emailTextController = TextEditingController();
+  var passwordTextController = TextEditingController();
+  var fullnameTextController = TextEditingController();
+  var phoneTextController = TextEditingController();
+  var bankAccountTextController = TextEditingController();
+  var ghichuTextController = TextEditingController();
+  var sex;
   @override
   void onInit() async {
     super.onInit();
@@ -45,6 +55,25 @@ class MyRegisterController extends GetxController {
           arrDistrict.add(District.fromJson(item));
         }
       }
+    } catch (e) {
+      print(e);
+      // status.value = AppState.ERROR;
+    }
+  }
+
+  Future<void> registerUser() async {
+    final response = await API.share.registerUser(Profile.userinfo(
+        emailTextController.text,
+        passwordTextController.text,
+        fullnameTextController.text,
+        phoneTextController.text,
+        bankAccountTextController.text,
+        ghichuTextController.text,
+        sex,
+        proviceid.value));
+    try {
+      if (response.statusCode == 200) {
+      } else {}
     } catch (e) {
       print(e);
       // status.value = AppState.ERROR;

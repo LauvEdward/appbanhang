@@ -1,3 +1,5 @@
+import 'package:appbanhang/model/user.dart';
+
 class Profile {
   String? id;
   String? md5Id;
@@ -7,35 +9,37 @@ class Profile {
   String? password;
   String? fullname;
   String? useSalt;
-  Null? shopName;
-  Null? avtDir;
+  String? shopName;
+  String? avtDir;
   String? avatar;
-  Null? useLogo;
+  String? useLogo;
   String? block;
   String? birthday;
   String? sex;
   String? address;
   String? addressProvince;
-  Null? addressDistrict;
-  Null? addressWard;
-  Null? useMobile;
-  Null? useFace;
-  Null? useYahoo;
-  Null? useSkype;
-  Null? useGroup;
+  String? addressDistrict;
+  String? addressWard;
+  String? useMobile;
+  String? useFace;
+  String? useYahoo;
+  String? useSkype;
+  String? useGroup;
   String? active;
   String? useKey;
-  Null? smskey;
+  String? smskey;
   String? token;
-  Null? deleted;
+  String? deleted;
   String? useRegisdate;
-  Null? useEnddate;
+  String? useEnddate;
   String? lastestLogin;
-  Null? signupDate;
+  String? signupDate;
   String? lever;
-  Null? bankAccount;
-  Null? ghichu;
+  String? bankAccount;
+  String? ghichu;
   String? cmnd;
+  Profile.userinfo(this.email, this.password, this.fullname, this.phone,
+      this.bankAccount, this.ghichu, this.sex, this.addressProvince);
 
   Profile(
       {this.id,
@@ -77,43 +81,43 @@ class Profile {
       this.cmnd});
 
   Profile.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    md5Id = json['md5_id'];
-    username = json['username'];
-    phone = json['phone'];
-    email = json['email'];
-    password = json['password'];
-    fullname = json['fullname'];
-    useSalt = json['use_salt'];
-    shopName = json['shop_name'];
-    avtDir = json['avt_dir'];
-    avatar = json['avatar'];
-    useLogo = json['use_logo'];
-    block = json['block'];
-    birthday = json['birthday'];
-    sex = json['sex'];
-    address = json['address'];
-    addressProvince = json['address_province'];
-    addressDistrict = json['address_district'];
-    addressWard = json['address_ward'];
-    useMobile = json['use_mobile'];
-    useFace = json['use_face'];
-    useYahoo = json['use_yahoo'];
-    useSkype = json['use_skype'];
-    useGroup = json['use_group'];
-    active = json['active'];
-    useKey = json['use_key'];
-    smskey = json['smskey'];
-    token = json['token'];
+    id = json['id'] ?? "";
+    md5Id = json['md5_id'] ?? "";
+    username = json['username'] ?? "";
+    phone = json['phone'] ?? "";
+    email = json['email'] ?? "";
+    password = json['password'] ?? "";
+    fullname = json['fullname'] ?? "";
+    useSalt = json['use_salt'] ?? "";
+    shopName = json['shop_name'] ?? "";
+    avtDir = json['avt_dir'] ?? "";
+    avatar = json['avatar'] ?? "";
+    useLogo = json['use_logo'] ?? "";
+    block = json['block'] ?? "";
+    birthday = json['birthday'] ?? "";
+    sex = json['sex'] ?? "";
+    address = json['address'] ?? "";
+    addressProvince = json['address_province'] ?? "";
+    addressDistrict = json['address_district'] ?? "";
+    addressWard = json['address_ward'] ?? "";
+    useMobile = json['use_mobile'] ?? "";
+    useFace = json['use_face'] ?? "";
+    useYahoo = json['use_yahoo'] ?? "";
+    useSkype = json['use_skype'] ?? "";
+    useGroup = json['use_group'] ?? "";
+    active = json['active'] ?? "";
+    useKey = json['use_key'] ?? "";
+    smskey = json['smskey'] ?? "";
+    token = json['token'] ?? "";
     deleted = json['deleted'];
-    useRegisdate = json['use_regisdate'];
-    useEnddate = json['use_enddate'];
-    lastestLogin = json['lastest_login'];
-    signupDate = json['signup_date'];
-    lever = json['lever'];
-    bankAccount = json['bank_account'];
-    ghichu = json['ghichu'];
-    cmnd = json['cmnd'];
+    useRegisdate = json['use_regisdate'] ?? "";
+    useEnddate = json['use_enddate'] ?? "";
+    lastestLogin = json['lastest_login'] ?? "";
+    signupDate = json['signup_date'] ?? "";
+    lever = json['lever'] ?? "";
+    bankAccount = json['bank_account'] ?? "";
+    ghichu = json['ghichu'] ?? "";
+    cmnd = json['cmnd'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

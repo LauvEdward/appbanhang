@@ -381,4 +381,9 @@ class MyRegisterScreen extends StatelessWidget {
       ),
     );
   }
+
+  void _onRegisterPressed() {
+    if (_controller.emailTextController.value == "" ||
+        _controller.passwordTextController.value == "") {}
+  }
 }
