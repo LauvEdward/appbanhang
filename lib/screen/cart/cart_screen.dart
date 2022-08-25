@@ -22,7 +22,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {});
+    // WidgetsBinding.instance!.addPostFrameCallback((_) {});
     super.initState();
   }
 
@@ -66,8 +66,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Spacer(),
-                        SvgPicture.asset(
-                            "packages/sahashop_customer/assets/icons/trash.svg"),
+                        SvgPicture.asset("assets/svg/other.svg"),
                       ],
                     ),
                   ),
@@ -254,8 +253,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Spacer(),
-                        SvgPicture.asset(
-                            "packages/sahashop_customer/assets/icons/trash.svg"),
+                        SvgPicture.asset("assets/svg/other.svg"),
                       ],
                     ),
                   ),
@@ -442,8 +440,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Spacer(),
-                        SvgPicture.asset(
-                            "packages/sahashop_customer/assets/icons/trash.svg"),
+                        SvgPicture.asset("assets/svg/other.svg"),
                       ],
                     ),
                   ),

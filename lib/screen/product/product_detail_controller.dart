@@ -1,5 +1,7 @@
+import 'package:appbanhang/@core/hive_manager.dart';
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/model/product_detail.dart';
+import 'package:appbanhang/model/product_hive.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +10,7 @@ enum AppState { LOADING, ERROR, DONE, UPDATING }
 class ProductDetailController extends GetxController {
   ProductDetailController(this.id);
   var productdetail;
+  var prod;
   var status = AppState.LOADING.obs;
   String id;
   @override
@@ -34,6 +37,12 @@ class ProductDetailController extends GetxController {
     } catch (e) {
       print(e);
       status.value = AppState.LOADING;
+    }
+  }
+
+  void addProductToCart() {
+    if (productdetail.data.cateCurrent.id != null) {
+      HiveService.share.addBoxes(ProductHive());
     }
   }
 }

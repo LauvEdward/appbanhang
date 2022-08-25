@@ -1,61 +1,33 @@
+import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:hive/hive.dart';
 
-class HiveManager {
-  static final share = HiveManager();
-  static final box = Hive.box("mycart");
-}
+class HiveService {
+  static final share = HiveService();
+  static String id = "id";
+  isExists() async {
+    final openBox = await Hive.openBox("Cart");
+    int length = openBox.length;
+    return length != 0;
+  }
 
-@HiveType(typeId: 0)
-class Person extends HiveObject {
-  String? id;
-  Null? style;
-  Null? idValue;
-  String? brand;
-  String? name;
-  String? code;
-  String? image;
-  String? hot;
-  String? home;
-  String? focus;
-  String? coupon;
-  String? view;
-  String? active;
-  String? price;
-  String? priceSale;
-  String? description;
-  Null? location;
-  String? like;
-  String? order;
-  String? categoryId;
-  Null? caption1;
-  Null? caption2;
-  String? locale;
-  Null? bought;
-  Null? dksudung;
-  String? sort;
-  String? quantity;
-  Null? counter;
-  String? lang;
-  Null? destination;
-  String? contents;
-  String? time;
-  Null? tags;
-  dynamic proDir;
-  Null? multiImage;
-  Null? imgDir;
-  String? status;
-  Null? quaranty;
-  Null? tinhtrang;
-  Null? groupAttributeId;
-  Null? color;
-  Null? size;
-  String? userId;
-  Null? optionId;
-  String? buttonColor1;
-  String? configProContent;
-  Null? weight;
-  Null? priceImp;
-  String? timeUpdate;
-  String? combo;
-  String? productDvtId;
+  addBoxes<T>(T item) async {
+    print("adding boxes");
+    final openBox = await Hive.openBox("Cart");
+
+    openBox.add(item);
+  }
+
+  getBoxes<T>() async {
+    List<T> boxList = <T>[];
+
+    final openBox = await Hive.openBox("Cart");
+
+    int length = openBox.length;
+
+    for (int i = 0; i < length; i++) {
+      boxList.add(openBox.getAt(i));
+    }
+
+    return boxList;
+  }
 }

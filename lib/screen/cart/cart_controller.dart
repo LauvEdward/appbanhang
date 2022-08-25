@@ -212,3 +212,20 @@
 //     }
 //   }
 // }
+
+import 'package:appbanhang/@core/hive_manager.dart';
+import 'package:get/get.dart';
+
+class CartController extends GetxController {
+  var listPro = [].obs;
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getListPro();
+  }
+
+  void getListPro() {
+    listPro = HiveService.share.getBoxes();
+  }
+}

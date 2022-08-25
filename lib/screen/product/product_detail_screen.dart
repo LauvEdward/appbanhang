@@ -31,6 +31,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     super.initState();
     productDetailController =
         Get.put(ProductDetailController(widget.product.id ?? ""));
+    productDetailController!.prod = widget.product;
   }
 
   @override
@@ -114,16 +115,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Container(
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Center(
-                            child: Text(
-                              'Thêm vào giỏ hàng',
-                              style: TextStyle(
-                                color: Colors.white,
+                        child: InkWell(
+                          onTap: () {
+                            productDetailController!.addProductToCart();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Center(
+                              child: Text(
+                                'Thêm vào giỏ hàng',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),

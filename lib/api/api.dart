@@ -103,7 +103,7 @@ class API {
   Future<Response> registerUser(Profile user) async {
     final dio = Dio();
     final response =
-        await dio.get(baseUrl + '/address/district', queryParameters: {
+        await dio.get(baseUrl + '/auth/register', queryParameters: {
       "email": user.email,
       "password": user.password,
       "fullname": user.fullname,

@@ -153,7 +153,7 @@ class Pro {
   String? combo;
   String? productDvtId;
 
-  Pro(
+  Pro(read,
       {this.id,
       this.style,
       this.idValue,

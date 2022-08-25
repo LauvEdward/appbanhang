@@ -1,10 +1,12 @@
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/model/profile.dart';
 import 'package:appbanhang/model/provice.dart';
+import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyRegisterController extends GetxController {
+  var status = AppState.LOADING.obs;
   List<Provice> arrProvice = [];
   var provice = "".obs;
   var proviceid = "".obs;
@@ -26,6 +28,7 @@ class MyRegisterController extends GetxController {
   }
 
   Future<void> getProvice() async {
+    status.value = AppState.LOADING;
     final response = await API.share.getProvice();
     try {
       if (response.statusCode == 200) {
@@ -37,11 +40,12 @@ class MyRegisterController extends GetxController {
         for (var item in data) {
           arrProvice.add(Provice.fromJson(item));
         }
+        status.value = AppState.DONE;
         // arrProvice.addAll(data.map((e) => Provice.fromJson(e)));
       }
     } catch (e) {
       print(e);
-      // status.value = AppState.ERROR;
+      status.value = AppState.ERROR;
     }
   }
 

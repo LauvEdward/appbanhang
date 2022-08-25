@@ -150,16 +150,22 @@ class CategoryController extends GetxController {
           sortByShow.value.sortType, textSearch.value, categoryCurrent.value);
       try {
         if (response.statusCode == 200) {
-          var data = response.data["data"]["child"];
+          var data = response.data["data"]["category"]["pro"];
           print(data);
           // var datadefault = Pro.fromJson(data);
           print("getAllCategory ${data.length}");
           listAllProduct.clear();
-          for (var listPro in data) {
-            if (listPro["pro"].length > 0) {
-              listAllProduct.addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+          if (categoryCurrent.value == 195) {
+            listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
+          } else {
+            for (var listPro in data) {
+              if (listPro["pro"].length > 0) {
+                listAllProduct
+                    .addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+              }
             }
           }
+
           print("======> ${listAllProduct.length}");
           status.value = AppState.DONE;
           // return;

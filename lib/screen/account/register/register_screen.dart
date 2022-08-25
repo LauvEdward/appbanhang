@@ -1,5 +1,6 @@
 import 'package:appbanhang/screen/account/register/list_provice_screen.dart';
 import 'package:appbanhang/screen/account/register/register_controller.dart';
+import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,50 +10,62 @@ class MyRegisterScreen extends StatelessWidget {
   MyRegisterController _controller = Get.put(MyRegisterController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Text("Đăng kí tài khoản"),
-        elevation: 0,
-      ),
-      backgroundColor: Colors.white70,
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(children: [
-            inforUser(),
-            inforContract(),
-            address(),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Đăng nhập',
-                    style: TextStyle(
-                      color: Color(0xff4c505b),
-                      fontSize: 27,
-                      fontWeight: FontWeight.w700,
-                    ),
+    return Obx(() {
+      if (_controller.status.value == AppState.DONE) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            title: Text("Đăng kí tài khoản"),
+            elevation: 0,
+          ),
+          backgroundColor: Colors.white70,
+          body: SingleChildScrollView(
+            child: Container(
+              child: Column(children: [
+                inforUser(),
+                inforContract(),
+                address(),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Đăng kí',
+                        style: TextStyle(
+                          color: Color(0xff4c505b),
+                          fontSize: 27,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: const Color(0xff4c505b),
+                        child: IconButton(
+                          color: Colors.white,
+                          onPressed: () {
+                            _onRegisterPressed(context);
+                          },
+                          icon: const Icon(Icons.arrow_back),
+                        ),
+                      ),
+                    ],
                   ),
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: const Color(0xff4c505b),
-                    child: IconButton(
-                      color: Colors.white,
-                      onPressed: () {
-                        // _onLoginButtonPressed();
-                      },
-                      icon: const Icon(Icons.arrow_back),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ]),
             ),
-          ]),
-        ),
-      ),
-    );
+          ),
+        );
+      } else if (_controller.status.value == AppState.LOADING) {
+        return Scaffold(body: Center(child: CircularProgressIndicator()));
+      } else {
+        return Scaffold(
+          body: AlertDialog(
+            content: Text("API ERROR"),
+          ),
+        );
+      }
+    });
   }
 
   Widget inforUser() {
@@ -382,8 +395,26 @@ class MyRegisterScreen extends StatelessWidget {
     );
   }
 
-  void _onRegisterPressed() {
-    if (_controller.emailTextController.value == "" ||
-        _controller.passwordTextController.value == "") {}
+  void _onRegisterPressed(BuildContext context) {
+    if (_controller.emailTextController.value.text == "") {
+      _showToast(context, "Vui lòng nhập Email");
+      return;
+    }
+    if (_controller.passwordTextController.value.text == "") {
+      _showToast(context, "Vui lòng nhập Password");
+      return;
+    }
+    _controller.registerUser();
+  }
+
+  void _showToast(BuildContext context, String text) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(text),
+        action: SnackBarAction(
+            label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
   }
 }

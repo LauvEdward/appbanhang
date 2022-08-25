@@ -1,11 +1,30 @@
+import 'dart:io';
+
+import 'package:appbanhang/@core/hive_manager.dart';
+import 'package:appbanhang/model/product_hive.dart';
 import 'package:appbanhang/screen/account/authen_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'screen/account/account_controller.dart';
 import 'splash/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // var path = Directory.current.path;
+  Directory document = await getApplicationDocumentsDirectory();
+  Hive
+    ..init(document.path)
+    ..registerAdapter(ProductHiveAdapter());
+  // Hive
+  //   ..init(path)
+  //   ..registerAdapter();
+  await Hive.initFlutter(document.path);
+  Hive.initFlutter();
+  await Hive.openBox('Cart');
   runApp(const MyApp());
 }
 
