@@ -31,6 +31,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        //the bottom of the scrollbar is reached
+        //adding more widgets
+        // _addTextWidgets(nextWidgetsLoadCount);
+        categoryController1!.page.value += 1;
+        categoryController1!.getAllCategory();
+      }
+    });
     super.initState();
   }
 
@@ -329,30 +339,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     )
                     .toList(),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: InkWell(
-                  onTap: () {
-                    categoryController1!.page.value += 1;
-                    categoryController1!.getAllCategory();
-                  },
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.blue),
-                      child: Text(
-                        "Tải thêm",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: InkWell(
+              //     onTap: () {
+              //       categoryController1!.page.value += 1;
+              //       categoryController1!.getAllCategory();
+              //     },
+              //     child: Align(
+              //       alignment: Alignment.center,
+              //       child: Container(
+              //         padding: EdgeInsets.all(10),
+              //         decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(20),
+              //             color: Colors.blue),
+              //         child: Text(
+              //           "Tải thêm",
+              //           style: TextStyle(
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

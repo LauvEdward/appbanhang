@@ -130,17 +130,6 @@ class __SignInFormState extends State<_SignInForm> {
                                 ),
                               ),
                             ),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Quên mật khẩu',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 13,
-                                  color: Color(0xff4c505b),
-                                ),
-                              ),
-                            ),
                           ]),
                       if (_controller.state is LoginFailure)
                         Text(

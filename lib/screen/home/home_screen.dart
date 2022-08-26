@@ -368,13 +368,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onTap: () {
                                       Get.to(() => CategoryFilterScreen(
                                           categoryid: e.id));
-
-                                      // categoryScreen.update();
-                                      // var index = categoryScreen.indexWhere((element) => element.id == id);
-                                      // categoryScreen.
                                     },
                                     child: SizedBox(
-                                      width: Get.width / 4.7,
+                                      width: MediaQuery.of(context).size.width /
+                                          4.3,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,

@@ -3,6 +3,7 @@ import 'package:appbanhang/model/profile.dart';
 import 'package:appbanhang/model/provice.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/style.dart';
 import 'package:get/get.dart';
 
 class MyRegisterController extends GetxController {
@@ -78,6 +79,22 @@ class MyRegisterController extends GetxController {
   }
 
   Future<void> registerUser() async {
+    showDialog(
+      context: Get.overlayContext!,
+      barrierDismissible: false,
+      builder: (_) => WillPopScope(
+        onWillPop: () async => false,
+        child: Center(
+          child: SizedBox(
+            width: 60,
+            height: 60,
+            child: CircularProgressIndicator(
+              strokeWidth: 10,
+            ),
+          ),
+        ),
+      ),
+    );
     final response = await API.share.registerUser(Profile.userinfo(
         emailTextController.text,
         passwordTextController.text,
@@ -88,11 +105,53 @@ class MyRegisterController extends GetxController {
         sex,
         proviceid.value));
     try {
-      if (response.statusCode == 200) {
-      } else {}
+      if (response.data['statusCode'] == 200) {
+        await openAndCloseLoadingDialog(
+            "Bạn sẽ phải đăng nhập lại", "Đăng kí thành công");
+      } else {
+        await openAndCloseLoadingDialog(
+            response.data['message'], "Đăng kí thất bại");
+      }
     } catch (e) {
       print(e);
       // status.value = AppState.ERROR;
     }
+  }
+
+  Future<void> openAndCloseLoadingDialog(String text, String title) async {
+    // Dismiss CircularProgressIndicator
+    Navigator.of(Get.overlayContext!).pop();
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.grey, fontSize: 15),
+        ),
+        content: Text(
+          text,
+          style: TextStyle(color: Colors.black, fontSize: 13),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("CLOSE"),
+            onPressed: () {
+              Get.back();
+              if (title == "Đăng kí thành công") {
+                Get.back();
+              }
+            },
+          )
+        ],
+      ),
+      // barrierDismissible: false,
+    );
+    // if (title == "Đăng kí thành công") {
+    //   await Future.delayed(Duration(seconds: 1));
+    //   Get.back();
+    //   Get.back();
+
+    // Get.back();
+    // await Future.delayed(Duration(seconds: 3));
+    // Navigator.of(Get.overlayContext).pop();
   }
 }

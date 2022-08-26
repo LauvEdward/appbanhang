@@ -34,6 +34,16 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
 
   @override
   void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        //the bottom of the scrollbar is reached
+        //adding more widgets
+        // _addTextWidgets(nextWidgetsLoadCount);
+        categoryController1!.page.value += 1;
+        categoryController1!.getAllCategoryByCategory();
+      }
+    });
     super.initState();
     categoryController1 = Get.put(CategoryFilterController());
     categoryController1!.categoryid.value = int.parse(widget.categoryid ?? "0");
@@ -149,16 +159,6 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
             children: [
               Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(child: buildItemOrderBy(sortpro: Sort.pho_bien)),
-                      Expanded(child: buildItemOrderBy(sortpro: Sort.moi_nhat)),
-                      Expanded(child: buildItemOrderBy(sortpro: Sort.ban_chay)),
-                      Expanded(
-                          child: buildItemOrderBy(sortpro: Sort.price_asc)),
-                    ],
-                  ),
                   // Row(
                   //   children: [
                   //     Expanded(
@@ -328,30 +328,30 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                   )
                   .toList(),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                onTap: () {
-                  categoryController1!.page.value += 1;
-                  categoryController1!.getAllCategoryByCategory();
-                },
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.blue),
-                    child: Text(
-                      "Tải thêm",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: InkWell(
+            //     onTap: () {
+            //       categoryController1!.page.value += 1;
+            //       categoryController1!.getAllCategoryByCategory();
+            //     },
+            //     child: Align(
+            //       alignment: Alignment.center,
+            //       child: Container(
+            //         padding: EdgeInsets.all(10),
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(20),
+            //             color: Colors.blue),
+            //         child: Text(
+            //           "Tải thêm",
+            //           style: TextStyle(
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

@@ -409,7 +409,7 @@ class MyRegisterScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: const BorderSide(color: Colors.blueGrey),
                     ),
-                    hintText: "Nhập tên ngân hàng của bạn",
+                    hintText: "Nhập địa chỉ cụ thể của bạn",
                     hintStyle: const TextStyle(color: Colors.blueGrey),
                   ),
                 ),
@@ -460,9 +460,12 @@ class MyRegisterScreen extends StatelessWidget {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: Text(text),
+        content: Text(
+          text,
+          style: TextStyle(color: Colors.red),
+        ),
         action: SnackBarAction(
-            label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+            label: 'Ẩn', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }
