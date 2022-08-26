@@ -226,6 +226,6 @@ class CartController extends GetxController {
   }
 
   void getListPro() {
-    listPro = HiveService.share.getBoxes();
+    // listPro = HiveService.share.getBoxes();
   }
 }

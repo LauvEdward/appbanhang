@@ -26,6 +26,26 @@ class MyRegisterScreen extends StatelessWidget {
                 inforContract(),
                 address(),
                 Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(color: Colors.grey, spreadRadius: 1),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        addRadioButton(0, "Male"),
+                        addRadioButton(1, "Female"),
+                        addRadioButton(2, "Other")
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +114,8 @@ class MyRegisterScreen extends StatelessWidget {
               ),
               Container(
                 height: 50,
-                child: TextField(
+                child: TextFormField(
+                  controller: _controller.emailTextController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -119,6 +140,7 @@ class MyRegisterScreen extends StatelessWidget {
               Container(
                 height: 50,
                 child: TextField(
+                  controller: _controller.passwordTextController,
                   obscureText: true,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -144,6 +166,7 @@ class MyRegisterScreen extends StatelessWidget {
               Container(
                 height: 50,
                 child: TextField(
+                  controller: _controller.fullnameTextController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -192,6 +215,7 @@ class MyRegisterScreen extends StatelessWidget {
               Container(
                 height: 50,
                 child: TextField(
+                  controller: _controller.phoneTextController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -217,6 +241,7 @@ class MyRegisterScreen extends StatelessWidget {
               Container(
                 height: 50,
                 child: TextField(
+                  controller: _controller.bankAccountTextController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -241,6 +266,7 @@ class MyRegisterScreen extends StatelessWidget {
               Container(
                 height: 50,
                 child: TextField(
+                  controller: _controller.ghichuTextController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -396,14 +422,37 @@ class MyRegisterScreen extends StatelessWidget {
   }
 
   void _onRegisterPressed(BuildContext context) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = RegExp(pattern);
     if (_controller.emailTextController.value.text == "") {
       _showToast(context, "Vui lòng nhập Email");
+      return;
+    }
+    if (!regex.hasMatch(_controller.emailTextController.value.text)) {
+      _showToast(context, "Email sai");
       return;
     }
     if (_controller.passwordTextController.value.text == "") {
       _showToast(context, "Vui lòng nhập Password");
       return;
     }
+    if ((_controller.fullnameTextController.value.text
+        .contains(new RegExp(r'[0-9]')))) {
+      _showToast(context, "Tên không bao gồm số");
+      return;
+    }
+    if (!_controller.phoneTextController.value.text.isNum) {
+      _showToast(context, "Số điện thoại phải là số");
+      return;
+    }
+    if (!_controller.bankAccountTextController.value.text.isNum) {
+      _showToast(context, "Số tài khoản phải là số");
+      return;
+    }
+
     _controller.registerUser();
   }
 
@@ -415,6 +464,22 @@ class MyRegisterScreen extends StatelessWidget {
         action: SnackBarAction(
             label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
+    );
+  }
+
+  Row addRadioButton(int btnIndex, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        GetBuilder<MyRegisterController>(
+          builder: (_) => Radio(
+              activeColor: Colors.blue,
+              value: _controller.gender[btnIndex],
+              groupValue: _controller.select,
+              onChanged: (value) => _controller.onClickRadioButton(value)),
+        ),
+        Text(title)
+      ],
     );
   }
 }

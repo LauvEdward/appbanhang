@@ -21,6 +21,18 @@ class MyRegisterController extends GetxController {
   var bankAccountTextController = TextEditingController();
   var ghichuTextController = TextEditingController();
   var sex;
+  var passwordVisible = false.obs;
+  var selectedGender;
+  var gender = ["Male", "Female", "Other"];
+
+  var select;
+  void onClickRadioButton(value) {
+    print(value);
+    select = value;
+    selectedGender = gender.indexOf(value);
+    update();
+  }
+
   @override
   void onInit() async {
     super.onInit();

@@ -102,17 +102,34 @@ class API {
 
   Future<Response> registerUser(Profile user) async {
     final dio = Dio();
-    final response =
-        await dio.get(baseUrl + '/auth/register', queryParameters: {
-      "email": user.email,
-      "password": user.password,
-      "fullname": user.fullname,
-      "phone": user.phone,
-      "bank_account": user.bankAccount,
-      "ghichu": user.ghichu,
-      "sex": user.sex,
-      "province": user.addressProvince,
-    });
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    final response = await dio.post(baseUrl + '/auth/register',
+        data: {
+          "email": user.email,
+          "password": user.password,
+          "fullname": user.fullname,
+          "phone": user.phone,
+          "bank_account": user.bankAccount,
+          "ghichu": user.ghichu,
+          "sex": user.sex,
+          "province": user.addressProvince,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+
     return response;
+    // final response = await dio.post(baseUrl + '/auth/register',
+    //     data: {
+    //       "email": user.email,
+    //       "password": user.password,
+    //       "fullname": user.fullname,
+    //       "phone": user.phone,
+    //       "bank_account": user.bankAccount,
+    //       "ghichu": user.ghichu,
+    //       "sex": user.sex,
+    //       "province": user.addressProvince,
+    //     },
+    //     options: Options(contentType: Headers.formUrlEncodedContentType));
+    // return response;
   }
 }
