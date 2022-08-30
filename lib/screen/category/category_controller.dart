@@ -127,7 +127,7 @@ class CategoryController extends GetxController {
       try {
         if (response.statusCode == 200) {
           var data = response.data["data"];
-          print(data);
+          // print(data);
           // var datadefault = Pro.fromJson(data);
           print("getAllCategory ${data.length}");
           if (isLoadingAll == true) {
@@ -151,7 +151,7 @@ class CategoryController extends GetxController {
       try {
         if (response.statusCode == 200) {
           var data = response.data["data"]["category"]["pro"];
-          print(data);
+          // print(data);
           // var datadefault = Pro.fromJson(data);
           print("getAllCategory ${data.length}");
           listAllProduct.clear();

@@ -42,7 +42,15 @@ class ProductDetailController extends GetxController {
 
   void addProductToCart() {
     if (productdetail.data.cateCurrent.id != null) {
-      HiveService.share.addBoxes(ProductHive());
+      var productBox = ProductHive()
+        ..id = productdetail.data.item.id
+        ..image = productdetail.data.item.image
+        ..name = productdetail.data.item.name
+        ..price = productdetail.data.item.price
+        ..priceSale = productdetail.data.item.priceSale
+        ..soluong = 1
+        ..prodir = productdetail.data.item.proDir;
+      HiveService.share.addBoxes(productBox);
     }
   }
 }

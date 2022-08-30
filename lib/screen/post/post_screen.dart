@@ -1,5 +1,6 @@
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/model/news.dart';
+import 'package:appbanhang/screen/navigation/navigation_controller.dart';
 import 'package:appbanhang/screen/post/detail/post_detail_screen.dart';
 import 'package:appbanhang/screen/post/post_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -26,7 +27,11 @@ class PostScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  NavigationController navigationController =
+                      Get.find<NavigationController>();
+                  navigationController.moveToTab(1);
+                },
                 icon: Icon(
                   Icons.shopping_bag_outlined,
                   color: Colors.black87,

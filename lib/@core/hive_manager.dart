@@ -1,33 +1,38 @@
+import 'package:appbanhang/model/product_hive.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:hive/hive.dart';
 
 class HiveService {
   static final share = HiveService();
-  static String id = "id";
-  isExists() async {
-    final openBox = await Hive.openBox("Cart");
-    int length = openBox.length;
-    return length != 0;
-  }
-
-  addBoxes<T>(T item) async {
+  addBoxes(ProductHive item) async {
     print("adding boxes");
-    final openBox = await Hive.openBox("Cart");
+    final openBox = Hive.box("Cart");
+    ProductHive? listPro = openBox.get(item.id);
+    if (listPro == null) {
+      print("Add sp moi");
+      openBox.put(item.id, item);
+    } else {
+      print("Add sp ton tai");
+      // listPro.soluong == null ? 0 : (listPro.soluong! + 1);
 
-    openBox.add(item);
+      var proUpdate = ProductHive()
+        ..id = listPro.id
+        ..name = listPro.name
+        ..image = listPro.image
+        ..price = listPro.price
+        ..priceSale = listPro.priceSale
+        ..soluong = ((listPro.soluong ?? 0) + 1)
+        ..prodir = listPro.prodir;
+      openBox.put(item.id, proUpdate);
+    }
+    // openBox.add(item);
   }
 
-  getBoxes<T>() async {
-    List<T> boxList = <T>[];
-
-    final openBox = await Hive.openBox("Cart");
-
-    int length = openBox.length;
-
-    for (int i = 0; i < length; i++) {
-      boxList.add(openBox.getAt(i));
-    }
-
-    return boxList;
+  Future<List<ProductHive>> getAllVlaue() async {
+    final box = await Hive.openBox('Cart');
+    box.clear();
+    List<ProductHive> userList = box.values as List<ProductHive>;
+    await box.close();
+    return userList;
   }
 }

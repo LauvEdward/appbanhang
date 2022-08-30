@@ -120,30 +120,42 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: InkWell(
-                    onTap: () {},
-                    child: SahaTextFieldSearch(
-                      textEditingController:
-                          categoryController1!.textEditingControllerSearch,
-                      enabled: false,
-                    )),
+                  onTap: () {},
+                  child: SahaTextFieldSearch(
+                    textEditingController:
+                        categoryController1!.textEditingControllerSearch,
+                    enabled: true,
+                    onSubmitted: (value) async {
+                      print(value);
+                      categoryController1!.isLoadingAll = true;
+                      categoryController1!.textSearch.value = value;
+                      await categoryController1!.getAllCategory();
+                    },
+                    onClose: () async {
+                      categoryController1!.isLoadingAll = true;
+                      categoryController1!.textSearch.value = '';
+                      await categoryController1!.getAllCategory();
+                    },
+                  ),
+                ),
               ),
             ),
           ],
         ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              // _scaffoldKey.currentState!.openEndDrawer();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 5, right: 10.0),
-              child: Icon(
-                Icons.filter_alt_rounded,
-                color: Colors.black87,
-              ),
-            ),
-          ),
-        ],
+        // actions: [
+        //   GestureDetector(
+        //     onTap: () {
+        //       // _scaffoldKey.currentState!.openEndDrawer();
+        //     },
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(left: 5, right: 10.0),
+        //       child: Icon(
+        //         Icons.filter_alt_rounded,
+        //         color: Colors.black87,
+        //       ),
+        //     ),
+        //   ),
+        // ],
         automaticallyImplyLeading: true,
       ),
       body: Obx(() {

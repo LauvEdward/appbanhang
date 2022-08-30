@@ -214,18 +214,31 @@
 // }
 
 import 'package:appbanhang/@core/hive_manager.dart';
+import 'package:appbanhang/model/product_hive.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 class CartController extends GetxController {
-  var listPro = [].obs;
+  var listPro;
+  var listOrder = [].obs;
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
     super.onInit();
-    getListPro();
+    await getListPro();
   }
 
-  void getListPro() {
-    // listPro = HiveService.share.getBoxes();
+  Future<void> getListPro() async {
+    var box = Hive.box('Cart');
+    box.clear();
+    // if (box.get("name"))
+    // ProductHive listPro = box.get('name');
+    // // listPro = HiveService.share.getBoxes();
+    // print("getListPro ${listPro.name}");
+    Box<dynamic> box1 = Hive.box<dynamic>('Cart');
+    if (box1.isNotEmpty) {
+      listOrder.addAll(box1.values);
+      // use data
+    }
   }
 }

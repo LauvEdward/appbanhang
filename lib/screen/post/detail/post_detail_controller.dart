@@ -19,7 +19,7 @@ class PostDetailController extends GetxController {
     final response = await API.share.GetNewsDetail(id);
     try {
       // var data = response.data["data"];
-      print(response.data);
+      // print(response.data);
       data = NewsDetailsData.fromJson(response.data["data"]);
       if (response.statusCode != 200) {
         status.value = AppState.ERROR;

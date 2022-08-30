@@ -115,6 +115,9 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
       //   ),
       // ),
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         title: Row(
@@ -131,26 +134,36 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                     child: SahaTextFieldSearch(
                       textEditingController:
                           categoryController1!.textEditingControllerSearch,
-                      enabled: false,
+                      enabled: true,
+                      onSubmitted: (value) async {
+                        categoryController1!.isLoadingAll = true;
+                        categoryController1!.textSearch.value = value;
+                        categoryController1!.getAllCategoryByCategory();
+                      },
+                      onClose: () async {
+                        categoryController1!.isLoadingAll = true;
+                        categoryController1!.textSearch.value = '';
+                        categoryController1!.getAllCategoryByCategory();
+                      },
                     )),
               ),
             ),
           ],
         ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              // _scaffoldKey.currentState!.openEndDrawer();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 5, right: 10.0),
-              child: Icon(
-                Icons.filter_alt_rounded,
-                color: Colors.black87,
-              ),
-            ),
-          ),
-        ],
+        // actions: [
+        //   GestureDetector(
+        //     onTap: () {
+        //       // _scaffoldKey.currentState!.openEndDrawer();
+        //     },
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(left: 5, right: 10.0),
+        //       child: Icon(
+        //         Icons.filter_alt_rounded,
+        //         color: Colors.black87,
+        //       ),
+        //     ),
+        //   ),
+        // ],
         automaticallyImplyLeading: true,
       ),
       body: Obx(() {

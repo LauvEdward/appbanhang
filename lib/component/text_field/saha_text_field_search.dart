@@ -4,7 +4,7 @@ class SahaTextFieldSearch extends StatefulWidget {
   final Function(String)? onSubmitted;
   final Function(String)? onChanged;
   final Function? onClose;
- final bool? autoFocus;
+  final bool? autoFocus;
   final bool? enabled;
   final String? initText;
   final String? hintText;
@@ -16,7 +16,7 @@ class SahaTextFieldSearch extends StatefulWidget {
       this.onSubmitted,
       this.onChanged,
       this.onClose,
-        this.autoFocus,
+      this.autoFocus,
       this.initText,
       this.textEditingController,
       this.hintText})
@@ -51,9 +51,7 @@ class _SahaTextFieldSearchState extends State<SahaTextFieldSearch> {
         onSubmitted: widget.onSubmitted,
         textInputAction: TextInputAction.search,
         controller: textEditingController,
-        style: TextStyle(
-          fontSize: 15
-        ),
+        style: TextStyle(fontSize: 15),
         decoration: InputDecoration(
           fillColor: Colors.grey[100],
           filled: true,

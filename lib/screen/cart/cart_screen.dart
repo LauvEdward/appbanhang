@@ -1,3 +1,5 @@
+import 'package:appbanhang/component/widget/product_order.dart';
+import 'package:appbanhang/model/product_hive.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  // CartController cartController = Get.find();
+  CartController cartController = Get.put(CartController());
 
   @override
   void initState() {
@@ -44,576 +46,32 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-      body: RefreshIndicator(
-          color: Colors.indigo,
-          onRefresh: () async {
-            //  await cartController.refresh();
-          },
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Dismissible(
-                  key: UniqueKey(),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {},
-                  background: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFE6E6),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        SvgPicture.asset("assets/svg/other.svg"),
-                      ],
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            width: 88,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(2),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl:
-                                        'https://thumbs.dreamstime.com/b/marvel-logo-marvel-logo-red-background-vector-format-aviable-ai-127114750.jpg',
-                                    // 'http://chuyennhahanoi.online/lavishop/upload/img/products/01072022/megasept-wipe.jpg',
-                                    errorWidget: (context, url, error) =>
-                                        SahaEmptyImage(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: -12,
-                            left: 2,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  height: 45,
-                                  width: 45,
-                                  child: SvgPicture.asset(
-                                    "assets/svg/other.svg",
-                                    color: Color(0xfffdd100),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 15,
-                                  left: 5,
-                                  child: Text(
-                                    "-10 %",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xfffd5800)),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Megasept Wipe',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 14),
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  padding: EdgeInsets.only(
-                                      left: 5, right: 5, top: 5, bottom: 5),
-                                  color: Colors.grey[200],
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ConstrainedBox(
-                                        constraints: new BoxConstraints(
-                                          minWidth: 10,
-                                          maxWidth: Get.width * 0.5,
-                                        ),
-                                        child: Text(
-                                          'Phân loại: 200ml',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.remove,
-                                        size: 13,
-                                        color: Colors.grey,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 40,
-                                      child: Center(
-                                        child: Text(
-                                          '3',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 13,
-                                        color: Colors.black,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+      body: Obx(
+        () => RefreshIndicator(
+            // color: Colors.indigo,
+            onRefresh: () async {
+              await cartController.getListPro();
+            },
+            child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
                 ),
-              ),
-              Divider(
-                height: 1,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Dismissible(
-                  key: UniqueKey(),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {},
-                  background: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFE6E6),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        SvgPicture.asset("assets/svg/other.svg"),
-                      ],
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            width: 88,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(2),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl:
-                                        'https://thumbs.dreamstime.com/b/marvel-logo-marvel-logo-red-background-vector-format-aviable-ai-127114750.jpg',
-                                    // 'http://chuyennhahanoi.online/lavishop/upload/img/products/30062022/thumbnail_2_alfasept-care-gel.png',
-                                    errorWidget: (context, url, error) =>
-                                        SahaEmptyImage(),
-                                  ),
-                                ),
-                              ),
+
+                // controller: _scrollController,
+                child: Column(
+                  children: [
+                    Wrap(
+                      children: cartController.listOrder
+                          .map(
+                            (e) => ProductOrder(
+                              pro: e,
                             ),
-                          ),
-                          Positioned(
-                            top: -12,
-                            left: 2,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  height: 45,
-                                  width: 45,
-                                  child: SvgPicture.asset(
-                                    "assets/svg/other.svg",
-                                    color: Color(0xfffdd100),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 15,
-                                  left: 5,
-                                  child: Text(
-                                    "-10 %",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xfffd5800)),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Megasept Wipe',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 14),
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  padding: EdgeInsets.only(
-                                      left: 5, right: 5, top: 5, bottom: 5),
-                                  color: Colors.grey[200],
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ConstrainedBox(
-                                        constraints: new BoxConstraints(
-                                          minWidth: 10,
-                                          maxWidth: Get.width * 0.5,
-                                        ),
-                                        child: Text(
-                                          'Phân loại: 200ml',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.remove,
-                                        size: 13,
-                                        color: Colors.grey,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 40,
-                                      child: Center(
-                                        child: Text(
-                                          '3',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 13,
-                                        color: Colors.black,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Divider(
-                height: 1,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Dismissible(
-                  key: UniqueKey(),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {},
-                  background: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFE6E6),
-                      borderRadius: BorderRadius.circular(15),
+                          )
+                          .toList(),
                     ),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        SvgPicture.asset("assets/svg/other.svg"),
-                      ],
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            width: 88,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(2),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl:
-                                        'https://thumbs.dreamstime.com/b/marvel-logo-marvel-logo-red-background-vector-format-aviable-ai-127114750.jpg',
-                                    // 'http://chuyennhahanoi.online/lavishop/upload/img/products/01072022/thumbnail_2_hetis-silver-alginate.png',
-                                    errorWidget: (context, url, error) =>
-                                        SahaEmptyImage(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: -12,
-                            left: 2,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  height: 45,
-                                  width: 45,
-                                  child: SvgPicture.asset(
-                                    "assets/svg/box.svg",
-                                    color: Color(0xfffdd100),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 15,
-                                  left: 5,
-                                  child: Text(
-                                    "-10 %",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xfffd5800)),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Megasept Wipe',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 14),
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  padding: EdgeInsets.only(
-                                      left: 5, right: 5, top: 5, bottom: 5),
-                                  color: Colors.grey[200],
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ConstrainedBox(
-                                        constraints: new BoxConstraints(
-                                          minWidth: 10,
-                                          maxWidth: Get.width * 0.5,
-                                        ),
-                                        child: Text(
-                                          'Phân loại: 200ml',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.remove,
-                                        size: 13,
-                                        color: Colors.grey,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 40,
-                                      child: Center(
-                                        child: Text(
-                                          '3',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 25,
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 13,
-                                        color: Colors.black,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[200]!),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Divider(
-                height: 1,
-              )
-            ],
-          )),
+                  ],
+                ))),
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -822,8 +280,11 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        // if (cartController.listOrder.length != 0) {
-                        //   Get.to(() => ConfirmScreen());
+                        cartController.getListPro();
+                        // if (cartController.listPro != null) {
+                        //   print((cartController.listPro as ProductHive).name);
+
+                        //   // Get.to(() => ConfirmScreen());
                         // }
                       },
                       child: Container(
@@ -868,4 +329,186 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
+  // Widget listOrder(ProductHive pro) {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(vertical: 10),
+  //     child: Dismissible(
+  //       key: UniqueKey(),
+  //       direction: DismissDirection.endToStart,
+  //       onDismissed: (direction) {},
+  //       background: Container(
+  //         padding: EdgeInsets.symmetric(horizontal: 20),
+  //         decoration: BoxDecoration(
+  //           color: Color(0xFFFFE6E6),
+  //           borderRadius: BorderRadius.circular(15),
+  //         ),
+  //         child: Row(
+  //           children: [
+  //             Spacer(),
+  //             SvgPicture.asset("assets/svg/other.svg"),
+  //           ],
+  //         ),
+  //       ),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.start,
+  //         children: [
+  //           Stack(
+  //             children: [
+  //               SizedBox(
+  //                 width: 88,
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.all(2.0),
+  //                   child: AspectRatio(
+  //                     aspectRatio: 1,
+  //                     child: ClipRRect(
+  //                       borderRadius: BorderRadius.circular(2),
+  //                       child: CachedNetworkImage(
+  //                         fit: BoxFit.cover,
+  //                         imageUrl:
+  //                             'https://thumbs.dreamstime.com/b/marvel-logo-marvel-logo-red-background-vector-format-aviable-ai-127114750.jpg',
+  //                         // 'http://chuyennhahanoi.online/lavishop/upload/img/products/01072022/thumbnail_2_hetis-silver-alginate.png',
+  //                         errorWidget: (context, url, error) =>
+  //                             SahaEmptyImage(),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //               Positioned(
+  //                 top: -12,
+  //                 left: 2,
+  //                 child: Stack(
+  //                   clipBehavior: Clip.none,
+  //                   children: [
+  //                     Container(
+  //                       height: 45,
+  //                       width: 45,
+  //                       child: SvgPicture.asset(
+  //                         "assets/svg/box.svg",
+  //                         color: Color(0xfffdd100),
+  //                       ),
+  //                     ),
+  //                     Positioned(
+  //                       top: 15,
+  //                       left: 5,
+  //                       child: Text(
+  //                         "-10 %",
+  //                         textAlign: TextAlign.center,
+  //                         style: TextStyle(
+  //                             fontSize: 10,
+  //                             fontWeight: FontWeight.bold,
+  //                             color: Color(0xfffd5800)),
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           SizedBox(width: 20),
+  //           Expanded(
+  //             child: Container(
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Row(
+  //                     children: [
+  //                       Expanded(
+  //                         child: Text(
+  //                           'Megasept Wipe',
+  //                           style: TextStyle(color: Colors.black, fontSize: 14),
+  //                           maxLines: 2,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   InkWell(
+  //                     onTap: () {},
+  //                     child: Container(
+  //                       margin: EdgeInsets.only(top: 10),
+  //                       padding: EdgeInsets.only(
+  //                           left: 5, right: 5, top: 5, bottom: 5),
+  //                       color: Colors.grey[200],
+  //                       child: Row(
+  //                         mainAxisSize: MainAxisSize.min,
+  //                         children: [
+  //                           ConstrainedBox(
+  //                             constraints: new BoxConstraints(
+  //                               minWidth: 10,
+  //                               maxWidth: Get.width * 0.5,
+  //                             ),
+  //                             child: Text(
+  //                               'Phân loại: 200ml',
+  //                               overflow: TextOverflow.ellipsis,
+  //                               style: TextStyle(
+  //                                   color: Colors.grey[600], fontSize: 12),
+  //                             ),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   SizedBox(height: 10),
+  //                   Row(
+  //                     mainAxisSize: MainAxisSize.min,
+  //                     children: [
+  //                       InkWell(
+  //                         onTap: () {},
+  //                         child: Container(
+  //                           height: 25,
+  //                           width: 30,
+  //                           child: Icon(
+  //                             Icons.remove,
+  //                             size: 13,
+  //                             color: Colors.grey,
+  //                           ),
+  //                           decoration: BoxDecoration(
+  //                             border: Border.all(color: Colors.grey[200]!),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       InkWell(
+  //                         onTap: () {},
+  //                         child: Container(
+  //                           height: 25,
+  //                           width: 40,
+  //                           child: Center(
+  //                             child: Text(
+  //                               '3',
+  //                               style: TextStyle(fontSize: 14),
+  //                             ),
+  //                           ),
+  //                           decoration: BoxDecoration(
+  //                             border: Border.all(color: Colors.grey[200]!),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       InkWell(
+  //                         onTap: () {},
+  //                         child: Container(
+  //                           height: 25,
+  //                           width: 30,
+  //                           child: Icon(
+  //                             Icons.add,
+  //                             size: 13,
+  //                             color: Colors.black,
+  //                           ),
+  //                           decoration: BoxDecoration(
+  //                             border: Border.all(color: Colors.grey[200]!),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   SizedBox(height: 10),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

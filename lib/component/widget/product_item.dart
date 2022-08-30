@@ -41,7 +41,7 @@ class ProductItem extends StatelessWidget {
             InkWell(
               onTap: () {
                 Get.to(() => ProductDetailScreen(
-                      product: product!,
+                      product: product!.id ?? "",
                     ));
               },
               child: Column(

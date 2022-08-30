@@ -42,8 +42,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             actions: [
               IconButton(
                   onPressed: () {}, icon: Icon(Icons.favorite_border_rounded)),
-              IconButton(
-                  onPressed: () {}, icon: Icon(Icons.shopping_bag_outlined))
+              // IconButton(
+              //     onPressed: () {}, icon: Icon(Icons.shopping_bag_outlined))
             ],
           ),
           body: SingleChildScrollView(

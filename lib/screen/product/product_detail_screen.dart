@@ -14,7 +14,7 @@ import '../../../component/loading/loading_container.dart';
 import '../../component/widget/product_item.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  final Pro product;
+  final String product;
 
   const ProductDetailScreen({Key? key, required this.product})
       : super(key: key);
@@ -29,8 +29,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    productDetailController =
-        Get.put(ProductDetailController(widget.product.id ?? ""));
+    productDetailController = Get.put(ProductDetailController(widget.product));
     productDetailController!.prod = widget.product;
   }
 
@@ -219,8 +218,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget content() {
-    print(productDetailController!.productdetail.data.item.price);
-    print(productDetailController!.productdetail.data.item.price != "0");
+    // print(productDetailController!.productdetail.data.item.price);
+    // print(productDetailController!.productdetail.data.item.price != "0");
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(10),
@@ -397,7 +396,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 5.0),
             child: Html(
-              data: widget.product.description,
+              data:
+                  productDetailController!.productdetail.data.item.description,
             ),
           ),
           Divider(),
