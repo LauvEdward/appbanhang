@@ -5,8 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../component/empty_image_widget/saha_empty_image.dart';
 import 'cart_controller.dart';
+import 'confirmInformation/confirm_information_screen.dart';
 import 'widget/bottom_detail.dart';
 import 'widget/item_product.dart';
 
@@ -30,6 +32,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final oCcy = new NumberFormat("#,##0", "en_US");
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: widget.isAutoBackIcon ?? true,
@@ -83,247 +86,258 @@ class _CartScreenState extends State<CartScreen> {
             )
           ],
         ),
-        child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+        child: Obx(
+          () => SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // InkWell(
+                //   onTap: () {},
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: Row(
+                //       children: [
+                //         Container(
+                //           padding: EdgeInsets.all(4),
+                //           height: 30,
+                //           width: 30,
+                //           child: SvgPicture.asset(
+                //             "assets/svg/other.svg",
+                //             color: Colors.blue,
+                //           ),
+                //         ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Text("Voucher"),
+                //         Spacer(),
+                //         Text(
+                //           "Mã: NEW - đ100.000",
+                //           style: TextStyle(fontSize: 13),
+                //         ),
+                //         const SizedBox(width: 10),
+                //         Icon(
+                //           Icons.arrow_forward_ios,
+                //           size: 12,
+                //           color: Colors.blue,
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Divider(
+                //   height: 1,
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //         padding: EdgeInsets.all(4),
+                //         height: 30,
+                //         width: 30,
+                //         decoration: BoxDecoration(
+                //           color: Color(0xFFF5F6F9),
+                //           shape: BoxShape.circle,
+                //         ),
+                //         child: SvgPicture.asset(
+                //           "assets/svg/other.svg",
+                //           color: Colors.blue,
+                //         ),
+                //       ),
+                //       SizedBox(
+                //         width: 10,
+                //       ),
+                //       Text(
+                //         "Dùng 200 xu ",
+                //         style: TextStyle(fontSize: 13),
+                //       ),
+                //       Spacer(),
+                //       Text("[-2000₫] "),
+                //       CupertinoSwitch(
+                //         value: true,
+                //         // cartController.cartData.value.isUsePoints!,
+                //         onChanged: (bool value) {
+                //           // cartController.cartData.value.isUsePoints =
+                //           // !cartController
+                //           //     .cartData.value.isUsePoints!;
+                //           // cartController.addVoucherCart(
+                //           //   cartController.voucherCodeChoose.value,
+                //           // );
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Divider(
+                //   height: 1,
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //         padding: EdgeInsets.all(4),
+                //         height: 30,
+                //         width: 30,
+                //         decoration: BoxDecoration(
+                //           color: Color(0xFFF5F6F9),
+                //           shape: BoxShape.circle,
+                //         ),
+                //         child: SvgPicture.asset(
+                //           "assets/svg/other.svg",
+                //           color: Colors.blue,
+                //         ),
+                //       ),
+                //       SizedBox(
+                //         width: 10,
+                //       ),
+                //       Expanded(
+                //         child: Text(
+                //           "Dùng số dư cộng tác viên ",
+                //           style: TextStyle(fontSize: 13),
+                //         ),
+                //       ),
+                //       Text("[-20.000₫] "),
+                //       CupertinoSwitch(
+                //         value: true,
+                //         // cartController.isUseBalanceCollaborator.value,
+                //         onChanged: (bool value) {
+                //           // cartController
+                //           //     .isUseBalanceCollaborator.value =
+                //           // !cartController
+                //           //     .isUseBalanceCollaborator.value;
+                //           // cartController.addVoucherCart(
+                //           //   cartController.voucherCodeChoose.value,
+                //           // );
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Divider(
+                  height: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(4),
-                        height: 30,
-                        width: 30,
-                        child: SvgPicture.asset(
-                          "assets/svg/other.svg",
-                          color: Colors.blue,
+                      InkWell(
+                        onTap: () {
+                          // OrderDetailBottomDetail.show(cartController);
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Tổng cộng: ",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  "${oCcy.format(cartController.total.value)} đ",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            // Container(
+                            //   padding: EdgeInsets.all(3),
+                            //   height: 20,
+                            //   decoration: BoxDecoration(
+                            //       color: Colors.red.withOpacity(0.1),
+                            //       borderRadius: BorderRadius.circular(3)),
+                            //   child: Row(
+                            //     children: [
+                            //       Text(
+                            //         "Khuyến mãi: 10.000 đ",
+                            //         style: TextStyle(
+                            //             fontSize: 10,
+                            //             color: Colors.red,
+                            //             fontWeight: FontWeight.bold),
+                            //       ),
+                            //       Icon(
+                            //         Icons.keyboard_arrow_down,
+                            //         size: 16,
+                            //         color: Colors.red,
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                          ],
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
-                      Text("Voucher"),
-                      Spacer(),
-                      Text(
-                        "Mã: NEW - đ100.000",
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      const SizedBox(width: 10),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 12,
-                        color: Colors.blue,
+                      InkWell(
+                        onTap: () {
+                          cartController.getListPro();
+                          // if (cartController.listPro != null) {
+                          //   print((cartController.listPro as ProductHive).name);
+
+                          //   // Get.to(() => ConfirmScreen());
+                          // }
+                        },
+                        child: InkWell(
+                          onTap: () async {
+                            bool isSuccess = await cartController.checkCart();
+                            if (isSuccess) {
+                              Get.to(() => ConfirmInformationScreen());
+                            }
+                          },
+                          child: Container(
+                            width: 120,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                border: Border.all(color: Colors.grey[200]!)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Đặt hàng ",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline6!
+                                          .color,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "(${cartController.numberOfItem.value})",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline6!
+                                        .color,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
                 ),
-              ),
-              Divider(
-                height: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(4),
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F6F9),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/svg/other.svg",
-                        color: Colors.blue,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Dùng 200 xu ",
-                      style: TextStyle(fontSize: 13),
-                    ),
-                    Spacer(),
-                    Text("[-2000₫] "),
-                    CupertinoSwitch(
-                      value: true,
-                      // cartController.cartData.value.isUsePoints!,
-                      onChanged: (bool value) {
-                        // cartController.cartData.value.isUsePoints =
-                        // !cartController
-                        //     .cartData.value.isUsePoints!;
-                        // cartController.addVoucherCart(
-                        //   cartController.voucherCodeChoose.value,
-                        // );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                height: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(4),
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F6F9),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/svg/other.svg",
-                        color: Colors.blue,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Dùng số dư cộng tác viên ",
-                        style: TextStyle(fontSize: 13),
-                      ),
-                    ),
-                    Text("[-20.000₫] "),
-                    CupertinoSwitch(
-                      value: true,
-                      // cartController.isUseBalanceCollaborator.value,
-                      onChanged: (bool value) {
-                        // cartController
-                        //     .isUseBalanceCollaborator.value =
-                        // !cartController
-                        //     .isUseBalanceCollaborator.value;
-                        // cartController.addVoucherCart(
-                        //   cartController.voucherCodeChoose.value,
-                        // );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                height: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        // OrderDetailBottomDetail.show(cartController);
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "Tổng cộng: ",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                "20.000 đ",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(3),
-                            height: 20,
-                            decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(3)),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Khuyến mãi: 10.000 đ",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 16,
-                                  color: Colors.red,
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        cartController.getListPro();
-                        // if (cartController.listPro != null) {
-                        //   print((cartController.listPro as ProductHive).name);
-
-                        //   // Get.to(() => ConfirmScreen());
-                        // }
-                      },
-                      child: Container(
-                        width: 120,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            border: Border.all(color: Colors.grey[200]!)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Đặt hàng ",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline6!
-                                      .color,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "(3)",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline6!
-                                    .color,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

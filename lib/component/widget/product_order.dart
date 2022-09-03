@@ -1,5 +1,6 @@
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/model/product_hive.dart';
+import 'package:appbanhang/screen/cart/cart_controller.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,8 @@ class ProductOrder extends StatelessWidget {
   ProductHive pro;
   @override
   Widget build(BuildContext context) {
+    final oCcy = new NumberFormat("#,##0", "en_US");
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Dismissible(
@@ -62,42 +65,42 @@ class ProductOrder extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: -12,
-                  left: 2,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        height: 45,
-                        width: 45,
-                        child: CachedNetworkImage(
-                          imageUrl: API.share.baseSite +
-                              '/upload/img/products' +
-                              '/${pro.prodir}' +
-                              '/${pro.image}',
-                          color: Color(0xfffdd100),
-                          errorWidget: (context, url, error) => Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: SahaEmptyImage(),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 15,
-                        left: 5,
-                        child: Text(
-                          "-10 %",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xfffd5800)),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                // Positioned(
+                //   top: -12,
+                //   left: 2,
+                //   child: Stack(
+                //     clipBehavior: Clip.none,
+                //     children: [
+                //       // Container(
+                //       //   height: 45,
+                //       //   width: 45,
+                //       //   child: CachedNetworkImage(
+                //       //     imageUrl: API.share.baseSite +
+                //       //         '/upload/img/products' +
+                //       //         '/${pro.prodir}' +
+                //       //         '/${pro.image}',
+                //       //     color: Color(0xfffdd100),
+                //       //     errorWidget: (context, url, error) => Padding(
+                //       //       padding: const EdgeInsets.all(3.0),
+                //       //       child: SahaEmptyImage(),
+                //       //     ),
+                //       //   ),
+                //       // ),
+                //       // Positioned(
+                //       //   top: 15,
+                //       //   left: 5,
+                //       //   child: Text(
+                //       //     "-10 %",
+                //       //     textAlign: TextAlign.center,
+                //       //     style: TextStyle(
+                //       //         fontSize: 10,
+                //       //         fontWeight: FontWeight.bold,
+                //       //         color: Color(0xfffd5800)),
+                //       //   ),
+                //       // )
+                //     ],
+                //   ),
+                // ),
               ],
             ),
             SizedBox(width: 20),
@@ -133,7 +136,7 @@ class ProductOrder extends StatelessWidget {
                                 maxWidth: Get.width * 0.5,
                               ),
                               child: Text(
-                                'Phân loại: 200ml',
+                                '${oCcy.format(int.parse(pro.priceSale!))} đ',
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     color: Colors.grey[600], fontSize: 12),
@@ -148,7 +151,14 @@ class ProductOrder extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            CartController cartController = Get.find();
+                            if (pro.soluong! > 1) {
+                              cartController.removeSoLuong(pro);
+                            } else {
+                              cartController.removeItem(pro);
+                            }
+                          },
                           child: Container(
                             height: 25,
                             width: 30,
@@ -179,7 +189,10 @@ class ProductOrder extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            CartController cartController = Get.find();
+                            cartController.addItem(pro);
+                          },
                           child: Container(
                             height: 25,
                             width: 30,

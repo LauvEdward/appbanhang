@@ -29,37 +29,79 @@ class CategoryFilterController extends GetxController {
   }
 
   Future<void> getAllCategoryByCategory() async {
-    final response = await API.share.GetAllProductByCatrgory(
-        sortByShow.value.sortType, textSearch.value, categoryid.value);
-
-    try {
-      if (response.statusCode == 200) {
-        var data = response.data["data"]["category"]["pro"];
-        // print(data);
-        // int? value = data["pro"] == null ? 0 : 1;
-        // var datadefault = Pro.fromJson(data);
-        // print("getAllCategory ${data.length}");
-        listAllProduct.clear();
-        if (categoryid.value == 195) {
+    // status.value = AppState.LOADING;
+    if (categoryid.value == 0) {
+      final response = await API.share.GetAllProduct(
+          sortByShow.value.sortType, textSearch.value, page.value);
+      try {
+        if (response.statusCode == 200) {
+          var data = response.data["data"];
+          // print(data);
+          // var datadefault = Pro.fromJson(data);
+          print("getAllCategory ${data.length}");
+          if (isLoadingAll == true) {
+            page.value = 1;
+            listAllProduct.clear();
+            isLoadingAll = false;
+          }
           listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
-        } else {
-          for (var listPro in data) {
-            if (listPro["pro"].length > 0) {
-              listAllProduct.addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+          status.value = AppState.DONE;
+          return;
+        }
+        status.value = AppState.LOADING;
+      } catch (e) {
+        status.value = AppState.ERROR;
+        print(e);
+      }
+    } else {
+      final response = await API.share.GetAllProductByCatrgory(
+          sortByShow.value.sortType, textSearch.value, categoryid.value);
+      try {
+        if (response.statusCode == 200) {
+          var data = response.data["data"]["category"]["pro"];
+          // print(data);
+          // var datadefault = Pro.fromJson(data);
+          print("getAllCategory ${data.length}");
+          listAllProduct.clear();
+          if (categoryCurrent.value == 195) {
+            listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
+          } else {
+            for (var listPro in data) {
+              if (listPro["pro"].length > 0) {
+                listAllProduct
+                    .addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+              }
             }
           }
-        }
 
-        status.value = AppState.DONE;
-        return;
+          print("======> ${listAllProduct.length}");
+          status.value = AppState.DONE;
+          // return;
+        }
+        // status.value = AppState.LOADING;
+      } catch (e) {
+        status.value = AppState.ERROR;
+        print(e);
       }
-      status.value = AppState.LOADING;
-    } catch (e) {
-      status.value = AppState.ERROR;
-      print(e);
     }
   }
 
+  Future<void> getListCategory() async {
+    final response = await API.share.GetCategory();
+    try {
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+        // print(data);
+        // var datadefault = Product.fromJson(response.data);
+        // print("Number of list product ${datadefault.data!.length}");
+        listProduct.addAll(data.map((e) => CategoryProduct.fromJson(e)));
+        status.value = AppState.DONE;
+      }
+    } catch (e) {
+      print(e);
+      status.value = AppState.ERROR;
+    }
+  }
   // Future<void> getListProduct() async {
   //   final response = await API.share.GetListProduct();
   //   try {

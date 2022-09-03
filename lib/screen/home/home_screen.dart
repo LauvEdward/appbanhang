@@ -1,4 +1,5 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/component/text_field/saha_text_field_search.dart';
 import 'package:appbanhang/component/widget/news_widget.dart';
 import 'package:appbanhang/screen/category/category_controller.dart';
 import 'package:appbanhang/screen/category/category_screen.dart';
@@ -153,25 +154,32 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         ],
                         borderRadius: BorderRadius.circular(6)),
-                    child: TextFormField(
-                      controller: searchEditingController,
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        contentPadding:
-                            EdgeInsets.only(right: 15, top: 10, bottom: 10),
-                        border: InputBorder.none,
-                        hintText: "Tìm kiếm",
-                        hintStyle: TextStyle(fontSize: 15),
-                        icon: Icon(
-                          Icons.search,
-                          size: 30,
-                        ),
-                      ),
-                      onChanged: (v) async {
-                        // productControllerAll.onSearch(v);
+                    child: SahaTextFieldSearch(
+                      hintText: "Tìm kiếm",
+                      onSubmitted: (text) {
+                        Get.to(() => CategoryFilterScreen(
+                              categoryid: text,
+                            ));
                       },
-                      minLines: 1,
-                      maxLines: 1,
+                      onClose: () {},
+                      // controller: searchEditingController,
+                      // decoration: const InputDecoration(
+                      //   isDense: true,
+                      //   contentPadding:
+                      //       EdgeInsets.only(right: 15, top: 10, bottom: 10),
+                      //   border: InputBorder.none,
+                      //   hintText: "Tìm kiếm",
+                      //   hintStyle: TextStyle(fontSize: 15),
+                      //   icon: Icon(
+                      //     Icons.search,
+                      //     size: 30,
+                      //   ),
+                      // ),
+                      // onChanged: (v) async {
+                      //   // productControllerAll.onSearch(v);
+                      // },
+                      // minLines: 1,
+                      // maxLines: 1,
                     ),
                   ),
                 ),

@@ -132,4 +132,28 @@ class API {
     //     options: Options(contentType: Headers.formUrlEncodedContentType));
     // return response;
   }
+
+  Future<Response> checkCart(Map<String, String> cate) async {
+    final dio = Dio();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    final response = await dio.post(baseUrl + '/cart/check-cart',
+        data: cate,
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+    return response;
+  }
+
+  Future<Response> checkoutCart(List<Map<String, String>> cate, String fullname,
+      String address, String phone) async {
+    final dio = Dio();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    final response = await dio.post(baseUrl + '/cart/checkout',
+        data: {
+          "cart_data": cate,
+          "fullname": fullname,
+          "address": address,
+          "phone": phone
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+    return response;
+  }
 }

@@ -14,7 +14,6 @@ class HiveService {
     } else {
       print("Add sp ton tai");
       // listPro.soluong == null ? 0 : (listPro.soluong! + 1);
-
       var proUpdate = ProductHive()
         ..id = listPro.id
         ..name = listPro.name
@@ -26,6 +25,27 @@ class HiveService {
       openBox.put(item.id, proUpdate);
     }
     // openBox.add(item);
+  }
+
+  removeSoluong(String id) {
+    final openBox = Hive.box("Cart");
+    ProductHive? listPro = openBox.get(id);
+    if (listPro != null) {
+      var proUpdate = ProductHive()
+        ..id = listPro.id
+        ..name = listPro.name
+        ..image = listPro.image
+        ..price = listPro.price
+        ..priceSale = listPro.priceSale
+        ..soluong = ((listPro.soluong ?? 0) - 1)
+        ..prodir = listPro.prodir;
+      openBox.put(id, proUpdate);
+    }
+  }
+
+  removeItem(String id) {
+    final openBox = Hive.box("Cart");
+    openBox.delete(id);
   }
 
   Future<List<ProductHive>> getAllVlaue() async {

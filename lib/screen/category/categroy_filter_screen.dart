@@ -46,8 +46,10 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
     });
     super.initState();
     categoryController1 = Get.put(CategoryFilterController());
-    categoryController1!.categoryid.value = int.parse(widget.categoryid ?? "0");
+    categoryController1!.categoryid.value =
+        int.tryParse(widget.categoryid!) ?? 0;
     categoryController1!.getAllCategoryByCategory();
+    categoryController1!.getListCategory();
     // categoryController1!.getListProduct();
   }
 
@@ -172,26 +174,36 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
             children: [
               Column(
                 children: [
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: Container(
-                  //         height: 100,
-                  //         // width: Get.width,
-                  //         color: Colors.white.withOpacity(0.8),
-                  //         child: ListView.builder(
-                  //             scrollDirection: Axis.horizontal,
-                  //             itemCount:
-                  //                 categoryController1!.listProduct.length,
-                  //             itemBuilder: (context, index) {
-                  //               return buildItem(
-                  //                   category: categoryController1!
-                  //                       .listProduct[index]);
-                  //             }),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(child: buildItemOrderBy(sortpro: Sort.pho_bien)),
+                      Expanded(child: buildItemOrderBy(sortpro: Sort.moi_nhat)),
+                      Expanded(child: buildItemOrderBy(sortpro: Sort.ban_chay)),
+                      Expanded(
+                          child: buildItemOrderBy(sortpro: Sort.price_asc)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 100,
+                          // width: Get.width,
+                          color: Colors.white.withOpacity(0.8),
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  categoryController1!.listProduct.length,
+                              itemBuilder: (context, index) {
+                                return buildItem(
+                                    category: categoryController1!
+                                        .listProduct[index]);
+                              }),
+                        ),
+                      ),
+                    ],
+                  )
                   // if (categoryController1.categoriesChild.isNotEmpty)
                   //   Row(
                   //     children: [
@@ -371,7 +383,7 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
     );
   }
 
-  Widget buildItem({DataProduct? category}) {
+  Widget buildItem({CategoryProduct? category}) {
     return Obx(
       () => Container(
         width: 80,
@@ -380,18 +392,22 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
           border: Border(
             bottom: BorderSide(
                 color: Colors.blue,
-                width:
-                    categoryController1!.categoryCurrent.value == category!.id
-                        ? 2
-                        : 0),
+                width: categoryController1!.categoryid.value ==
+                        int.parse(category!.id ?? "")
+                    ? 3
+                    : 0),
           ),
-          color: categoryController1!.categoryCurrent.value == category.id
-              ? Colors.white
-              : null,
+          // color: categoryController1!.categoryid.value == category.id
+          //     ? Colors.white
+          //     : null,
         ),
         child: InkWell(
           onTap: () {
             categoryController1!.isLoadingAll = true;
+            categoryController1!.categoryid.value =
+                int.parse(category.id ?? "");
+            // categoryController1.
+            categoryController1!.getAllCategoryByCategory();
             // categoryController1.
             // categoryController1.getAllCategory();
             // categoryController1.setCategoryCurrent(category);
