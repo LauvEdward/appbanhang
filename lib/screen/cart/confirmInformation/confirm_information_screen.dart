@@ -370,7 +370,10 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Chon"), Icon(Icons.edit)],
+                        children: [
+                          Text(_controller.profile.address),
+                          Icon(Icons.edit)
+                        ],
                       ),
                     ),
                   )),
@@ -396,18 +399,23 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                   // }
                 },
                 child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Chon"), Icon(Icons.edit)],
+                  height: 50,
+                  child: TextField(
+                    // controller: _controller.ghichuTextController,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.black),
                       ),
-                    )),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.blueGrey),
+                      ),
+                      hintText: "Nhập tên ngân hàng của bạn",
+                      hintStyle: const TextStyle(color: Colors.blueGrey),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

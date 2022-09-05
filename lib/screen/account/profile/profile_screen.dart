@@ -85,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _controller.profile.username,
+                                _controller.profile.fullname,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 16),
                               ),
@@ -109,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Đang hiển thị - 1 tin',
+                          'Thông tin',
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 15),
                         ),
@@ -118,23 +118,55 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  profileItem(
-                      iconData: Icons.featured_play_list,
-                      title: 'Cộng tác viên',
-                      colorIconBackground: Colors.amber),
-                  profileItem(
-                      iconData: Icons.shopping_cart,
-                      title: 'Đơn mua',
-                      colorIconBackground: Colors.pink),
-                  profileItem(
-                      iconData: Icons.location_on,
-                      title: 'Địa chỉ đã lưu',
-                      colorIconBackground: Colors.purple),
-                  profileItem(iconData: Icons.group, title: 'Bạn bè'),
-                  profileItem(
-                      iconData: Icons.history,
-                      title: 'Lịch sử giao dịch',
-                      colorIconBackground: Colors.blue),
+                  // profileItem(
+                  //     iconData: Icons.featured_play_list,
+                  //     title: 'Cộng tác viên',
+                  //     colorIconBackground: Colors.amber),
+                  InkWell(
+                    child: profileItem(
+                        iconData: Icons.shopping_cart,
+                        title: 'Đơn mua',
+                        colorIconBackground: Colors.pink),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.dialog(AlertDialog(
+                        // title: ,
+                        title: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text("Địa chỉ của bạn"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  width: Get.width,
+                                  height: 50,
+                                  // decoration: BoxDecoration(
+                                  //     border:
+                                  //         Border.all(color: Colors.blueAccent)),
+                                  child: Center(
+                                      child: Text(
+                                    _controller.profile.address,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.blue),
+                                  ))),
+                            )
+                          ],
+                        ),
+                      ));
+                    },
+                    child: profileItem(
+                        iconData: Icons.location_on,
+                        title: 'Địa chỉ đã lưu',
+                        colorIconBackground: Colors.purple),
+                  ),
+                  // profileItem(iconData: Icons.group, title: 'Bạn bè'),
+                  // profileItem(
+                  //     iconData: Icons.history,
+                  //     title: 'Lịch sử giao dịch',
+                  //     colorIconBackground: Colors.blue),
                 ],
               ),
             ),

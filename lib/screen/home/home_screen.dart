@@ -155,13 +155,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                         borderRadius: BorderRadius.circular(6)),
                     child: SahaTextFieldSearch(
+                      textEditingController:
+                          homeController.textEditingControllerSearch,
                       hintText: "Tìm kiếm",
                       onSubmitted: (text) {
                         Get.to(() => CategoryFilterScreen(
                               categoryid: text,
                             ));
                       },
-                      onClose: () {},
+                      onClose: () {
+                        homeController.textEditingControllerSearch.clear();
+                      },
                       // controller: searchEditingController,
                       // decoration: const InputDecoration(
                       //   isDense: true,

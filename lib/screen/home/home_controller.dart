@@ -4,6 +4,7 @@ import 'package:appbanhang/model/product.dart';
 import 'package:appbanhang/screen/home/model/news.dart';
 import 'package:appbanhang/screen/home/model/news_detail.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -11,6 +12,8 @@ class HomeController extends GetxController {
   var listProduct = [].obs;
   var listHotProduct = [].obs;
   var listNewProduct = [].obs;
+  TextEditingController textEditingControllerSearch = TextEditingController();
+
   @override
   void onInit() async {
     // TODO: implement onInit

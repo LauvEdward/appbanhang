@@ -48,6 +48,11 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
     categoryController1 = Get.put(CategoryFilterController());
     categoryController1!.categoryid.value =
         int.tryParse(widget.categoryid!) ?? 0;
+    if ((int.tryParse(widget.categoryid!) ?? 0) == 0) {
+      categoryController1!.textSearch.value = widget.categoryid!;
+      categoryController1!.textEditingControllerSearch.text =
+          widget.categoryid!;
+    }
     categoryController1!.getAllCategoryByCategory();
     categoryController1!.getListCategory();
     // categoryController1!.getListProduct();
@@ -57,65 +62,6 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      // key: _scaffoldKey,
-      onEndDrawerChanged: (v) {},
-      // endDrawer: Drawer(
-      //   child: Container(
-      //     width: Get.width / 2,
-      //     height: Get.height,
-      //     color: Colors.white,
-      //     child: Column(
-      //       children: [
-      //         SizedBox(
-      //           height: 100,
-      //         ),
-      //         Padding(
-      //           padding: const EdgeInsets.all(10.0),
-      //           child: Text(
-      //             "Bộ lọc tìm kiếm",
-      //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-      //           ),
-      //         ),
-      //         Divider(
-      //           height: 1,
-      //         ),
-      //         Padding(
-      //           padding: const EdgeInsets.all(10.0),
-      //           child: Column(
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             children: [
-      //               SizedBox(
-      //                 width: double.infinity,
-      //               ),
-      //               Text("Sản phẩm"),
-      //               Container(
-      //                 height: 40,
-      //                 margin: EdgeInsets.all(10),
-      //                 child: Obx(
-      //                   () => FilterChip(
-      //                     label: Text(
-      //                       "Giảm giá",
-      //                       style: TextStyle(fontSize: 13),
-      //                     ),
-      //                     selected:
-      //                         categoryController1.isChooseDiscountSort.value,
-      //                     backgroundColor: Colors.transparent,
-      //                     shape: StadiumBorder(
-      //                         side: BorderSide(color: Colors.grey[300]!)),
-      //                     onSelected: (bool value) {
-      //                       categoryController1.isChooseDiscountSort.value =
-      //                           !categoryController1.isChooseDiscountSort.value;
-      //                     },
-      //                   ),
-      //                 ),
-      //               ),
-      //             ],
-      //           ),
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
@@ -134,6 +80,10 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                 child: InkWell(
                     onTap: () {},
                     child: SahaTextFieldSearch(
+                      hintText: categoryController1!.textSearch.value == ''
+                          ? "Nhập từ khoá ..."
+                          : categoryController1!
+                              .textEditingControllerSearch.text,
                       textEditingController:
                           categoryController1!.textEditingControllerSearch,
                       enabled: true,
@@ -143,9 +93,12 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                         categoryController1!.getAllCategoryByCategory();
                       },
                       onClose: () async {
+                        categoryController1!.textEditingControllerSearch.text =
+                            "";
                         categoryController1!.isLoadingAll = true;
                         categoryController1!.textSearch.value = '';
                         categoryController1!.getAllCategoryByCategory();
+                        setState(() {});
                       },
                     )),
               ),

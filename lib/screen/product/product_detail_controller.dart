@@ -88,9 +88,13 @@ class ProductDetailController extends GetxController {
         listOption.addAll(productdetail.data.sizeS);
         await Get.dialog(
           AlertDialog(
-            title: Text("Chọn Loại sản phẩm"),
-            content: Column(
+            // title: ,
+            title: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Text("Chọn Loại sản phẩm"),
+                ),
                 Wrap(
                   children: listOption
                       .map((e) => InkWell(
@@ -98,7 +102,21 @@ class ProductDetailController extends GetxController {
                             idOption = e.id;
                             Get.back();
                           },
-                          child: Text(e.name)))
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                width: Get.width,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.blueAccent)),
+                                child: Center(
+                                    child: Text(
+                                  e.name,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.blue),
+                                ))),
+                          )))
                       .toList(),
                 )
               ],
