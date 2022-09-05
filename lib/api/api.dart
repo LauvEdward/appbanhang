@@ -1,3 +1,4 @@
+import 'package:appbanhang/@core/shared_preference.dart';
 import 'package:appbanhang/model/profile.dart';
 import 'package:appbanhang/model/user.dart';
 import 'package:dio/dio.dart';
@@ -142,10 +143,13 @@ class API {
     return response;
   }
 
-  Future<Response> checkoutCart(List<Map<String, String>> cate, String fullname,
+  Future<Response> checkoutCart(List<Map<String, Object>> cate, String fullname,
       String address, String phone) async {
+    String? token = await AppSharePreference.share.getTokenSharePreference();
     final dio = Dio();
     dio.options.contentType = Headers.formUrlEncodedContentType;
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['authorization'] = 'Bearer ${token}';
     final response = await dio.post(baseUrl + '/cart/checkout',
         data: {
           "cart_data": cate,

@@ -162,7 +162,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Container(
             width: Get.width,
             child: CarouselSlider(
-              items: [link, link, link, link]
+              items: productDetailController!.listImage
                   .map(
                     (item) => Container(
                       decoration: BoxDecoration(
@@ -194,8 +194,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             bottom: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [link, link, link, link].map((url) {
-                int index = [link, link, link, link].indexOf(url);
+              children: listImage.map((url) {
+                int index = productDetailController!.listImage.indexOf(url);
                 return Container(
                   width: 8.0,
                   height: 8.0,
@@ -218,6 +218,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget content() {
     // print(productDetailController!.productdetail.data.item.price);
     // print(productDetailController!.productdetail.data.item.price != "0");
+    final oCcy = new NumberFormat("#,##0", "en_US");
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(10),
@@ -242,7 +243,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           Row(
                             children: [
                               Text(
-                                '250.000 đ',
+                                '${oCcy.format(int.tryParse(productDetailController!.productdetail.data.item.priceSale))} đ',
                                 style: TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.bold,
@@ -252,7 +253,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 width: 10,
                               ),
                               Text(
-                                '290.000 đ',
+                                '${oCcy.format(int.tryParse(productDetailController!.productdetail.data.item.price))} đ',
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     color: Colors.grey,

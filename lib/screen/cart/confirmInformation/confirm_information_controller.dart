@@ -64,14 +64,16 @@ class ConfirmController extends GetxController {
   }
 
   Future<void> order() async {
-    List<Map<String, String>> listCate = [];
+    List<Map<String, Object>> listCate = [];
     for (var item in listOrder) {
-      Map<String, String> product = {};
+      print(item.soluong);
+      Map<String, Object> product = {};
       product["product_id"] = item.id;
       product["qly"] = item.soluong;
       product["size_id"] = "";
       listCate.add(product);
     }
+    print(listCate);
     try {
       final response = await API.share.checkoutCart(
           listCate, profile.fullname, profile.address, profile.phone);

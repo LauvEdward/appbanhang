@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:appbanhang/@core/hive_manager.dart';
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/model/product_detail.dart';
@@ -22,6 +20,7 @@ class ProductDetailController extends GetxController {
   var textSearch = "".obs;
   var page = 1.obs;
   var listAllProduct = [].obs;
+  var listImage = [].obs;
   @override
   void onInit() async {
     // TODO: implement onInit
@@ -70,8 +69,9 @@ class ProductDetailController extends GetxController {
       if (response.statusCode != 200) {
         status.value = AppState.ERROR;
       } else {
-        productSame(datadefault.data!.cateCurrent!.id!);
+        await productSame(datadefault.data!.cateCurrent!.id!);
         status.value = AppState.DONE;
+        listImage.addAll(datadefault.data!.pImages!);
       }
     } catch (e) {
       print(e);
