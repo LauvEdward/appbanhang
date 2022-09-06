@@ -1,5 +1,7 @@
+import 'package:appbanhang/@core/shared_preference.dart';
 import 'package:appbanhang/component/widget/product_order.dart';
 import 'package:appbanhang/model/product_hive.dart';
+import 'package:appbanhang/screen/navigation/navigation_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +44,10 @@ class _CartScreenState extends State<CartScreen> {
               "Giỏ hàng",
               style: TextStyle(fontSize: 18),
             ),
-            Text(
-              "3 sản phẩm",
-              style: TextStyle(fontSize: 12),
-            ),
+            // Text(
+            //   "3 sản phẩm",
+            //   style: TextStyle(fontSize: 12),
+            // ),
           ],
         ),
       ),
@@ -294,9 +296,20 @@ class _CartScreenState extends State<CartScreen> {
                         },
                         child: InkWell(
                           onTap: () async {
-                            bool isSuccess = await cartController.checkCart();
-                            if (isSuccess) {
-                              Get.to(() => ConfirmInformationScreen());
+                            String? token = await AppSharePreference.share
+                                .getTokenSharePreference();
+                            if (cartController.listOrder.length > 0) {
+                              if (token != "") {
+                                bool isSuccess =
+                                    await cartController.checkCart();
+                                if (isSuccess) {
+                                  Get.to(() => ConfirmInformationScreen());
+                                }
+                              } else {
+                                NavigationController navigationController =
+                                    Get.find<NavigationController>();
+                                navigationController.moveToTab(4);
+                              }
                             }
                           },
                           child: Container(

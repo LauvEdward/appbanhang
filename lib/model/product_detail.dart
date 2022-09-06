@@ -68,7 +68,7 @@ class ProductDetailData {
   List<SizeS>? sizeS;
   List<SizeSType>? sizeSType;
   List<String>? color;
-  List<String>? pImages;
+  List<PImages>? pImages;
 
   ProductDetailData(
       {this.item,
@@ -139,9 +139,9 @@ class ProductDetailData {
       color = null;
     }
     if (json['p_images'] != null) {
-      pImages = <String>[];
+      pImages = <PImages>[];
       json['p_images'].forEach((v) {
-        pImages!.add(v);
+        pImages!.add(new PImages.fromJson(v));
       });
     } else {
       pImages = null;
@@ -714,6 +714,25 @@ class Thuoctinh {
     data['name'] = this.name;
     data['type'] = this.type;
     data['sort'] = this.sort;
+    return data;
+  }
+}
+
+class PImages {
+  String? id;
+  String? image;
+
+  PImages({this.id, this.image});
+
+  PImages.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image'] = this.image;
     return data;
   }
 }

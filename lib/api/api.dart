@@ -119,19 +119,6 @@ class API {
         options: Options(contentType: Headers.formUrlEncodedContentType));
 
     return response;
-    // final response = await dio.post(baseUrl + '/auth/register',
-    //     data: {
-    //       "email": user.email,
-    //       "password": user.password,
-    //       "fullname": user.fullname,
-    //       "phone": user.phone,
-    //       "bank_account": user.bankAccount,
-    //       "ghichu": user.ghichu,
-    //       "sex": user.sex,
-    //       "province": user.addressProvince,
-    //     },
-    //     options: Options(contentType: Headers.formUrlEncodedContentType));
-    // return response;
   }
 
   Future<Response> checkCart(Map<String, String> cate) async {
@@ -143,20 +130,14 @@ class API {
     return response;
   }
 
-  Future<Response> checkoutCart(List<Map<String, Object>> cate, String fullname,
-      String address, String phone) async {
+  Future<Response> checkoutCart(Map<String, Object> cate) async {
     String? token = await AppSharePreference.share.getTokenSharePreference();
     final dio = Dio();
     dio.options.contentType = Headers.formUrlEncodedContentType;
     dio.options.headers['content-Type'] = 'application/json';
     dio.options.headers['authorization'] = 'Bearer ${token}';
     final response = await dio.post(baseUrl + '/cart/checkout',
-        data: {
-          "cart_data": cate,
-          "fullname": fullname,
-          "address": address,
-          "phone": phone
-        },
+        data: cate,
         options: Options(contentType: Headers.formUrlEncodedContentType));
     return response;
   }
@@ -168,6 +149,18 @@ class API {
     dio.options.headers['content-Type'] = 'application/json';
     dio.options.headers['authorization'] = 'Bearer ${token}';
     final response = await dio.get(baseUrl + '/cart/my-order');
+    return response;
+  }
+
+  Future<Response> changePassword(Map<String, Object> cate) async {
+    String? token = await AppSharePreference.share.getTokenSharePreference();
+    final dio = Dio();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['authorization'] = 'Bearer ${token}';
+    final response = await dio.post(baseUrl + '/auth/change-password',
+        data: cate,
+        options: Options(contentType: Headers.formUrlEncodedContentType));
     return response;
   }
 }

@@ -18,7 +18,7 @@ class MyorderController extends GetxController {
     final response = await API.share.getMyorder();
     try {
       final data = response.data["data"];
-      listOrder.addAll(data.map((e) => MyOrder.fromJson(e)));
+      listOrder.addAll(data.map((e) => MyOrderData.fromJson(e)));
       status.value = AppState.DONE;
     } catch (e) {
       print(e);

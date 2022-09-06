@@ -140,9 +140,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
               ),
             ),
-            Text(
-              'clear',
-              style: TextStyle(color: Colors.black),
+            InkWell(
+              onTap: () async {
+                categoryController1!.isLoadingAll = true;
+                categoryController1!.sortByShow.value = Sort.pho_bien;
+                categoryController1!.categoryCurrent.value = 0;
+                await categoryController1!.getAllCategory();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Xoá lọc',
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              ),
             ),
           ],
         ),
@@ -251,8 +262,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
       () {
         return InkWell(
           onTap: () {
+            if (sortpro == Sort.price_asc) {
+              categoryController1!.sortByShow.value = Sort.price_desc;
+              sortpro = Sort.price_desc;
+            } else if (sortpro == Sort.price_desc) {
+              categoryController1!.sortByShow.value = Sort.price_asc;
+              sortpro = Sort.price_asc;
+            } else {
+              categoryController1!.sortByShow.value = sortpro!;
+            }
             categoryController1!.isLoadingAll = true;
-            categoryController1!.sortByShow.value = sortpro!;
             categoryController1!.getAllCategory();
             _scrollController.animateTo(0,
                 duration: Duration(milliseconds: 500), curve: Curves.ease);

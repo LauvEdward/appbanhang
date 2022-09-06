@@ -289,37 +289,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.blue,
                 ),
               ),
-              DecorationButton(
-                title: 'Mới nhất',
-                child: Center(
-                  child: SvgPicture.asset("assets/svg/new.svg",
-                      width: 25, height: 25, color: Colors.white),
+              InkWell(
+                onTap: (() {
+                  Get.to(() => CategoryFilterScreen(
+                        sort: Sort.moi_nhat,
+                      ));
+                }),
+                child: DecorationButton(
+                  title: 'Mới nhất',
+                  child: Center(
+                    child: SvgPicture.asset("assets/svg/new.svg",
+                        width: 25, height: 25, color: Colors.white),
+                  ),
+                  color: Colors.pink,
                 ),
-                color: Colors.pink,
               ),
-              DecorationButton(
-                title: 'Hot nhất',
-                child: Center(
-                  child: SvgPicture.asset("assets/svg/hot.svg",
-                      width: 25, height: 25, color: Colors.white),
+              InkWell(
+                onTap: (() {
+                  Get.to(() => CategoryFilterScreen(
+                        sort: Sort.pho_bien,
+                      ));
+                }),
+                child: DecorationButton(
+                  title: 'Hot nhất',
+                  child: Center(
+                    child: SvgPicture.asset("assets/svg/hot.svg",
+                        width: 25, height: 25, color: Colors.white),
+                  ),
+                  color: Colors.red,
                 ),
-                color: Colors.red,
               ),
-              DecorationButton(
-                title: 'Mua nhiều',
-                child: Center(
-                  child: SvgPicture.asset("assets/svg/shopping_cart.svg",
-                      width: 25, height: 25, color: Colors.white),
+              InkWell(
+                onTap: (() {
+                  Get.to(() => CategoryFilterScreen(
+                        sort: Sort.ban_chay,
+                      ));
+                }),
+                child: DecorationButton(
+                  title: 'Mua nhiều',
+                  child: Center(
+                    child: SvgPicture.asset("assets/svg/shopping_cart.svg",
+                        width: 25, height: 25, color: Colors.white),
+                  ),
+                  color: Colors.teal,
                 ),
-                color: Colors.teal,
               ),
-              DecorationButton(
-                title: 'Giảm giá',
-                child: Center(
-                  child: SvgPicture.asset("assets/svg/tag.svg",
-                      width: 25, height: 25, color: Colors.white),
+              InkWell(
+                onTap: (() {
+                  Get.to(() => CategoryFilterScreen(
+                        sort: Sort.price_desc,
+                      ));
+                }),
+                child: DecorationButton(
+                  title: 'Giảm giá',
+                  child: Center(
+                    child: SvgPicture.asset("assets/svg/tag.svg",
+                        width: 25, height: 25, color: Colors.white),
+                  ),
+                  color: Colors.purple,
                 ),
-                color: Colors.purple,
               ),
             ],
           ),

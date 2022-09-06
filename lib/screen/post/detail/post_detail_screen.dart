@@ -40,8 +40,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               style: TextStyle(color: Colors.black87),
             ),
             actions: [
-              IconButton(
-                  onPressed: () {}, icon: Icon(Icons.favorite_border_rounded)),
+              // IconButton(
+              //     onPressed: () {}, icon: Icon(Icons.favorite_border_rounded)),
               // IconButton(
               //     onPressed: () {}, icon: Icon(Icons.shopping_bag_outlined))
             ],

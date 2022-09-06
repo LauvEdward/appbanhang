@@ -20,9 +20,9 @@ extension SortType on Sort {
       case Sort.ban_chay:
         return 'Bán chạy';
       case Sort.price_asc:
-        return 'Giá cao';
+        return 'Giá giảm dần';
       case Sort.price_desc:
-        return 'Thấp';
+        return 'Giá tăng dần';
     }
   }
 

@@ -55,9 +55,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 style: TextStyle(color: Colors.black87),
               ),
               actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_border_rounded)),
+                // IconButton(
+                //     onPressed: () {},
+                //     icon: Icon(Icons.favorite_border_rounded)),
                 IconButton(
                     onPressed: () {
                       Get.to(() => CartScreen());
@@ -175,7 +175,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: CachedNetworkImage(
                         width: Get.width,
                         fit: BoxFit.contain,
-                        imageUrl: item,
+                        imageUrl: API.share.baseSite + '/${item.image}',
                         placeholder: (context, url) => SahaLoadingContainer(),
                         errorWidget: (context, url, error) => SahaEmptyImage(),
                       ),

@@ -13,7 +13,7 @@ class SahaEmptyImage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5.0),
       child: SvgPicture.asset(
-        "assets/svg/box.svg",
+        "assets/svg/truck.svg",
         width: width,
         height: height,
         color: Colors.grey,

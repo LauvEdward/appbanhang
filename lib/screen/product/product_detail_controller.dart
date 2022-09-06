@@ -50,7 +50,7 @@ class ProductDetailController extends GetxController {
         status.value = AppState.DONE;
         return;
       }
-      status.value = AppState.LOADING;
+      // status.value = AppState.LOADING;
     } catch (e) {
       status.value = AppState.DONE;
       print(e);
@@ -75,7 +75,7 @@ class ProductDetailController extends GetxController {
       }
     } catch (e) {
       print(e);
-      status.value = AppState.LOADING;
+      status.value = AppState.ERROR;
     }
   }
 

@@ -197,7 +197,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  //Get.to(ChangePassword());
+                  _controller.changePassword();
                 },
                 child: Text(
                   "Thay đổi mật khẩu",

@@ -26,6 +26,7 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
   final ConfirmController _controller = Get.put(ConfirmController());
   @override
   Widget build(BuildContext context) {
+    final oCcy = new NumberFormat("#,##0", "en_US");
     return Obx(() {
       if (_controller.status.value == AppState.DONE) {
         return Scaffold(
@@ -99,7 +100,7 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "${_controller.total} đ",
+                                      "${oCcy.format(_controller.total.value)} đ",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.red,
@@ -231,42 +232,45 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("${_controller.profile.fullname ?? ""}"),
+                          Text("${_controller.name}"),
                           InkWell(
                               onTap: () {
-                                Get.defaultDialog(
-                                    title: '',
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        TextField(
-                                          // controller: settingsScreenController.categoryNameController,
-                                          keyboardType: TextInputType.text,
-                                          maxLines: 1,
-                                          decoration: InputDecoration(
-                                              labelText: 'Category Name',
-                                              hintMaxLines: 1,
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.green,
-                                                      width: 4.0))),
-                                        ),
-                                        SizedBox(
-                                          height: 30.0,
-                                        ),
-                                        RaisedButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            'Lưu',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.0),
-                                          ),
-                                          color: Colors.redAccent,
-                                        )
-                                      ],
-                                    ),
-                                    radius: 10.0);
+                                _controller.changeProfile(1);
+                                // Get.defaultDialog(
+                                //     title: '',
+                                //     content: Column(
+                                //       mainAxisSize: MainAxisSize.min,
+                                //       children: [
+                                //         TextField(
+                                //           // controller: settingsScreenController.categoryNameController,
+                                //           keyboardType: TextInputType.text,
+                                //           maxLines: 1,
+                                //           decoration: InputDecoration(
+                                //               labelText: 'Category Name',
+                                //               hintMaxLines: 1,
+                                //               border: OutlineInputBorder(
+                                //                   borderSide: BorderSide(
+                                //                       color: Colors.green,
+                                //                       width: 4.0))),
+                                //         ),
+                                //         SizedBox(
+                                //           height: 30.0,
+                                //         ),
+                                //         RaisedButton(
+                                //           onPressed: () {
+
+                                //           },
+                                //           child: Text(
+                                //             'Lưu',
+                                //             style: TextStyle(
+                                //                 color: Colors.white,
+                                //                 fontSize: 16.0),
+                                //           ),
+                                //           color: Colors.redAccent,
+                                //         )
+                                //       ],
+                                //     ),
+                                //     radius: 10.0);
                               },
                               child: Icon(Icons.edit))
                         ],
@@ -282,37 +286,38 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                 onTap: () async {
-                  Get.defaultDialog(
-                      title: '',
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            // controller: settingsScreenController.categoryNameController,
-                            keyboardType: TextInputType.text,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                                labelText: 'Category Name',
-                                hintMaxLines: 1,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.green, width: 4.0))),
-                          ),
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Lưu',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16.0),
-                            ),
-                            color: Colors.redAccent,
-                          )
-                        ],
-                      ),
-                      radius: 10.0);
+                  _controller.changeProfile(2);
+                  // Get.defaultDialog(
+                  //     title: '',
+                  //     content: Column(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         TextField(
+                  //           // controller: settingsScreenController.categoryNameController,
+                  //           keyboardType: TextInputType.text,
+                  //           maxLines: 1,
+                  //           decoration: InputDecoration(
+                  //               labelText: 'Category Name',
+                  //               hintMaxLines: 1,
+                  //               border: OutlineInputBorder(
+                  //                   borderSide: BorderSide(
+                  //                       color: Colors.green, width: 4.0))),
+                  //         ),
+                  //         SizedBox(
+                  //           height: 30.0,
+                  //         ),
+                  //         RaisedButton(
+                  //           onPressed: () {},
+                  //           child: Text(
+                  //             'Lưu',
+                  //             style: TextStyle(
+                  //                 color: Colors.white, fontSize: 16.0),
+                  //           ),
+                  //           color: Colors.redAccent,
+                  //         )
+                  //       ],
+                  //     ),
+                  //     radius: 10.0);
                 },
                 child: Container(
                     height: 50,
@@ -325,7 +330,7 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("${_controller.profile.phone}"),
+                          Text("${_controller.phone}"),
                           Icon(Icons.edit)
                         ],
                       ),
@@ -340,37 +345,14 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                   onTap: () {
-                    Get.defaultDialog(
-                        title: '',
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              // controller: settingsScreenController.categoryNameController,
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                  labelText: 'Category Name',
-                                  hintMaxLines: 1,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.green, width: 4.0))),
-                            ),
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Lưu',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16.0),
-                              ),
-                              color: Colors.redAccent,
-                            )
-                          ],
-                        ),
-                        radius: 10.0);
+                    Get.to(() => ListProvice(
+                          provice: _controller.arrProvice,
+                          changeText: (String text, String id) {
+                            _controller.district.value = "";
+                            _controller.provice.value = text;
+                            _controller.proviceid.value = id;
+                          },
+                        ));
                   },
                   child: Container(
                     height: 50,
@@ -382,7 +364,12 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("phuc le"), Icon(Icons.edit)],
+                        children: [
+                          Text(_controller.provice.value == ""
+                              ? "Chọn tỉnh thành phố"
+                              : _controller.provice.value),
+                          Icon(Icons.arrow_drop_down)
+                        ],
                       ),
                     ),
                   )),
@@ -395,37 +382,17 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                 onTap: () async {
-                  Get.defaultDialog(
-                      title: '',
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            // controller: settingsScreenController.categoryNameController,
-                            keyboardType: TextInputType.text,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                                labelText: 'Category Name',
-                                hintMaxLines: 1,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.green, width: 4.0))),
-                          ),
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          RaisedButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Lưu',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16.0),
-                            ),
-                            color: Colors.redAccent,
-                          )
-                        ],
-                      ),
-                      radius: 10.0);
+                  if (_controller.provice.isEmpty) {
+                    print("object");
+                  } else {
+                    await _controller.getdistrict(_controller.proviceid.value);
+                    Get.to(() => ListProvice(
+                          provice: _controller.arrDistrict,
+                          changeText: (String text, String id) {
+                            _controller.district.value = text;
+                          },
+                        ));
+                  }
                 },
                 child: Container(
                     height: 50,
@@ -437,7 +404,14 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Chon"), Icon(Icons.edit)],
+                        children: [
+                          Text(_controller.district.value == ""
+                              ? "Chọn xã phường"
+                              : _controller.district.value),
+                          Icon(
+                            Icons.arrow_drop_down,
+                          )
+                        ],
                       ),
                     )),
               ),
@@ -450,37 +424,38 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                   onTap: () {
-                    Get.defaultDialog(
-                        title: '',
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              // controller: settingsScreenController.categoryNameController,
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                  labelText: 'Category Name',
-                                  hintMaxLines: 1,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.green, width: 4.0))),
-                            ),
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Lưu',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16.0),
-                              ),
-                              color: Colors.redAccent,
-                            )
-                          ],
-                        ),
-                        radius: 10.0);
+                    _controller.changeProfile(4);
+                    // Get.defaultDialog(
+                    //     title: '',
+                    //     content: Column(
+                    //       mainAxisSize: MainAxisSize.min,
+                    //       children: [
+                    //         TextField(
+                    //           // controller: settingsScreenController.categoryNameController,
+                    //           keyboardType: TextInputType.text,
+                    //           maxLines: 1,
+                    //           decoration: InputDecoration(
+                    //               labelText: 'Category Name',
+                    //               hintMaxLines: 1,
+                    //               border: OutlineInputBorder(
+                    //                   borderSide: BorderSide(
+                    //                       color: Colors.green, width: 4.0))),
+                    //         ),
+                    //         SizedBox(
+                    //           height: 30.0,
+                    //         ),
+                    //         RaisedButton(
+                    //           onPressed: () {},
+                    //           child: Text(
+                    //             'Lưu',
+                    //             style: TextStyle(
+                    //                 color: Colors.white, fontSize: 16.0),
+                    //           ),
+                    //           color: Colors.redAccent,
+                    //         )
+                    //       ],
+                    //     ),
+                    //     radius: 10.0);
                   },
                   child: Container(
                     height: 50,
@@ -493,7 +468,7 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(_controller.profile.address),
+                          Text('${_controller.diachi}'),
                           Icon(Icons.edit)
                         ],
                       ),
@@ -507,23 +482,11 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                 ),
               ),
               InkWell(
-                onTap: () async {
-                  // if (_controller.provice.isEmpty) {
-                  //   print("object");
-                  // } else {
-                  //   await _controller.getdistrict(_controller.proviceid.value);
-                  //   Get.to(() => ListProvice(
-                  //         provice: _controller.arrDistrict,
-                  //         changeText: (String text, String id) {
-                  //           _controller.district.value = text;
-                  //         },
-                  //       ));
-                  // }
-                },
+                onTap: () async {},
                 child: Container(
                   height: 50,
                   child: TextField(
-                    // controller: _controller.ghichuTextController,
+                    controller: _controller.ghichuTextController,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -533,7 +496,7 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: const BorderSide(color: Colors.blueGrey),
                       ),
-                      hintText: "Nhập tên ngân hàng của bạn",
+                      hintText: "Ghi chú",
                       hintStyle: const TextStyle(color: Colors.blueGrey),
                     ),
                   ),

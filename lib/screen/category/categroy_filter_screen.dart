@@ -20,8 +20,10 @@ import 'category_controller.dart';
 class CategoryFilterScreen extends StatefulWidget {
   bool autoSearch;
   String? categoryid;
+  Sort? sort;
 
-  CategoryFilterScreen({Key? key, this.autoSearch = false, this.categoryid})
+  CategoryFilterScreen(
+      {Key? key, this.autoSearch = false, this.categoryid, this.sort})
       : super(key: key);
 
   @override
@@ -46,12 +48,18 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
     });
     super.initState();
     categoryController1 = Get.put(CategoryFilterController());
-    categoryController1!.categoryid.value =
-        int.tryParse(widget.categoryid!) ?? 0;
-    if ((int.tryParse(widget.categoryid!) ?? 0) == 0) {
-      categoryController1!.textSearch.value = widget.categoryid!;
-      categoryController1!.textEditingControllerSearch.text =
-          widget.categoryid!;
+    if (widget.categoryid != null) {
+      categoryController1!.categoryid.value =
+          int.tryParse(widget.categoryid!) ?? 0;
+      if ((int.tryParse(widget.categoryid!) ?? 0) == 0) {
+        categoryController1!.textSearch.value = widget.categoryid!;
+        categoryController1!.textEditingControllerSearch.text =
+            widget.categoryid!;
+      }
+    }
+    if (widget.sort != null) {
+      categoryController1!.categoryid.value = 0;
+      categoryController1!.sortByShow.value = widget.sort as Sort;
     }
     categoryController1!.getAllCategoryByCategory();
     categoryController1!.getListCategory();

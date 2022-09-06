@@ -20,7 +20,7 @@ class _MyorderScreen extends State<MyorderScreen> {
       } else if (_controller.status == AppState.DONE) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('My order'),
+            title: Text('Đơn hàng'),
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -28,9 +28,89 @@ class _MyorderScreen extends State<MyorderScreen> {
                   .map((element) => Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          height: Get.height / 5,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(3.0)),
+                          height: Get.height / 9,
                           width: Get.width,
-                          color: Colors.red,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Họ tên Đặt hàng:",
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                      Container(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        element.fullname ?? "",
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Địa chỉ giao hàng:",
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                      Container(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        element.address ?? "",
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Phương thức:",
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                      Container(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        element.startplaces ?? "",
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ))
                   .toList(),
