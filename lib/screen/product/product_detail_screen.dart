@@ -1,4 +1,5 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/screen/cart/cart_screen.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -58,7 +59,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     onPressed: () {},
                     icon: Icon(Icons.favorite_border_rounded)),
                 IconButton(
-                    onPressed: () {}, icon: Icon(Icons.shopping_bag_outlined))
+                    onPressed: () {
+                      Get.to(() => CartScreen());
+                    },
+                    icon: Icon(Icons.shopping_bag_outlined))
               ],
             ),
             body: SingleChildScrollView(

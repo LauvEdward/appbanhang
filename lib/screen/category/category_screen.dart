@@ -140,6 +140,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
               ),
             ),
+            Text(
+              'clear',
+              style: TextStyle(color: Colors.black),
+            ),
           ],
         ),
         // actions: [

@@ -160,4 +160,14 @@ class API {
         options: Options(contentType: Headers.formUrlEncodedContentType));
     return response;
   }
+
+  Future<Response> getMyorder() async {
+    String? token = await AppSharePreference.share.getTokenSharePreference();
+    final dio = Dio();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['authorization'] = 'Bearer ${token}';
+    final response = await dio.get(baseUrl + '/cart/my-order');
+    return response;
+  }
 }

@@ -4,6 +4,7 @@ import 'package:appbanhang/component/empty_image_widget/saha_empty_image.dart';
 import 'package:appbanhang/component/loading/loading_container.dart';
 import 'package:appbanhang/model/user.dart';
 import 'package:appbanhang/screen/account/authen_service.dart';
+import 'package:appbanhang/screen/account/profile/myorder/myorder.dart';
 import 'package:appbanhang/screen/account/profile/profile_controller.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -123,6 +124,9 @@ class ProfileScreen extends StatelessWidget {
                   //     title: 'Cộng tác viên',
                   //     colorIconBackground: Colors.amber),
                   InkWell(
+                    onTap: () {
+                      Get.to(() => MyorderScreen());
+                    },
                     child: profileItem(
                         iconData: Icons.shopping_cart,
                         title: 'Đơn mua',

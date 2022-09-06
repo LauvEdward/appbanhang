@@ -232,7 +232,43 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("${_controller.profile.fullname ?? ""}"),
-                          Icon(Icons.edit)
+                          InkWell(
+                              onTap: () {
+                                Get.defaultDialog(
+                                    title: '',
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextField(
+                                          // controller: settingsScreenController.categoryNameController,
+                                          keyboardType: TextInputType.text,
+                                          maxLines: 1,
+                                          decoration: InputDecoration(
+                                              labelText: 'Category Name',
+                                              hintMaxLines: 1,
+                                              border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.green,
+                                                      width: 4.0))),
+                                        ),
+                                        SizedBox(
+                                          height: 30.0,
+                                        ),
+                                        RaisedButton(
+                                          onPressed: () {},
+                                          child: Text(
+                                            'Lưu',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.0),
+                                          ),
+                                          color: Colors.redAccent,
+                                        )
+                                      ],
+                                    ),
+                                    radius: 10.0);
+                              },
+                              child: Icon(Icons.edit))
                         ],
                       ),
                     )),
@@ -246,17 +282,37 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                 onTap: () async {
-                  // if (_controller.provice.isEmpty) {
-                  //   print("object");
-                  // } else {
-                  //   await _controller.getdistrict(_controller.proviceid.value);
-                  //   Get.to(() => ListProvice(
-                  //         provice: _controller.arrDistrict,
-                  //         changeText: (String text, String id) {
-                  //           _controller.district.value = text;
-                  //         },
-                  //       ));
-                  // }
+                  Get.defaultDialog(
+                      title: '',
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            // controller: settingsScreenController.categoryNameController,
+                            keyboardType: TextInputType.text,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                                labelText: 'Category Name',
+                                hintMaxLines: 1,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.green, width: 4.0))),
+                          ),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          RaisedButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Lưu',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.0),
+                            ),
+                            color: Colors.redAccent,
+                          )
+                        ],
+                      ),
+                      radius: 10.0);
                 },
                 child: Container(
                     height: 50,
@@ -284,14 +340,37 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                   onTap: () {
-                    // Get.to(() => ListProvice(
-                    //       provice: _controller.arrProvice,
-                    //       changeText: (String text, String id) {
-                    //         _controller.district.value = "";
-                    //         _controller.provice.value = text;
-                    //         _controller.proviceid.value = id;
-                    //       },
-                    //     ));
+                    Get.defaultDialog(
+                        title: '',
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              // controller: settingsScreenController.categoryNameController,
+                              keyboardType: TextInputType.text,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                  labelText: 'Category Name',
+                                  hintMaxLines: 1,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.green, width: 4.0))),
+                            ),
+                            SizedBox(
+                              height: 30.0,
+                            ),
+                            RaisedButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Lưu',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.0),
+                              ),
+                              color: Colors.redAccent,
+                            )
+                          ],
+                        ),
+                        radius: 10.0);
                   },
                   child: Container(
                     height: 50,
@@ -316,17 +395,37 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                 onTap: () async {
-                  // if (_controller.provice.isEmpty) {
-                  //   print("object");
-                  // } else {
-                  //   await _controller.getdistrict(_controller.proviceid.value);
-                  //   Get.to(() => ListProvice(
-                  //         provice: _controller.arrDistrict,
-                  //         changeText: (String text, String id) {
-                  //           _controller.district.value = text;
-                  //         },
-                  //       ));
-                  // }
+                  Get.defaultDialog(
+                      title: '',
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            // controller: settingsScreenController.categoryNameController,
+                            keyboardType: TextInputType.text,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                                labelText: 'Category Name',
+                                hintMaxLines: 1,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.green, width: 4.0))),
+                          ),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          RaisedButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Lưu',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.0),
+                            ),
+                            color: Colors.redAccent,
+                          )
+                        ],
+                      ),
+                      radius: 10.0);
                 },
                 child: Container(
                     height: 50,
@@ -351,14 +450,37 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
               ),
               InkWell(
                   onTap: () {
-                    // Get.to(() => ListProvice(
-                    //       provice: _controller.arrProvice,
-                    //       changeText: (String text, String id) {
-                    //         _controller.district.value = "";
-                    //         _controller.provice.value = text;
-                    //         _controller.proviceid.value = id;
-                    //       },
-                    //     ));
+                    Get.defaultDialog(
+                        title: '',
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              // controller: settingsScreenController.categoryNameController,
+                              keyboardType: TextInputType.text,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                  labelText: 'Category Name',
+                                  hintMaxLines: 1,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.green, width: 4.0))),
+                            ),
+                            SizedBox(
+                              height: 30.0,
+                            ),
+                            RaisedButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Lưu',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.0),
+                              ),
+                              color: Colors.redAccent,
+                            )
+                          ],
+                        ),
+                        radius: 10.0);
                   },
                   child: Container(
                     height: 50,
