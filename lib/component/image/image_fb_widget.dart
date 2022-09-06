@@ -9,10 +9,10 @@ class PhotoGrid extends StatefulWidget {
 
   PhotoGrid(
       {required this.imageUrls,
-        required this.onImageClicked,
-        required this.onExpandClicked,
-        this.maxImages = 4,
-        Key? key})
+      required this.onImageClicked,
+      required this.onExpandClicked,
+      this.maxImages = 4,
+      Key? key})
       : super(key: key);
 
   @override

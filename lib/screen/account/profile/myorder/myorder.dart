@@ -27,87 +27,94 @@ class _MyorderScreen extends State<MyorderScreen> {
               children: _controller.listOrder
                   .map((element) => Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(3.0)),
-                          height: Get.height / 9,
-                          width: Get.width,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  Row(
+                        child: Flexible(
+                          child: Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(3.0)),
+                              width: Get.width,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Column(
                                     children: [
-                                      Text(
-                                        "Họ tên Đặt hàng:",
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Họ tên Đặt hàng:",
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          Container(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            element.fullname ?? "",
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15),
+                                          ),
+                                        ],
                                       ),
                                       Container(
-                                        width: 10,
+                                        height: 10,
                                       ),
-                                      Text(
-                                        element.fullname ?? "",
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Địa chỉ giao hàng:",
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                      Container(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        element.address ?? "",
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Phương thức:",
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Địa chỉ giao hàng:",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          Container(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              element.address ?? "",
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       Container(
-                                        width: 10,
+                                        height: 10,
                                       ),
-                                      Text(
-                                        element.startplaces ?? "",
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 15),
-                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Phương thức:",
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          Container(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              element.startplaces ?? "",
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                     ],
-                                  )
-                                ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),
