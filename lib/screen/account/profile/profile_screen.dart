@@ -4,6 +4,7 @@ import 'package:appbanhang/component/empty_image_widget/saha_empty_image.dart';
 import 'package:appbanhang/component/loading/loading_container.dart';
 import 'package:appbanhang/model/user.dart';
 import 'package:appbanhang/screen/account/authen_service.dart';
+import 'package:appbanhang/screen/account/profile/changeInfo/change_information_screen.dart';
 import 'package:appbanhang/screen/account/profile/myorder/myorder.dart';
 import 'package:appbanhang/screen/account/profile/profile_controller.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
@@ -58,50 +59,57 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          child: CachedNetworkImage(
-                            imageUrl: API.share.baseSite +
-                                "/${_controller.profile.avatar}",
-                            width: 70,
-                            height: 70,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => SahaLoadingContainer(
-                              height: 40,
-                              width: 40,
-                            ),
-                            errorWidget: (context, url, error) => Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: SahaEmptyImage(),
-                            ),
-                          ),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _controller.profile.fullname,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 16),
+                    child: InkWell(
+                      onTap: (() {
+                        Get.to(() => ChangeInformationScreen());
+                      }),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            child: CachedNetworkImage(
+                              imageUrl: API.share.baseSite +
+                                  "/${_controller.profile.avatar}",
+                              width: 70,
+                              height: 70,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) =>
+                                  SahaLoadingContainer(
+                                height: 40,
+                                width: 40,
                               ),
-                              SizedBox(
-                                height: 5,
+                              errorWidget: (context, url, error) => Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: SahaEmptyImage(),
                               ),
-                              Text(
-                                'Trang cá nhân của bạn',
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 12),
-                              )
-                            ],
+                            ),
+                            borderRadius: BorderRadius.circular(100),
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _controller.profile.fullname,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Trang cá nhân của bạn',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Divider(),

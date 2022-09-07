@@ -26,6 +26,8 @@ void main() async {
   Hive.initFlutter();
   await Hive.openBox('Cart');
   runApp(const MyApp());
+  // imageCache.clearLiveImages();
+  // imageCache.clear();
 }
 
 class MyApp extends StatelessWidget {
