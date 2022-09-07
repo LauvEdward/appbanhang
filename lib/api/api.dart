@@ -163,4 +163,15 @@ class API {
         options: Options(contentType: Headers.formUrlEncodedContentType));
     return response;
   }
+
+  /// affiliate
+  Future<Response> getAffiliate() async {
+    String? token = await AppSharePreference.share.getTokenSharePreference();
+    final dio = Dio();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['authorization'] = 'Bearer ${token}';
+    final response = await dio.get(baseUrl + '/affiliate/promotion');
+    return response;
+  }
 }

@@ -4,6 +4,7 @@ import 'package:appbanhang/component/empty_image_widget/saha_empty_image.dart';
 import 'package:appbanhang/component/loading/loading_container.dart';
 import 'package:appbanhang/model/user.dart';
 import 'package:appbanhang/screen/account/authen_service.dart';
+import 'package:appbanhang/screen/account/profile/affiliate/affiliate_screen.dart';
 import 'package:appbanhang/screen/account/profile/changeInfo/change_information_screen.dart';
 import 'package:appbanhang/screen/account/profile/myorder/myorder.dart';
 import 'package:appbanhang/screen/account/profile/profile_controller.dart';
@@ -127,10 +128,15 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // profileItem(
-                  //     iconData: Icons.featured_play_list,
-                  //     title: 'Cộng tác viên',
-                  //     colorIconBackground: Colors.amber),
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => AffiliateScreen());
+                    },
+                    child: profileItem(
+                        iconData: Icons.featured_play_list,
+                        title: 'Liên kết',
+                        colorIconBackground: Colors.amber),
+                  ),
                   InkWell(
                     onTap: () {
                       Get.to(() => MyorderScreen());
