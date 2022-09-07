@@ -58,6 +58,7 @@ class ProductDetailController extends GetxController {
   }
 
   Future<void> getDetailProduct(int id) async {
+    listImage.clear();
     final response = await API.share.GetDetailProduct(id);
     try {
       var data = response.data["data"];
@@ -70,8 +71,12 @@ class ProductDetailController extends GetxController {
         status.value = AppState.ERROR;
       } else {
         await productSame(datadefault.data!.cateCurrent!.id!);
+        // listImage.addAll(datadefault.data!.pImages!);
+        print("${datadefault.data!.pImages!.length}");
+        for (var item in datadefault.data!.pImages!) {
+          listImage.add(API.share.baseSite + "/${item.image}");
+        }
         status.value = AppState.DONE;
-        listImage.addAll(datadefault.data!.pImages!);
       }
     } catch (e) {
       print(e);

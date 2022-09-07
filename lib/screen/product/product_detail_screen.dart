@@ -157,65 +157,63 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   // 'http://chuyennhahanoi.online/lavishop/upload/img/products/01072022/megasept-wipe.jpg';
 
   Widget banner() {
-    return Container(
-      width: Get.width,
-      height: Get.height / 2.5,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Container(
-            width: Get.width,
-            child: CarouselSlider(
-              items: productDetailController!.listImage
-                  .map(
-                    (item) => Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: CachedNetworkImage(
-                        width: Get.width,
-                        fit: BoxFit.contain,
-                        imageUrl: API.share.baseSite + '/${item.image}',
-                        placeholder: (context, url) => SahaLoadingContainer(),
-                        errorWidget: (context, url, error) => SahaEmptyImage(),
-                      ),
-                    ),
-                  )
-                  .toList(),
-              options: CarouselOptions(
-                  autoPlay: true,
-                  enlargeCenterPage: false,
-                  viewportFraction: 1,
-                  aspectRatio: 1,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  }),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: listImage.map((url) {
-                int index = productDetailController!.listImage.indexOf(url);
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        CarouselSlider(
+          options: CarouselOptions(
+              autoPlay: true,
+              enlargeCenterPage: false,
+              viewportFraction: 1,
+              aspectRatio: 1,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              }),
+          items: productDetailController!.listImage.map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                print("=> ${i}");
                 return Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _current == index
-                        ? Color.fromRGBO(0, 0, 0, 0.9)
-                        : Color.fromRGBO(0, 0, 0, 0.4),
-                  ),
-                );
-              }).toList(),
-            ),
+                    width: Get.width,
+                    height: Get.height / 2.5,
+                    // margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Image.network(
+                      i,
+                      fit: BoxFit.fill,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return const SahaEmptyImage();
+                      },
+                      scale: 1,
+                    ));
+              },
+            );
+          }).toList(),
+        ),
+        Positioned(
+          bottom: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: productDetailController!.listImage.map((url) {
+              int index = productDetailController!.listImage.indexOf(url);
+              return Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _current == index
+                      ? Color.fromRGBO(0, 0, 0, 0.9)
+                      : Color.fromRGBO(0, 0, 0, 0.4),
+                ),
+              );
+            }).toList(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
