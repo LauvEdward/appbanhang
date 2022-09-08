@@ -174,4 +174,30 @@ class API {
     final response = await dio.get(baseUrl + '/affiliate/promotion');
     return response;
   }
+
+  Future<Response> profileUpdate(Profile user) async {
+    try {
+      String? token = await AppSharePreference.share.getTokenSharePreference();
+      final dio = Dio();
+      dio.options.contentType = Headers.formUrlEncodedContentType;
+      dio.options.headers['content-Type'] = 'application/json';
+      dio.options.headers['authorization'] = 'Bearer ${token}';
+      final response = await dio.post(baseUrl + '/auth/update-profile',
+          data: {
+            "fullname": user.fullname,
+            "phone": user.phone,
+            "cmnd": user.cmnd,
+            "ghichu": user.ghichu,
+            "bank_account": user.bankAccount,
+            "birthday": user.birthday,
+            "address": user.address,
+            "province": user.addressProvince,
+            "address_district": user.addressDistrict
+          },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      return response;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

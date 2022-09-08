@@ -78,7 +78,7 @@ class _ChangeInformationScreen extends State<ChangeInformationScreen> {
                           },
                           child: InkWell(
                             onTap: () async {
-                              // _controller.order();
+                              _controller.changeInformationUser();
                             },
                             child: Container(
                               width: 120,
@@ -149,19 +149,7 @@ class _ChangeInformationScreen extends State<ChangeInformationScreen> {
                 ),
               ),
               InkWell(
-                onTap: () async {
-                  // if (_controller.provice.isEmpty) {
-                  //   print("object");
-                  // } else {
-                  //   await _controller.getdistrict(_controller.proviceid.value);
-                  //   Get.to(() => ListProvice(
-                  //         provice: _controller.arrDistrict,
-                  //         changeText: (String text, String id) {
-                  //           _controller.district.value = text;
-                  //         },
-                  //       ));
-                  // }
-                },
+                onTap: () async {},
                 child: Container(
                     height: 50,
                     width: double.infinity,
@@ -177,41 +165,6 @@ class _ChangeInformationScreen extends State<ChangeInformationScreen> {
                           InkWell(
                               onTap: () {
                                 _controller.changeProfile(1);
-                                // Get.defaultDialog(
-                                //     title: '',
-                                //     content: Column(
-                                //       mainAxisSize: MainAxisSize.min,
-                                //       children: [
-                                //         TextField(
-                                //           // controller: settingsScreenController.categoryNameController,
-                                //           keyboardType: TextInputType.text,
-                                //           maxLines: 1,
-                                //           decoration: InputDecoration(
-                                //               labelText: 'Category Name',
-                                //               hintMaxLines: 1,
-                                //               border: OutlineInputBorder(
-                                //                   borderSide: BorderSide(
-                                //                       color: Colors.green,
-                                //                       width: 4.0))),
-                                //         ),
-                                //         SizedBox(
-                                //           height: 30.0,
-                                //         ),
-                                //         RaisedButton(
-                                //           onPressed: () {
-
-                                //           },
-                                //           child: Text(
-                                //             'Lưu',
-                                //             style: TextStyle(
-                                //                 color: Colors.white,
-                                //                 fontSize: 16.0),
-                                //           ),
-                                //           color: Colors.redAccent,
-                                //         )
-                                //       ],
-                                //     ),
-                                //     radius: 10.0);
                               },
                               child: Icon(Icons.edit))
                         ],
@@ -228,37 +181,6 @@ class _ChangeInformationScreen extends State<ChangeInformationScreen> {
               InkWell(
                 onTap: () async {
                   _controller.changeProfile(2);
-                  // Get.defaultDialog(
-                  //     title: '',
-                  //     content: Column(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         TextField(
-                  //           // controller: settingsScreenController.categoryNameController,
-                  //           keyboardType: TextInputType.text,
-                  //           maxLines: 1,
-                  //           decoration: InputDecoration(
-                  //               labelText: 'Category Name',
-                  //               hintMaxLines: 1,
-                  //               border: OutlineInputBorder(
-                  //                   borderSide: BorderSide(
-                  //                       color: Colors.green, width: 4.0))),
-                  //         ),
-                  //         SizedBox(
-                  //           height: 30.0,
-                  //         ),
-                  //         RaisedButton(
-                  //           onPressed: () {},
-                  //           child: Text(
-                  //             'Lưu',
-                  //             style: TextStyle(
-                  //                 color: Colors.white, fontSize: 16.0),
-                  //           ),
-                  //           color: Colors.redAccent,
-                  //         )
-                  //       ],
-                  //     ),
-                  //     radius: 10.0);
                 },
                 child: Container(
                     height: 50,
@@ -276,6 +198,115 @@ class _ChangeInformationScreen extends State<ChangeInformationScreen> {
                         ],
                       ),
                     )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Text(
+                  "Chứng minh nhân dân:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  _controller.changeProfile(5);
+                },
+                child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(_controller.cmnd.value == ""
+                              ? "Nhập chứng minh nhân dân"
+                              : "${_controller.cmnd}"),
+                          InkWell(
+                              onTap: () {
+                                // _controller.changeProfile(1);
+                              },
+                              child: Icon(Icons.edit))
+                        ],
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Text(
+                  "Tài khoản ngân hàng:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  _controller.changeProfile(6);
+                },
+                child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(_controller.bankAccount.value == ""
+                              ? "Nhập tài khoản ngân hàng"
+                              : "${_controller.bankAccount}"),
+                          InkWell(
+                              onTap: () {
+                                // _controller.changeProfile(1);
+                              },
+                              child: Icon(Icons.edit))
+                        ],
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Text(
+                  "Ngày tháng năm sinh:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              TextField(
+                // controller: dateInput,
+                //editing controller of this TextField
+                decoration: InputDecoration(
+                  icon: Icon(Icons.calendar_today), //icon of text field
+                  hintText: _controller.birthday.value == ""
+                      ? "Enter Date"
+                      : _controller.birthday.value, //label text of field
+                ),
+                readOnly: true,
+                //set it true, so that user will not able to edit text
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: _controller.birthday.value == ""
+                          ? DateTime.now()
+                          : DateTime.parse(_controller.birthday.value),
+                      firstDate: DateTime(1950),
+                      //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2100));
+
+                  if (pickedDate != null) {
+                    print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    print(
+                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    _controller.birthday.value = formattedDate;
+                  } else {
+                    // _controller.birthday.value = "Enter Date";
+                  }
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
@@ -331,6 +362,7 @@ class _ChangeInformationScreen extends State<ChangeInformationScreen> {
                           provice: _controller.arrDistrict,
                           changeText: (String text, String id) {
                             _controller.district.value = text;
+                            _controller.districtid.value = id;
                           },
                         ));
                   }

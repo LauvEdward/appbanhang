@@ -22,6 +22,8 @@ class ChangeInformationController extends GetxController {
   var phoneTextController = TextEditingController();
   var diachiTextController = TextEditingController();
   var ghichuTextController = TextEditingController();
+  var cmndTextController = TextEditingController();
+  var bankaccountTextController = TextEditingController();
   List<Provice> arrProvice = [];
   List<District> arrDistrict = [];
   var provice = "".obs;
@@ -32,6 +34,9 @@ class ChangeInformationController extends GetxController {
   var phone = "".obs;
   var diachi = "".obs;
   var ghichu = "".obs;
+  var birthday = "".obs;
+  var bankAccount = "".obs;
+  var cmnd = "".obs;
 
   @override
   void onInit() async {
@@ -54,6 +59,21 @@ class ChangeInformationController extends GetxController {
         arrProvice.clear();
         for (var item in data) {
           arrProvice.add(Provice.fromJson(item));
+        }
+        if (proviceid.value != "") {
+          provice.value = arrProvice
+                  .where((element) => element.id == proviceid.value)
+                  .first
+                  .name ??
+              "";
+        }
+        if (districtid.value != "") {
+          await getdistrict(proviceid.value);
+          district.value = arrDistrict
+                  .where((element) => element.id == districtid.value)
+                  .first
+                  .name ??
+              "";
         }
         status.value = AppState.DONE;
         // arrProvice.addAll(data.map((e) => Provice.fromJson(e)));
@@ -113,10 +133,15 @@ class ChangeInformationController extends GetxController {
         // var datadefault = Product.fromJson(response.data);
         // print("Number of list product ${datadefault.data!.length}");
         profile = Profile.fromJson(data);
+        proviceid.value = profile.addressProvince;
+        districtid.value = profile.addressDistrict;
         name.value = profile.fullname;
         phone.value = profile.phone;
         ghichu.value = profile.ghichu;
         diachi.value = profile.address;
+        cmnd.value = profile.cmnd;
+        bankAccount.value = profile.bankAccount;
+        birthday.value = profile.birthday;
         status.value = AppState.DONE;
       }
     } catch (e) {
@@ -139,6 +164,12 @@ class ChangeInformationController extends GetxController {
         break;
       case 4:
         textfieldController = diachiTextController;
+        break;
+      case 5:
+        textfieldController = cmndTextController;
+        break;
+      case 6:
+        textfieldController = bankaccountTextController;
         break;
       default:
     }
@@ -164,6 +195,17 @@ class ChangeInformationController extends GetxController {
               onPressed: () {
                 switch (option) {
                   case 1:
+                    if (nameTextController.value.text == "") {
+                      Get.dialog(
+                        AlertDialog(
+                          title: Text(
+                            "Nhập tên của bạn",
+                            style: TextStyle(color: Colors.blue, fontSize: 15),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
                     name.value = nameTextController.text;
                     break;
                   case 2:
@@ -178,14 +220,52 @@ class ChangeInformationController extends GetxController {
                       );
                       return;
                     }
-
                     phone.value = phoneTextController.text;
                     break;
                   case 3:
                     ghichu.value = nameTextController.text;
                     break;
                   case 4:
+                    if (diachiTextController.value.text == "") {
+                      Get.dialog(
+                        AlertDialog(
+                          title: Text(
+                            "Nhập Địa chỉ của bạn",
+                            style: TextStyle(color: Colors.blue, fontSize: 15),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
                     diachi.value = diachiTextController.text;
+                    break;
+                  case 5:
+                    if (!cmndTextController.value.text.isNum) {
+                      Get.dialog(
+                        AlertDialog(
+                          title: Text(
+                            "Cmnd phải là số",
+                            style: TextStyle(color: Colors.blue, fontSize: 15),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+                    cmnd.value = cmndTextController.text;
+                    break;
+                  case 6:
+                    if (!bankaccountTextController.value.text.isNum) {
+                      Get.dialog(
+                        AlertDialog(
+                          title: Text(
+                            "Số tài khoản phải là số",
+                            style: TextStyle(color: Colors.blue, fontSize: 15),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+                    bankAccount.value = bankaccountTextController.text;
                     break;
                   default:
                 }
@@ -203,108 +283,46 @@ class ChangeInformationController extends GetxController {
         radius: 10.0);
   }
 
-  Future<void> order() async {
-    Map<String, Object> product = {};
-    if (name.value == "") {
-      Get.dialog(
-        AlertDialog(
-          title: Text(
-            "Vui lòng nhập tên",
-            style: TextStyle(color: Colors.blue, fontSize: 15),
-          ),
-        ),
-      );
-      return;
-    }
-    if (diachi.value == "") {
-      Get.dialog(
-        AlertDialog(
-          title: Text(
-            "Vui lòng địa chỉ",
-            style: TextStyle(color: Colors.blue, fontSize: 15),
-          ),
-        ),
-      );
-      return;
-    }
-    if (phone.value == "") {
-      Get.dialog(
-        AlertDialog(
-          title: Text(
-            "Vui lòng nhập số điện thoại",
-            style: TextStyle(color: Colors.blue, fontSize: 15),
-          ),
-        ),
-      );
-      return;
-    }
-    for (var i = 0; i < listOrder.length; i++) {
-      product["cart_data[${i}][product_id]"] = listOrder[i].id;
-      product["cart_data[${i}][qty]"] = listOrder[i].soluong;
-      // product["size_id"] = "";
-    }
-    // for (var item in listOrder) {
-    //   print(item.soluong);
-    //   product["cart_data[${0}][product_id]"] = item.id;
-    //   product["qly"] = item.soluong;
-    //   product["size_id"] = "";
-    // }
-    product["fullname"] = name.value;
-    product["address"] = diachi.value;
-    product["phone"] = phone.value;
-    product["province"] = proviceid.value;
-    product["district"] = districtid.value;
-    product["note"] = ghichuTextController.text;
-    Get.dialog(
-      AlertDialog(
-        title: Column(
-          children: [
-            Center(
-              child: Container(
-                  width: 50, height: 50, child: CircularProgressIndicator()),
-            ),
-            Text("đặt hàng  ...")
-          ],
-        ),
-      ),
-    );
+  Future<void> changeInformationUser() async {
+    final response = await API.share.profileUpdate(Profile(
+        fullname: name.value,
+        phone: phone.value,
+        birthday: birthday.value,
+        cmnd: cmnd.value,
+        bankAccount: bankAccount.value,
+        address: diachi.value,
+        ghichu: ghichu.value,
+        addressProvince: proviceid.value,
+        addressDistrict: districtid.value));
     try {
-      final response = await API.share.checkoutCart(product);
       if (response.statusCode == 200) {
-        Navigator.of(Get.overlayContext!).pop();
         Get.dialog(
           AlertDialog(
             title: Text(
-              "Đặt hàng thành công",
+              "Cập nhật thành công",
               style: TextStyle(color: Colors.blue, fontSize: 15),
             ),
           ),
         );
-
-        await Future.delayed(Duration(seconds: 1));
-        Navigator.of(Get.overlayContext!).pop();
-        for (var item in listOrder) {
-          var box = Hive.box('Cart');
-          HiveService.share.removeItem(item.id);
-        }
-        CartController controller = Get.find();
-        controller.getListPro();
-        controller.update();
-        Get.back();
       } else {
-        print("Fail");
+        Get.dialog(
+          AlertDialog(
+            title: Text(
+              "Cập nhật thất bại",
+              style: TextStyle(color: Colors.blue, fontSize: 15),
+            ),
+          ),
+        );
       }
     } catch (e) {
       Get.dialog(
         AlertDialog(
           title: Text(
-            "Đặt hàng chưa thành công",
+            "Cập nhật thất bại",
             style: TextStyle(color: Colors.blue, fontSize: 15),
           ),
         ),
       );
-      return;
-      print("error ${e}");
     }
   }
 }
