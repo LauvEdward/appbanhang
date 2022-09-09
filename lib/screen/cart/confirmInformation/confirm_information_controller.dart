@@ -310,7 +310,6 @@ class ConfirmController extends GetxController {
         ),
       );
       return;
-      print("error ${e}");
-    }
+     }
   }
 }

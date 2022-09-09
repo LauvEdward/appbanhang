@@ -1,9 +1,11 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/model/banner.dart';
 import 'package:appbanhang/model/category.dart';
 import 'package:appbanhang/model/product.dart';
 import 'package:appbanhang/screen/home/model/news.dart';
 import 'package:appbanhang/screen/home/model/news_detail.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
+import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +14,9 @@ class HomeController extends GetxController {
   var listProduct = [].obs;
   var listHotProduct = [].obs;
   var listNewProduct = [].obs;
+  var listBanner = [].obs;
   TextEditingController textEditingControllerSearch = TextEditingController();
+  var appStatus = AppState.LOADING.obs;
 
   @override
   void onInit() async {
@@ -22,6 +26,26 @@ class HomeController extends GetxController {
     await getListProduct();
     await getListHotProduct();
     await getListNewProduct();
+    await getListbanner();
+  }
+
+  Future<void> getListbanner() async {
+    final response = await API.share.Getbanner();
+    try {
+      if (response.statusCode == 200) {
+        // var data = response.data["data"];
+        // print(data);
+        var datadefault = banner.fromJson(response.data);
+        print("data banner ${datadefault.data!.length}");
+        for (var item in datadefault.data!) {
+          listBanner.add(API.share.baseSite + "/${item.image}");
+        }
+        appStatus.value = AppState.DONE;
+      }
+    } catch (e) {
+      print(e);
+      // status.value = AppState.ERROR;
+    }
   }
 
   Future<void> getListProduct() async {
@@ -36,7 +60,7 @@ class HomeController extends GetxController {
             datadefault.data!.map((e) => DataProduct.fromJson(e.toJson())));
       }
     } catch (e) {
-      // status.value = AppState.ERROR;
+      print(e);
     }
   }
 

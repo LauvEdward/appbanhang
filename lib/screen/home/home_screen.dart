@@ -4,6 +4,7 @@ import 'package:appbanhang/component/widget/news_widget.dart';
 import 'package:appbanhang/screen/category/category_controller.dart';
 import 'package:appbanhang/screen/category/category_screen.dart';
 import 'package:appbanhang/screen/category/categroy_filter_screen.dart';
+import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -50,154 +51,172 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
+    return Obx(() {
+      if (homeController.appStatus.value == AppState.DONE) {
+        print(homeController.listBanner);
+        return Scaffold(
+          backgroundColor: Colors.grey[200],
+          body: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
               children: [
-                Container(
-                  width: Get.width,
-                  height: 200,
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Container(
-                        width: Get.width,
-                        child: CarouselSlider(
-                          items: [link, link, link, link]
-                              .map(
-                                (item) => Padding(
-                                  padding: EdgeInsets.only(top: 0, bottom: 5),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            spreadRadius: 3.7,
-                                            blurRadius: 3.7,
-                                            offset: Offset(0,
-                                                3.7), // changes position of shadow
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      width: Get.width,
+                      height: 200,
+                      child: Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Container(
+                            width: Get.width,
+                            child: CarouselSlider(
+                              items: homeController.listBanner.value
+                                  .map(
+                                    (item) => Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 0, bottom: 5),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.2),
+                                                spreadRadius: 3.7,
+                                                blurRadius: 3.7,
+                                                offset: Offset(0,
+                                                    3.7), // changes position of shadow
+                                              ),
+                                            ]),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                            width: Get.width,
+                                            fit: BoxFit.cover,
+                                            imageUrl: item ?? "",
+                                            placeholder: (context, url) =>
+                                                SahaLoadingContainer(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    SahaEmptyImage(),
                                           ),
-                                        ]),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
-                                        width: Get.width,
-                                        fit: BoxFit.cover,
-                                        imageUrl: item,
-                                        placeholder: (context, url) =>
-                                            SahaLoadingContainer(),
-                                        errorWidget: (context, url, error) =>
-                                            SahaEmptyImage(),
+                                        ),
                                       ),
                                     ),
+                                  )
+                                  .toList(),
+                              options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  viewportFraction: 1,
+                                  aspectRatio: 16 / 9,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _current = index;
+                                    });
+                                  }),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [link, link, link, link].map((url) {
+                                int index =
+                                    [link, link, link, link].indexOf(url);
+                                return Container(
+                                  width: 10.0,
+                                  height: 2.0,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 2.0),
+                                  decoration: BoxDecoration(
+                                    color: _current == index
+                                        ? Colors.white
+                                        : Color.fromRGBO(0, 0, 0, 0.4),
                                   ),
-                                ),
-                              )
-                              .toList(),
-                          options: CarouselOptions(
-                              autoPlay: true,
-                              enlargeCenterPage: true,
-                              viewportFraction: 1,
-                              aspectRatio: 16 / 9,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _current = index;
-                                });
-                              }),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [link, link, link, link].map((url) {
-                            int index = [link, link, link, link].indexOf(url);
-                            return Container(
-                              width: 10.0,
-                              height: 2.0,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 2.0),
-                              decoration: BoxDecoration(
-                                color: _current == index
-                                    ? Colors.white
-                                    : Color.fromRGBO(0, 0, 0, 0.4),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: -30,
-                  left: 10,
-                  right: 10,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 10),
-                    margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
-                    height: 45,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey[300]!),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0, 1),
-                            color: Colors.black12,
-                            blurRadius: 10,
-                          )
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ],
-                        borderRadius: BorderRadius.circular(6)),
-                    child: SahaTextFieldSearch(
-                      textEditingController:
-                          homeController.textEditingControllerSearch,
-                      hintText: "Tìm kiếm",
-                      onSubmitted: (text) {
-                        Get.to(() => CategoryFilterScreen(
-                              categoryid: text,
-                            ));
-                      },
-                      onClose: () {
-                        homeController.textEditingControllerSearch.clear();
-                      },
-                      // controller: searchEditingController,
-                      // decoration: const InputDecoration(
-                      //   isDense: true,
-                      //   contentPadding:
-                      //       EdgeInsets.only(right: 15, top: 10, bottom: 10),
-                      //   border: InputBorder.none,
-                      //   hintText: "Tìm kiếm",
-                      //   hintStyle: TextStyle(fontSize: 15),
-                      //   icon: Icon(
-                      //     Icons.search,
-                      //     size: 30,
-                      //   ),
-                      // ),
-                      // onChanged: (v) async {
-                      //   // productControllerAll.onSearch(v);
-                      // },
-                      // minLines: 1,
-                      // maxLines: 1,
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: -30,
+                      left: 10,
+                      right: 10,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10),
+                        margin:
+                            EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                        height: 45,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey[300]!),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0, 1),
+                                color: Colors.black12,
+                                blurRadius: 10,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(6)),
+                        child: SahaTextFieldSearch(
+                          textEditingController:
+                              homeController.textEditingControllerSearch,
+                          hintText: "Tìm kiếm",
+                          onSubmitted: (text) {
+                            Get.to(() => CategoryFilterScreen(
+                                  categoryid: text,
+                                ));
+                          },
+                          onClose: () {
+                            homeController.textEditingControllerSearch.clear();
+                          },
+                          // controller: searchEditingController,
+                          // decoration: const InputDecoration(
+                          //   isDense: true,
+                          //   contentPadding:
+                          //       EdgeInsets.only(right: 15, top: 10, bottom: 10),
+                          //   border: InputBorder.none,
+                          //   hintText: "Tìm kiếm",
+                          //   hintStyle: TextStyle(fontSize: 15),
+                          //   icon: Icon(
+                          //     Icons.search,
+                          //     size: 30,
+                          //   ),
+                          // ),
+                          // onChanged: (v) async {
+                          //   // productControllerAll.onSearch(v);
+                          // },
+                          // minLines: 1,
+                          // maxLines: 1,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+                buttonHome(),
+                bannerAds(),
+                category(),
+                post(),
+                postNew(),
               ],
             ),
-            buttonHome(),
-            bannerAds(),
-            category(),
-            post(),
-            postNew(),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+      } else {
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+    });
   }
 
   Widget buttonHome() {

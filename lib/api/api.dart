@@ -13,6 +13,12 @@ class API {
     return response;
   }
 
+  Future<Response> Getbanner() async {
+    final dio = Dio();
+    final response = await dio.get(baseUrl + '/home/banner');
+    return response;
+  }
+
   Future<Response> GetListProduct() async {
     final dio = Dio();
     final response = await dio.get(baseUrl + '/home/product');
