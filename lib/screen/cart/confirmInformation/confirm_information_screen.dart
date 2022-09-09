@@ -14,7 +14,9 @@ import 'package:intl/intl.dart';
 
 class ConfirmInformationScreen extends StatefulWidget {
   bool? isAutoBackIcon;
-  ConfirmInformationScreen({Key? key, this.isAutoBackIcon}) : super(key: key);
+  String? affiliate;
+  ConfirmInformationScreen({Key? key, this.isAutoBackIcon, this.affiliate})
+      : super(key: key);
 
   @override
   _ConfirmInformation createState() => _ConfirmInformation();
@@ -24,6 +26,13 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
   // final _passwordController = TextEditingController();
   // final _emailController = TextEditingController();
   final ConfirmController _controller = Get.put(ConfirmController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller.affiliate.value = widget.affiliate ?? "";
+  }
+
   @override
   Widget build(BuildContext context) {
     final oCcy = new NumberFormat("#,##0", "en_US");

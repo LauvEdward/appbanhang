@@ -32,6 +32,7 @@ class ConfirmController extends GetxController {
   var phone = "".obs;
   var diachi = "".obs;
   var ghichu = "".obs;
+  var affiliate = "".obs;
 
   @override
   void onInit() async {
@@ -249,12 +250,16 @@ class ConfirmController extends GetxController {
     //   product["qly"] = item.soluong;
     //   product["size_id"] = "";
     // }
+    CartController controller = Get.find();
+    controller.affiliate.value = "";
     product["fullname"] = name.value;
     product["address"] = diachi.value;
     product["phone"] = phone.value;
     product["province"] = proviceid.value;
     product["district"] = districtid.value;
     product["note"] = ghichuTextController.text;
+    product["affiliateCode"] = affiliate.value;
+    print(affiliate.value);
     Get.dialog(
       AlertDialog(
         title: Column(
@@ -289,6 +294,7 @@ class ConfirmController extends GetxController {
         }
         CartController controller = Get.find();
         controller.getListPro();
+        controller.affiliate.value = "";
         controller.update();
         Get.back();
       } else {

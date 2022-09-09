@@ -94,40 +94,42 @@ class _CartScreenState extends State<CartScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // InkWell(
-                //   onTap: () {},
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children: [
-                //         Container(
-                //           padding: EdgeInsets.all(4),
-                //           height: 30,
-                //           width: 30,
-                //           child: SvgPicture.asset(
-                //             "assets/svg/other.svg",
-                //             color: Colors.blue,
-                //           ),
-                //         ),
-                //         SizedBox(
-                //           width: 10,
-                //         ),
-                //         Text("Voucher"),
-                //         Spacer(),
-                //         Text(
-                //           "Mã: NEW - đ100.000",
-                //           style: TextStyle(fontSize: 13),
-                //         ),
-                //         const SizedBox(width: 10),
-                //         Icon(
-                //           Icons.arrow_forward_ios,
-                //           size: 12,
-                //           color: Colors.blue,
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                InkWell(
+                  onTap: () {
+                    cartController.addAffiliate();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(4),
+                          height: 30,
+                          width: 30,
+                          child: SvgPicture.asset(
+                            "assets/svg/other.svg",
+                            color: Colors.blue,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Affiliate"),
+                        Spacer(),
+                        Text(
+                          "Nhập mã: ${cartController.affiliate.value}",
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        const SizedBox(width: 10),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 12,
+                          color: Colors.blue,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
                 // Divider(
                 //   height: 1,
                 // ),
@@ -303,7 +305,10 @@ class _CartScreenState extends State<CartScreen> {
                                 bool isSuccess =
                                     await cartController.checkCart();
                                 if (isSuccess) {
-                                  Get.to(() => ConfirmInformationScreen());
+                                  Get.to(() => ConfirmInformationScreen(
+                                        affiliate:
+                                            cartController.affiliate.value,
+                                      ));
                                 }
                               } else {
                                 NavigationController navigationController =

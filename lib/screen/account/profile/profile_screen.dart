@@ -6,6 +6,7 @@ import 'package:appbanhang/model/user.dart';
 import 'package:appbanhang/screen/account/authen_service.dart';
 import 'package:appbanhang/screen/account/profile/affiliate/affiliate_screen.dart';
 import 'package:appbanhang/screen/account/profile/changeInfo/change_information_screen.dart';
+import 'package:appbanhang/screen/account/profile/contact/contact_screen.dart';
 import 'package:appbanhang/screen/account/profile/myorder/myorder.dart';
 import 'package:appbanhang/screen/account/profile/profile_controller.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
@@ -179,6 +180,15 @@ class ProfileScreen extends StatelessWidget {
                         iconData: Icons.location_on,
                         title: 'Địa chỉ đã lưu',
                         colorIconBackground: Colors.purple),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => ContactScreen());
+                    },
+                    child: profileItem(
+                        iconData: Icons.shop,
+                        title: 'Thông tin chi tiết cửa hàng',
+                        colorIconBackground: Colors.pink),
                   ),
                   // profileItem(iconData: Icons.group, title: 'Bạn bè'),
                   // profileItem(

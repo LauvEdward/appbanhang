@@ -10,6 +10,8 @@ class CartController extends GetxController {
   var listOrder = [].obs;
   var total = 0.obs;
   var numberOfItem = 0.obs;
+  var affiliate = "".obs;
+  var affiliateTextController = TextEditingController();
   @override
   void onInit() async {
     // TODO: implement onInit
@@ -57,6 +59,42 @@ class CartController extends GetxController {
     HiveService.share.removeSoluong(pro.id!);
     getListPro();
     update();
+  }
+
+  Future<void> addAffiliate() async {
+    Get.defaultDialog(
+        title: 'Nhập mã liên kết',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: affiliateTextController,
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              decoration: InputDecoration(
+                  labelText: 'Vui lòng nhập mã liên kết của bạn',
+                  hintMaxLines: 1,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green, width: 4.0))),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            RaisedButton(
+              onPressed: () {
+                affiliate.value = affiliateTextController.text;
+                affiliateTextController.clear();
+                Get.back();
+              },
+              child: Text(
+                'Lưu lại',
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
+              ),
+              color: Colors.redAccent,
+            )
+          ],
+        ),
+        radius: 10.0);
   }
 
   Future<bool> checkCart() async {
