@@ -181,6 +181,16 @@ class API {
     return response;
   }
 
+  Future<Response> getAffiliateDivi() async {
+    String? token = await AppSharePreference.share.getTokenSharePreference();
+    final dio = Dio();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['authorization'] = 'Bearer ${token}';
+    final response = await dio.get(baseUrl + '/affiliate');
+    return response;
+  }
+
   // contact
   Future<Response> getcontact() async {
     String? token = await AppSharePreference.share.getTokenSharePreference();

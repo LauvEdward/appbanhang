@@ -5,6 +5,7 @@ import 'package:appbanhang/component/loading/loading_container.dart';
 import 'package:appbanhang/model/user.dart';
 import 'package:appbanhang/screen/account/authen_service.dart';
 import 'package:appbanhang/screen/account/profile/affiliate/affiliate_screen.dart';
+import 'package:appbanhang/screen/account/profile/affiliateDivi/affiliateDivi_screen.dart';
 import 'package:appbanhang/screen/account/profile/changeInfo/change_information_screen.dart';
 import 'package:appbanhang/screen/account/profile/contact/contact_screen.dart';
 import 'package:appbanhang/screen/account/profile/myorder/myorder.dart';
@@ -136,6 +137,15 @@ class ProfileScreen extends StatelessWidget {
                     child: profileItem(
                         iconData: Icons.featured_play_list,
                         title: 'Liên kết',
+                        colorIconBackground: Colors.amber),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => AffiliateDiviScreen());
+                    },
+                    child: profileItem(
+                        iconData: Icons.airplane_ticket,
+                        title: 'Mã giảm',
                         colorIconBackground: Colors.amber),
                   ),
                   InkWell(
