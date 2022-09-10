@@ -1,12 +1,11 @@
 import 'package:appbanhang/api/api.dart';
+import 'package:appbanhang/model/category.dart';
+import 'package:appbanhang/model/categoryFilter.dart';
 import 'package:appbanhang/screen/category/category_controller.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
-import '../../model/category.dart';
-import '../../model/product.dart';
 
 class CategoryFilterController extends GetxController {
   var textSearch = "".obs;
@@ -20,6 +19,8 @@ class CategoryFilterController extends GetxController {
   var listAllProduct = [].obs;
   var status = AppState.LOADING.obs;
   var isLoadingAll = false;
+  var categorysubid = 0.obs;
+  var sortPrices = Sort.price_asc.obs;
   // var isLoading
   @override
   void onInit() async {
@@ -56,32 +57,46 @@ class CategoryFilterController extends GetxController {
     } else {
       final response = await API.share.GetAllProductByCatrgory(
           sortByShow.value.sortType, textSearch.value, categoryid.value);
-      try {
-        if (response.statusCode == 200) {
-          var data = response.data["data"]["category"]["pro"];
-          // print(data);
-          // var datadefault = Pro.fromJson(data);
-          print("getAllCategory ${data.length}");
-          listAllProduct.clear();
-          if (categoryCurrent.value == 195) {
-            listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
-          } else {
+      if (response.statusCode == 200) {
+        var data = response.data["data"]["category"]["pro"];
+        // print(data);
+        // var datadefault = Pro.fromJson(data);
+        listAllProduct.clear();
+        listProduct.clear();
+        try {
+          var dataPro = data.first["pro"];
+          // print(dataPro);
+          if (dataPro != null) {
             for (var listPro in data) {
-              if (listPro["pro"].length > 0) {
-                listAllProduct
-                    .addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
-              }
+              listProduct.add(ProCa.fromJson(listPro));
+              // if (listPro["pro"].length > 0) {
+              //   listAllProduct.addAll(listPro["pro"].map((e) => Pro.fromJson(e)));
+              // }
             }
+            categorysubid.value = int.parse(listProduct.first.id);
+            getListProByCate(int.parse(listProduct.first.id));
+          } else {
+            listAllProduct.addAll(data.map((e) => Pro.fromJson(e.toJson())));
           }
+          // listProduct.addAll(data.map((e) => Category.fromJson(e)));
 
-          print("======> ${listAllProduct.length}");
-          status.value = AppState.DONE;
-          // return;
+        } catch (e) {
+          listAllProduct.addAll(data.map((e) => Pro.fromJson(e)));
         }
-        // status.value = AppState.LOADING;
-      } catch (e) {
-        status.value = AppState.ERROR;
-        print(e);
+
+        status.value = AppState.DONE;
+        // return;
+      }
+    }
+  }
+
+  Future<void> getListProByCate(int id) async {
+    listAllProduct.clear();
+    for (var item in listProduct) {
+      if (int.tryParse(item.id) == id) {
+        for (var pro in item.pro) {
+          listAllProduct.add(Pro.fromJson(pro.toJson()));
+        }
       }
     }
   }

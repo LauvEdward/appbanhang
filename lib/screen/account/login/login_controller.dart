@@ -1,4 +1,5 @@
 import 'package:appbanhang/screen/account/account_controller.dart';
+import 'package:appbanhang/screen/account/authen_service.dart';
 import 'package:get/get.dart';
 import 'package:equatable/equatable.dart';
 
@@ -16,7 +17,8 @@ class LoginController extends GetxController {
       await _authenticationController.signIn(email, password);
       _loginStateStream.value = LoginState();
     } catch (e) {
-      _loginStateStream.value = LoginFailure(error: "Thông tin đăng nhập sai");
+      _loginStateStream.value =
+          LoginFailure(error: (e as AuthenticationException).message);
     }
   }
 }

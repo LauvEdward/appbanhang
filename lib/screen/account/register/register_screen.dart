@@ -64,6 +64,7 @@ class MyRegisterScreen extends StatelessWidget {
                         child: IconButton(
                           color: Colors.white,
                           onPressed: () {
+                            FocusManager.instance.primaryFocus!.unfocus();
                             _onRegisterPressed(context);
                           },
                           icon: const Icon(Icons.arrow_back),

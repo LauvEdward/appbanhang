@@ -1,9 +1,9 @@
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/component/text_field/saha_text_field_search.dart';
 import 'package:appbanhang/component/widget/news_widget.dart';
+import 'package:appbanhang/screen/category/categoryFilter/categroy_filter_screen.dart';
 import 'package:appbanhang/screen/category/category_controller.dart';
 import 'package:appbanhang/screen/category/category_screen.dart';
-import 'package:appbanhang/screen/category/categroy_filter_screen.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -125,9 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             bottom: 0,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [link, link, link, link].map((url) {
-                                int index =
-                                    [link, link, link, link].indexOf(url);
+                              children:
+                                  homeController.listBanner.value.map((url) {
+                                int index = homeController.listBanner.value
+                                    .indexOf(url);
                                 return Container(
                                   width: 10.0,
                                   height: 2.0,
@@ -356,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
               InkWell(
                 onTap: (() {
                   Get.to(() => CategoryFilterScreen(
-                        sort: Sort.price_desc,
+                        sort: Sort.price_asc,
                       ));
                 }),
                 child: DecorationButton(

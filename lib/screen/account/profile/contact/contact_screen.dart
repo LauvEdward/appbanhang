@@ -6,7 +6,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
-import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:get/get.dart';
 
 class ContactScreen extends StatelessWidget {

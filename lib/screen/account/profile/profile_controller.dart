@@ -70,7 +70,7 @@ class ProfileController extends GetxController {
               height: 20,
             ),
             TextField(
-              // controller: textfieldController,
+              controller: newTextController,
               keyboardType: TextInputType.text,
               maxLines: 1,
               decoration: InputDecoration(
@@ -93,7 +93,8 @@ class ProfileController extends GetxController {
                   Map<String, String> map = {};
                   map["old_pass"] = olderTextController.text;
                   map["new_pass"] = newTextController.text;
-                  final changeresponse = await API.share.changePassword(map);
+                  final changeresponse = await API.share.changePassword(
+                      olderTextController.text, newTextController.text);
                   if (changeresponse.data['statusCode'] == 200) {
                     Get.dialog(
                       AlertDialog(

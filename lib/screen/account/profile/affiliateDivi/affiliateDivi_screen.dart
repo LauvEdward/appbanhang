@@ -4,6 +4,7 @@ import 'package:appbanhang/screen/account/profile/affiliate/affiliate_controller
 import 'package:appbanhang/screen/account/profile/affiliateDivi/affiliateDivi_controller.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -31,62 +32,121 @@ class _AffiliateScreen extends State<AffiliateDiviScreen> {
               padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  Container(
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.grey[300]),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: Get.width,
-                            child: Row(
+                  InkWell(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(
+                              text: controller
+                                  .affiliate.data.code.bankAccountNumber))
+                          .then((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Số tài khoản đã được copy")));
+                      });
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.blue),
+                            // color: Colors.grey[300]
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
                               children: [
-                                Text(
-                                  "Thông tin người dùng",
-                                  textAlign: TextAlign.center,
+                                Container(
+                                  // width: Get.width,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 10),
+                                        child: Text(
+                                          "Thông tin người dùng:",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                Row(
+                                  children: [
+                                    Text("Họ tên: "),
+                                    Expanded(
+                                      child: Text(
+                                          controller.affiliate.data.code
+                                              .bankAccountHolder,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Số tài khoản: "),
+                                    Expanded(
+                                      child: Text(
+                                          controller.affiliate.data.code
+                                              .bankAccountNumber,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Chi nhánh: "),
+                                    Expanded(
+                                        child: Text(
+                                            controller
+                                                .affiliate.data.code.bankBranch,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500))),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Tên ngân hàng: "),
+                                    Expanded(
+                                        child: Text(
+                                            controller
+                                                .affiliate.data.code.bankName,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500))),
+                                  ],
+                                )
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text("Họ tên: "),
-                              Expanded(
-                                child: Text(controller
-                                    .affiliate.data.code.bankAccountHolder),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text("Số tài khoản: "),
-                              Expanded(
-                                child: Text(controller
-                                    .affiliate.data.code.bankAccountNumber),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text("Chi nhánh: "),
-                              Expanded(
-                                  child: Text(controller
-                                      .affiliate.data.code.bankBranch)),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text("Tên ngân hàng: "),
-                              Expanded(
-                                  child: Text(
-                                      controller.affiliate.data.code.bankName)),
-                            ],
-                          )
-                        ],
-                      ),
+                        ),
+                        Positioned(
+                          top: 20,
+                          right: 10,
+                          child: CircleAvatar(
+                            radius: 16,
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.grey,
+                            child: Center(
+                                child: Icon(
+                              Icons.people,
+                              size: 30,
+                            )),
+                          ), //CircularAvatar
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
@@ -123,79 +183,105 @@ class _AffiliateScreen extends State<AffiliateDiviScreen> {
     final oCcy = new NumberFormat("#,##0", "en_US");
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.grey[300],
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Text(
-                value.orderFullName ?? "",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700, color: Colors.amber[900]),
+      child: InkWell(
+        onTap: (() =>
+            Clipboard.setData(ClipboardData(text: value.orderCode)).then((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("${value.orderCode} đã được copy")));
+            })),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: Colors.grey[300]!),
+                color: Colors.white10,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Mã code: ',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
-                    ),
-                    Text('${value.orderCode}',
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        value.orderFullName ?? "",
                         style: TextStyle(
-                            fontSize: 15,
-                            color: Color.fromARGB(255, 194, 21, 9))),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Trạng thái: ',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                            fontSize: 20),
+                      ),
                     ),
-                    Text(value.orderStatus ?? "",
-                        style: TextStyle(fontSize: 15)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Tổng tiền: ',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Mã code: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 15),
+                              ),
+                              Text('${value.orderCode}',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.blue)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Trạng thái: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 15),
+                              ),
+                              Text(value.orderStatus ?? "",
+                                  style: TextStyle(fontSize: 15)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Tổng tiền: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 15),
+                              ),
+                              Text(
+                                  '${oCcy.format(int.parse(value.orderTotalMoney ?? "0"))}đ',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.red)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Mã giảm: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 15),
+                              ),
+                              Text(
+                                  '${oCcy.format(int.parse(value.codeBonus ?? "0"))}d',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.red)),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                        '${oCcy.format(int.parse(value.orderTotalMoney ?? "0"))}',
-                        style: TextStyle(fontSize: 15)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Mã giảm: ',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
-                    ),
-                    Text('${oCcy.format(int.parse(value.codeBonus ?? "0"))}',
-                        style: TextStyle(fontSize: 15)),
-                  ],
-                ),
-              ],
+                  ]),
             ),
-          ),
-        ]),
+            Positioned(
+              top: 20,
+              right: 10,
+              child: CircleAvatar(
+                radius: 16,
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.grey,
+                child: Center(child: Icon(Icons.copy)),
+              ), //CircularAvatar
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -55,7 +55,8 @@ class _AffiliateScreen extends State<AffiliateScreen> {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Colors.lightBlue[100],
+        border: Border.all(color: Colors.grey[300]!),
+        color: Colors.white10,
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(
@@ -64,7 +65,9 @@ class _AffiliateScreen extends State<AffiliateScreen> {
             child: Text(
               value.name ?? "",
               style: TextStyle(
-                  fontWeight: FontWeight.w700, color: Colors.amber[900]),
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                  fontSize: 18),
             ),
           ),
         ),
@@ -81,7 +84,7 @@ class _AffiliateScreen extends State<AffiliateScreen> {
                   ),
                   Text(
                       '${oCcy.format(value.conditions!.affiliateBillValue!.fromValue)}',
-                      style: TextStyle(fontSize: 15)),
+                      style: TextStyle(fontSize: 15, color: Colors.red)),
                 ],
               ),
               Row(
@@ -92,7 +95,7 @@ class _AffiliateScreen extends State<AffiliateScreen> {
                   ),
                   Text(
                       '${oCcy.format(value.conditions!.affiliateBillValue!.toValue)}',
-                      style: TextStyle(fontSize: 15)),
+                      style: TextStyle(fontSize: 15, color: Colors.red)),
                 ],
               ),
               Row(
@@ -102,9 +105,7 @@ class _AffiliateScreen extends State<AffiliateScreen> {
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                   ),
                   Text('${value.conditions!.affiliateBillValue!.bonus}%',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 194, 21, 9))),
+                      style: TextStyle(fontSize: 15, color: Colors.blue)),
                 ],
               ),
             ],
@@ -145,7 +146,8 @@ class _AffiliateScreen extends State<AffiliateScreen> {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Colors.lightBlue[100],
+        border: Border.all(color: Colors.grey[300]!),
+        color: Colors.white10,
       ),
       child: Column(children: [
         Center(
@@ -199,7 +201,8 @@ class _AffiliateScreen extends State<AffiliateScreen> {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Colors.lightBlue[100],
+        border: Border.all(color: Colors.grey[300]!),
+        color: Colors.white10,
       ),
       child: Column(children: [
         Center(

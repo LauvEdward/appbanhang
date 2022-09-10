@@ -52,13 +52,22 @@ class FakeAuthenticationService extends AuthenticationService {
     await Future.delayed(Duration(seconds: 2));
     final response = await API.share.postLogin(email, password);
     if (response.statusCode == 200) {
-      bool setToken = await AppSharePreference.share
-          .setTokenSharePreference(response.data["data"]["access_token"]);
-      if (setToken) {
-        return User(response.data["data"]["access_token"],
-            email: email, password: password);
+      if (response.data["statusCode"] == 403) {
+        throw AuthenticationException(
+            message:
+                'Tài khoản chưa được kích hoạt, vui lòng truy cập email để kích hoạt');
+      } else if (response.data["statusCode"] == 401) {
+        throw AuthenticationException(
+            message: 'Tên đăng nhập hoặc mật khẩu sai');
       } else {
-        throw AuthenticationException(message: 'Vui lòng đăng nhập lại');
+        bool setToken = await AppSharePreference.share
+            .setTokenSharePreference(response.data["data"]["access_token"]);
+        if (setToken) {
+          return User(response.data["data"]["access_token"],
+              email: email, password: password);
+        } else {
+          throw AuthenticationException(message: 'Vui lòng đăng nhập lại');
+        }
       }
     } else {
       throw AuthenticationException(message: 'Tên đăng nhập hoặc mật khẩu sai');

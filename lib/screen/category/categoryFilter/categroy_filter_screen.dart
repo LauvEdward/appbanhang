@@ -1,5 +1,11 @@
 import 'package:appbanhang/api/api.dart';
-import 'package:appbanhang/screen/category/category_filter_controller.dart';
+import 'package:appbanhang/component/empty_image_widget/saha_empty_image.dart';
+import 'package:appbanhang/component/text_field/saha_text_field_search.dart';
+import 'package:appbanhang/component/widget/product_item.dart';
+import 'package:appbanhang/model/category.dart';
+import 'package:appbanhang/model/categoryFilter.dart';
+import 'package:appbanhang/screen/category/categoryFilter/category_filter_controller.dart';
+import 'package:appbanhang/screen/category/category_controller.dart';
 import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,12 +15,6 @@ import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../../component/empty_image_widget/saha_empty_image.dart';
-import '../../component/loading/loading_widget.dart';
-import '../../component/text_field/saha_text_field_search.dart';
-import '../../component/widget/product_item.dart';
-import '../../model/category.dart';
-import 'category_controller.dart';
 
 // ignore: must_be_immutable
 class CategoryFilterScreen extends StatefulWidget {
@@ -62,7 +62,7 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
       categoryController1!.sortByShow.value = widget.sort as Sort;
     }
     categoryController1!.getAllCategoryByCategory();
-    categoryController1!.getListCategory();
+    // categoryController1!.getListCategory();
     // categoryController1!.getListProduct();
   }
 
@@ -130,7 +130,7 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
         automaticallyImplyLeading: true,
       ),
       body: Obx(() {
-        if (categoryController1!.status == AppState.DONE) {
+        if (categoryController1!.status.value == AppState.DONE) {
           return Column(
             children: [
               Column(
@@ -142,29 +142,33 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
                       Expanded(child: buildItemOrderBy(sortpro: Sort.moi_nhat)),
                       Expanded(child: buildItemOrderBy(sortpro: Sort.ban_chay)),
                       Expanded(
-                          child: buildItemOrderBy(sortpro: Sort.price_asc)),
+                          child: buildItemOrderBy(
+                              sortpro: categoryController1!.sortPrices.value)),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 100,
-                          // width: Get.width,
-                          color: Colors.white.withOpacity(0.8),
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  categoryController1!.listProduct.length,
-                              itemBuilder: (context, index) {
-                                return buildItem(
-                                    category: categoryController1!
-                                        .listProduct[index]);
-                              }),
-                        ),
-                      ),
-                    ],
-                  )
+                  categoryController1!.listProduct.length > 0
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 100,
+                                // width: Get.width,
+                                color: Colors.white.withOpacity(0.8),
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        categoryController1!.listProduct.length,
+                                    itemBuilder: (context, index) {
+                                      return buildItem(
+                                          category: categoryController1!
+                                              .listProduct[index]);
+                                    }),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
+
                   // if (categoryController1.categoriesChild.isNotEmpty)
                   //   Row(
                   //     children: [
@@ -218,11 +222,31 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
       () {
         return InkWell(
           onTap: () {
+            if (categoryController1!.sortByShow.value == Sort.price_asc) {
+              if (sortpro == categoryController1!.sortByShow.value) {
+                // sortpro = Sort.price_desc;
+                categoryController1!.sortPrices.value = Sort.price_desc;
+                categoryController1!.sortByShow.value = Sort.price_desc;
+              } else {
+                categoryController1!.sortByShow.value = sortpro!;
+              }
+            } else if (categoryController1!.sortByShow.value ==
+                Sort.price_desc) {
+              if (sortpro == categoryController1!.sortByShow.value) {
+                // sortpro = Sort.price_asc;
+                categoryController1!.sortPrices.value = Sort.price_asc;
+                categoryController1!.sortByShow.value = Sort.price_asc;
+              } else {
+                categoryController1!.sortByShow.value = sortpro!;
+              }
+            } else {
+              categoryController1!.sortByShow.value = sortpro!;
+            }
             categoryController1!.isLoadingAll = true;
-            categoryController1!.sortByShow.value = sortpro!;
+            // categoryController1!.sortByShow.value = sortpro!;
             categoryController1!.getAllCategoryByCategory();
-            _scrollController.animateTo(0,
-                duration: Duration(milliseconds: 500), curve: Curves.ease);
+            // _scrollController.animateTo(0,
+            //     duration: Duration(milliseconds: 500), curve: Curves.ease);
           },
           child: Row(
             children: [
@@ -292,8 +316,8 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
   ];
 
   Widget buildList() {
-    return Obx(
-      () => SingleChildScrollView(
+    return Obx(() {
+      return SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: [
@@ -340,87 +364,96 @@ class _CategoryScreenFilterState extends State<CategoryFilterScreen> {
             // )
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 
-  Widget buildItem({CategoryProduct? category}) {
-    return Obx(
-      () => Container(
-        width: 80,
-        margin: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-                color: Colors.blue,
-                width: categoryController1!.categoryid.value ==
-                        int.parse(category!.id ?? "")
-                    ? 3
-                    : 0),
-          ),
-          // color: categoryController1!.categoryid.value == category.id
-          //     ? Colors.white
-          //     : null,
-        ),
-        child: InkWell(
-          onTap: () {
-            categoryController1!.isLoadingAll = true;
-            categoryController1!.categoryid.value =
-                int.parse(category.id ?? "");
-            // categoryController1.
-            categoryController1!.getAllCategoryByCategory();
-            // categoryController1.
-            // categoryController1.getAllCategory();
-            // categoryController1.setCategoryCurrent(category);
+  Widget buildItem({ProCa? category}) {
+    // print(categoryController1!.listProduct.isNotEmpty);
 
-            // categoryController1.searchProduct(idCategory: category.id);
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  child: category.image == null
-                      ? Center(child: Icon(Icons.view_module_rounded))
-                      : CachedNetworkImage(
-                          imageUrl: API.share.baseSite + "/${category.image}",
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover),
-                            ),
-                          ),
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              SahaEmptyImage(),
-                          fit: BoxFit.cover,
-                        ),
-                ),
-              ),
-              Text(
-                category.name ?? "",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 13,
-                    color: categoryController1!.categoryCurrent.value ==
-                            category.id
-                        ? Colors.blue
-                        : Colors.black54),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-            ],
+    return Obx(() {
+      if (categoryController1!.listProduct.isNotEmpty) {
+        return Container(
+          width: 80,
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                  color: Colors.blue,
+                  width: categoryController1!.categorysubid.value ==
+                          int.parse(category!.id!)
+                      ? 2
+                      : 0),
+            ),
+            // color: categoryController1!.categoryid.value == category.id
+            //     ? Colors.white
+            //     : null,
           ),
-        ),
-      ),
-    );
+          child: InkWell(
+            onTap: () {
+              categoryController1!.isLoadingAll = true;
+              categoryController1!.categorysubid.value =
+                  int.parse(category.id ?? "");
+              // categoryController1.
+              categoryController1!
+                  .getListProByCate(int.parse(category.id ?? ""));
+              // categoryController1.
+              // categoryController1.getAllCategory();
+              // categoryController1.setCategoryCurrent(category);
+
+              // categoryController1.searchProduct(idCategory: category.id);
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: category.image == null
+                        ? Center(child: Icon(Icons.view_module_rounded))
+                        : CachedNetworkImage(
+                            imageUrl: API.share.baseSite + "/${category.image}",
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                SahaEmptyImage(),
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                Text(
+                  category.name ?? "",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: categoryController1!.categoryCurrent.value ==
+                              category.id
+                          ? Colors.blue
+                          : Colors.black54),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+              ],
+            ),
+          ),
+        );
+      } else {
+        return Container(
+          height: 1,
+        );
+      }
+    });
   }
 
   // Widget buildItemChild({Category? category}) {

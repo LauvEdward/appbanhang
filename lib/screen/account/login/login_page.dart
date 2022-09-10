@@ -104,6 +104,7 @@ class __SignInFormState extends State<_SignInForm> {
                             child: IconButton(
                               color: Colors.white,
                               onPressed: () {
+                                FocusManager.instance.primaryFocus!.unfocus();
                                 _onLoginButtonPressed();
                               },
                               icon: const Icon(Icons.arrow_forward),

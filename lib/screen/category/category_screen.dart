@@ -174,7 +174,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         automaticallyImplyLeading: true,
       ),
       body: Obx(() {
-        if (categoryController1!.status == AppState.DONE) {
+        if (categoryController1!.status.value == AppState.DONE) {
           return Column(
             children: [
               Column(
@@ -262,12 +262,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
       () {
         return InkWell(
           onTap: () {
-            if (sortpro == Sort.price_asc) {
-              categoryController1!.sortByShow.value = Sort.price_desc;
-              sortpro = Sort.price_desc;
-            } else if (sortpro == Sort.price_desc) {
-              categoryController1!.sortByShow.value = Sort.price_asc;
-              sortpro = Sort.price_asc;
+            if (categoryController1!.sortByShow.value == Sort.price_asc) {
+              if (sortpro == Sort.price_asc) {
+                sortpro = Sort.price_desc;
+
+                categoryController1!.sortByShow.value = Sort.price_desc;
+              } else {
+                categoryController1!.sortByShow.value = sortpro!;
+              }
+            } else if (categoryController1!.sortByShow.value ==
+                Sort.price_desc) {
+              if (sortpro == Sort.price_desc) {
+                sortpro = Sort.price_asc;
+                categoryController1!.sortByShow.value = Sort.price_asc;
+              } else {
+                categoryController1!.sortByShow.value = sortpro!;
+              }
             } else {
               categoryController1!.sortByShow.value = sortpro!;
             }
@@ -340,7 +350,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   var listImage = [
-    'https://thumbs.dreamstime.com/b/marvel-logo-marvel-logo-red-background-vector-format-aviable-ai-127114750.jpg'
+    'https://image.winudf.com/v2/image1/aHUuYmthbG1hbi5hbmRyb2lkLmFwcC53aGl0ZXNjcmVlbl9zY3JlZW5fMV8xNTY3MDI0NzUwXzAwMw/screen-1.jpg?fakeurl=1&type=.webp'
   ];
 
   Widget buildList() {
