@@ -129,27 +129,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(color: Colors.blue)),
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.chat_outlined,
-                              color: Colors.blue,
-                              size: 16,
-                            ),
-                            Text(
-                              'Chat',
-                              style:
-                                  TextStyle(color: Colors.blue, fontSize: 10),
-                            )
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   padding: EdgeInsets.all(5),
+                      //   margin: EdgeInsets.all(10),
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(3),
+                      //       border: Border.all(color: Colors.blue)),
+                      //   child: Column(
+                      //     children: [
+                      //       Icon(
+                      //         Icons.chat_outlined,
+                      //         color: Colors.blue,
+                      //         size: 16,
+                      //       ),
+                      //       Text(
+                      //         'Chat',
+                      //         style:
+                      //             TextStyle(color: Colors.blue, fontSize: 10),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       Expanded(
                         child: InkWell(
                           onTap: () {
