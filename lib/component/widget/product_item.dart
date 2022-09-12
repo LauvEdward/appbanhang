@@ -107,6 +107,8 @@ class ProductItem extends StatelessWidget {
 
   Widget price() {
     final oCcy = new NumberFormat("#,##0", "en_US");
+    var formatter = NumberFormat('##');
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -151,7 +153,7 @@ class ProductItem extends StatelessWidget {
                   padding:
                       EdgeInsets.only(left: 5, right: 5, top: 3, bottom: 3),
                   child: Text(
-                    '-${NumberFormat.decimalPattern().format(100 - (int.parse(product!.priceSale ?? "") / int.parse(product!.price ?? "")) * 100)}%',
+                    '-${formatter.format(100 - (int.parse(product!.priceSale ?? "") / int.parse(product!.price ?? "")) * 100)}%',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,

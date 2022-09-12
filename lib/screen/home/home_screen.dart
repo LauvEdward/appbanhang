@@ -45,13 +45,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 28.0),
-      backgroundColor: Colors.green[900],
+      backgroundColor: Colors.blue,
       visible: true,
       curve: Curves.bounceInOut,
       children: [
         SpeedDialChild(
-          child: Icon(Icons.social_distance, color: Colors.white),
-          backgroundColor: Colors.green,
+          child: Container(
+              width: 50,
+              height: 50,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                // color: Colors.redAccent,
+                image: DecorationImage(
+                    image: AssetImage('assets/images/zalo-seeklogo.webp'),
+                    fit: BoxFit.fill),
+              )),
+          // backgroundColor: Colors.green,
           onTap: () {
             UrlLauncher.launch("http://zalo.me/3530497876901691451",
                 forceSafariVC: true,
@@ -64,8 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
           labelBackgroundColor: Colors.black,
         ),
         SpeedDialChild(
-          child: Icon(Icons.facebook_sharp, color: Colors.white),
-          backgroundColor: Colors.green,
+          child: Container(
+              width: 50,
+              height: 50,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              ),
+              child: Icon(Icons.facebook_sharp, color: Colors.white)),
+          backgroundColor: Colors.blue,
           onTap: () {
             UrlLauncher.launch(homeController.linkfb.value,
                 forceSafariVC: true,
