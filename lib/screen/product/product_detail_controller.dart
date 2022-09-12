@@ -126,17 +126,18 @@ class ProductDetailController extends GetxController {
           ..price = productdetail.data.item.price
           ..priceSale = productdetail.data.item.priceSale
           ..soluong = 1
-          ..prodir = productdetail.data.item.proDir;
+          ..prodir = productdetail.data.item.proDir
+          ..keyid = productdetail.data.item.id;
         HiveService.share.addSeenBoxes(productBox);
         Box<dynamic> box1 = Hive.box<dynamic>('Seen');
         // listProductSeen.clear();
         if (box1.isNotEmpty) {
           var listtemp = [].obs;
-          listtemp.addAll(box1.values);
-          if (listtemp.length > 5) {
-            listProductSeen.clear();
-            listProductSeen.value = listtemp.sublist(5);
-          }
+          listProductSeen.addAll(box1.values);
+          // if (listtemp.length > 5) {
+          //   listProductSeen.clear();
+          //   listProductSeen.value = listtemp.sublist(5);
+          // }
           // use data
           // for (var item in listProductSeen) {
           //   total.value += int.parse(item.priceSale) * (item.soluong as int);
@@ -152,219 +153,191 @@ class ProductDetailController extends GetxController {
   }
 
   Future<void> addProductToCart() async {
-    if (productdetail.data.cateCurrent.id != null) {
-      var listOption = [].obs;
-      var price = 0.obs;
-      var soLuong = 1.obs;
-      var idOption;
-      var priceTemp = (-1).obs;
-      var soLuongTemp = 1.obs;
-      var idOptionTemp;
-      var namesize;
-      var nameTemp;
-      final oCcy = new NumberFormat("#,##0", "en_US");
-      if (productdetail.data.sizeS.length > 0 ||
-          productdetail.data.sizeSType.length > 0) {
-        if (productdetail.data.sizeS.length > 0) {
-          listOption.addAll(productdetail.data.sizeS);
-        } else {
-          listOption.addAll(productdetail.data.sizeSType);
-        }
-        print(listOption);
-        await Get.bottomSheet(
-          Container(
-            color: Colors.white,
-            width: Get.width,
-            // height: Get.height / 2.5,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: Get.width / 4,
-                        height: Get.width / 4,
-                        child: CachedNetworkImage(
-                          imageUrl: API.share.baseSite +
-                              '/upload/img/products' +
-                              '/${productdetail.data.item.proDir}' +
-                              '/${productdetail.data.item.image}',
-                        ),
-                      ),
-                      Obx(() => Text(priceTemp.value == -1
-                          ? "Liên hệ"
-                          : "${oCcy.format(priceTemp.value)}đ"))
-                    ],
-                  ),
-                  Text("Phân loại"),
-                  Obx(
-                    () => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: listOption
-                            .map((e) => InkWell(
-                                  onTap: () {
-                                    priceTemp.value = int.parse(e.priceSale);
-                                    idOptionTemp = e.id;
-                                    nameTemp = e.name;
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          border: priceTemp.value ==
-                                                  int.parse(e.priceSale)
-                                              ? Border.all(color: Colors.blue)
-                                              : Border.all(
-                                                  color: Colors.grey[300]!),
-                                          // color: Colors.white10,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(e.name),
-                                        )),
-                                  ),
-                                ))
-                            .toList(),
+    // if (productdetail.data.cateCurrent.id != null) {
+    var listOption = [].obs;
+    var price = 0.obs;
+    var soLuong = 1.obs;
+    var idOption;
+    var priceTemp = (-1).obs;
+    var soLuongTemp = 1.obs;
+    var idOptionTemp;
+    var namesize;
+    var nameTemp;
+    final oCcy = new NumberFormat("#,##0", "en_US");
+    if (productdetail.data.sizeS.length > 0 ||
+        productdetail.data.sizeSType.length > 0) {
+      if (productdetail.data.sizeS.length > 0) {
+        listOption.addAll(productdetail.data.sizeS);
+      } else {
+        listOption.addAll(productdetail.data.sizeSType);
+      }
+      print(listOption);
+      await Get.bottomSheet(
+        Container(
+          color: Colors.white,
+          width: Get.width,
+          // height: Get.height / 2.5,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: Get.width / 4,
+                      height: Get.width / 4,
+                      child: CachedNetworkImage(
+                        imageUrl: API.share.baseSite +
+                            '/upload/img/products' +
+                            '/${productdetail.data.item.proDir}' +
+                            '/${productdetail.data.item.image}',
                       ),
                     ),
-                  ),
-                  Text("Số lượng"),
-                  Center(
+                    Obx(() => Text(priceTemp.value == -1
+                        ? "Liên hệ"
+                        : "${oCcy.format(priceTemp.value)}đ"))
+                  ],
+                ),
+                Text("Phân loại"),
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            if (soLuongTemp > 1) {
-                              soLuongTemp -= 1;
-                            }
-                            // CartController cartController = Get.find();
-                            // if (pro.soluong! > 1) {
-                            //   cartController.removeSoLuong(pro);
-                            // } else {
-                            //   cartController.removeItem(pro);
-                            // }
-                          },
-                          child: Container(
-                            height: 25,
-                            width: 30,
-                            child: Icon(
-                              Icons.remove,
-                              size: 13,
-                              color: Colors.grey,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[200]!),
-                            ),
+                      children: listOption
+                          .map((e) => InkWell(
+                                onTap: () {
+                                  priceTemp.value = int.parse(e.priceSale);
+                                  idOptionTemp = e.id;
+                                  nameTemp = e.name;
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: priceTemp.value ==
+                                                int.parse(e.priceSale)
+                                            ? Border.all(color: Colors.blue)
+                                            : Border.all(
+                                                color: Colors.grey[300]!),
+                                        // color: Colors.white10,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(e.name),
+                                      )),
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                ),
+                Text("Số lượng"),
+                Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (soLuongTemp > 1) {
+                            soLuongTemp -= 1;
+                          }
+                          // CartController cartController = Get.find();
+                          // if (pro.soluong! > 1) {
+                          //   cartController.removeSoLuong(pro);
+                          // } else {
+                          //   cartController.removeItem(pro);
+                          // }
+                        },
+                        child: Container(
+                          height: 25,
+                          width: 30,
+                          child: Icon(
+                            Icons.remove,
+                            size: 13,
+                            color: Colors.grey,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey[200]!),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 25,
+                          width: 40,
                           child: Container(
-                            height: 25,
-                            width: 40,
-                            child: Container(
-                              child: Obx(
-                                () => Center(
-                                  child: Text(
-                                    '${soLuongTemp}',
-                                    style: TextStyle(fontSize: 14),
-                                  ),
+                            child: Obx(
+                              () => Center(
+                                child: Text(
+                                  '${soLuongTemp}',
+                                  style: TextStyle(fontSize: 14),
                                 ),
                               ),
                             ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[200]!),
-                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey[200]!),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            soLuongTemp += 1;
-                            // CartController cartController = Get.find();
-                            // cartController.addItem(pro);
-                          },
-                          child: Container(
-                            height: 25,
-                            width: 30,
-                            child: Icon(
-                              Icons.add,
-                              size: 13,
-                              color: Colors.black,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[200]!),
-                            ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          soLuongTemp += 1;
+                          // CartController cartController = Get.find();
+                          // cartController.addItem(pro);
+                        },
+                        child: Container(
+                          height: 25,
+                          width: 30,
+                          child: Icon(
+                            Icons.add,
+                            size: 13,
+                            color: Colors.black,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey[200]!),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Center(
-                        child: FlatButton(
-                            color: Colors.blue,
-                            textColor: Colors.white,
-                            onPressed: () {
-                              soLuong = soLuongTemp;
-                              price = priceTemp;
-                              idOption = idOptionTemp;
-                              namesize = nameTemp;
-                              Get.back();
-                            },
-                            child: Text("Thêm vào"))),
-                  )
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Center(
+                      child: FlatButton(
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            soLuong = soLuongTemp;
+                            price = priceTemp;
+                            idOption = idOptionTemp;
+                            namesize = nameTemp;
+                            Get.back();
+                          },
+                          child: Text("Thêm vào"))),
+                )
+              ],
             ),
           ),
-        );
-        if (idOption != null) {
-          var productBox = ProductHive()
-            ..id = productdetail.data.item.id
-            ..image = productdetail.data.item.image
-            ..name = productdetail.data.item.name
-            ..price = productdetail.data.item.price
-            ..priceSale = priceTemp.value.toString()
-            ..soluong = soLuong.value
-            ..prodir = productdetail.data.item.proDir
-            ..sizeid = idOption
-            ..nameSize = namesize
-            ..keyid = productdetail.data.item.id + idOption;
-          HiveService.share.addBoxes(productBox);
-          Get.dialog(
-            AlertDialog(
-              title: Text(
-                "Thêm sản phẩm thành công",
-                style: TextStyle(color: Colors.blue, fontSize: 15),
-              ),
-            ),
-          );
-          await getListPro();
-          await Future.delayed(Duration(seconds: 1));
-          Navigator.of(Get.overlayContext!).pop();
-          CartController cartController = Get.find();
-          cartController.getListPro();
-        }
-      } else {
+        ),
+      );
+      if (idOption != null) {
         var productBox = ProductHive()
           ..id = productdetail.data.item.id
           ..image = productdetail.data.item.image
           ..name = productdetail.data.item.name
           ..price = productdetail.data.item.price
-          ..priceSale = productdetail.data.item.priceSale
-          ..soluong = 1
+          ..priceSale = priceTemp.value.toString()
+          ..soluong = soLuong.value
           ..prodir = productdetail.data.item.proDir
-          ..sizeid = ""
-          ..nameSize = ""
-          ..keyid = productdetail.data.item.id + idOption;
+          ..sizeid = idOption
+          ..nameSize = namesize
+          ..keyid = productdetail.data.item.id + (idOption ?? "");
         HiveService.share.addBoxes(productBox);
         Get.dialog(
           AlertDialog(
@@ -380,7 +353,34 @@ class ProductDetailController extends GetxController {
         CartController cartController = Get.find();
         cartController.getListPro();
       }
+    } else {
+      var productBox = ProductHive()
+        ..id = productdetail.data.item.id
+        ..image = productdetail.data.item.image
+        ..name = productdetail.data.item.name
+        ..price = productdetail.data.item.price
+        ..priceSale = productdetail.data.item.priceSale
+        ..soluong = 1
+        ..prodir = productdetail.data.item.proDir
+        ..sizeid = ""
+        ..nameSize = ""
+        ..keyid = productdetail.data.item.id + (idOption ?? "");
+      HiveService.share.addBoxes(productBox);
+      Get.dialog(
+        AlertDialog(
+          title: Text(
+            "Thêm sản phẩm thành công",
+            style: TextStyle(color: Colors.blue, fontSize: 15),
+          ),
+        ),
+      );
+      await getListPro();
+      await Future.delayed(Duration(seconds: 1));
+      Navigator.of(Get.overlayContext!).pop();
+      CartController cartController = Get.find();
+      cartController.getListPro();
     }
+    // }
   }
 
   Future<void> sendComment() async {

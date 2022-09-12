@@ -74,6 +74,7 @@ class HiveService {
     box.clear();
     List<ProductHive> userList = box.values as List<ProductHive>;
     await box.close();
+    print("list getListlSeen ${userList.length}");
     return userList;
   }
 }
