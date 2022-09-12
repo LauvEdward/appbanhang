@@ -117,10 +117,10 @@ class API {
           "password": user.password,
           "fullname": user.fullname,
           "phone": user.phone,
-          "bank_account": user.bankAccount,
-          "ghichu": user.ghichu,
-          "sex": user.sex,
-          "province": user.addressProvince,
+          // "bank_account": user.bankAccount,
+          // "ghichu": user.ghichu,
+          // "sex": user.sex,
+          // "province": user.addressProvince,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
 
@@ -229,5 +229,27 @@ class API {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  // comment
+  Future<Response> summitComment(String id, String username, String email,
+      String message, int rating) async {
+    final dio = Dio();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    final response = await dio.post(baseUrl + '/product/comment-submit',
+        data: {
+          "itemId": id,
+          "userName": username,
+          "email": email,
+          "message": message,
+          "giatri": rating,
+          // "bank_account": user.bankAccount,
+          // "ghichu": user.ghichu,
+          // "sex": user.sex,
+          // "province": user.addressProvince,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+
+    return response;
   }
 }

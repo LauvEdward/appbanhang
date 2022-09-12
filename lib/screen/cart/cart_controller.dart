@@ -1,6 +1,7 @@
 import 'package:appbanhang/@core/hive_manager.dart';
 import 'package:appbanhang/api/api.dart';
 import 'package:appbanhang/model/product_hive.dart';
+import 'package:appbanhang/screen/post/post_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -29,6 +30,8 @@ class CartController extends GetxController {
     // ProductHive listPro = box.get('name');
     // // listPro = HiveService.share.getBoxes();
     // print("getListPro ${listPro.name}");
+    PostController controllerAlert = Get.find();
+    controllerAlert.getListPro();
     Box<dynamic> box1 = Hive.box<dynamic>('Cart');
     if (box1.isNotEmpty) {
       listOrder.addAll(box1.values);
@@ -49,14 +52,14 @@ class CartController extends GetxController {
 
   Future<void> removeItem(ProductHive pro) async {
     var box = Hive.box('Cart');
-    HiveService.share.removeItem(pro.id!);
+    HiveService.share.removeItem(pro.id! + pro.sizeid!);
     getListPro();
     update();
   }
 
   Future<void> removeSoLuong(ProductHive pro) async {
     var box = Hive.box('Cart');
-    HiveService.share.removeSoluong(pro.id!);
+    HiveService.share.removeSoluong(pro.id! + pro.sizeid!);
     getListPro();
     update();
   }
