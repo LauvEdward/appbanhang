@@ -235,7 +235,7 @@ class ConfirmController extends GetxController {
         Navigator.of(Get.overlayContext!).pop();
         for (var item in listOrder) {
           var box = Hive.box('Cart');
-          HiveService.share.removeItem(item.id);
+          HiveService.share.removeItem(item.keyid);
         }
         CartController controller = Get.find();
         controller.getListPro();
