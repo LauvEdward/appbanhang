@@ -433,6 +433,9 @@ class ProductDetailController extends GetxController {
           ),
         ),
       );
+      emailTextController.clear();
+      nameTextController.clear();
+      commentTextController.clear();
 
       await Future.delayed(Duration(seconds: 1));
       Navigator.of(Get.overlayContext!).pop();
