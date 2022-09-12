@@ -4,6 +4,7 @@ import 'package:appbanhang/component/widget/news_widget.dart';
 import 'package:appbanhang/screen/category/categoryFilter/categroy_filter_screen.dart';
 import 'package:appbanhang/screen/category/category_controller.dart';
 import 'package:appbanhang/screen/category/category_screen.dart';
+import 'package:appbanhang/screen/home/model/prduct.dart';
 import 'package:appbanhang/screen/product/product_detail_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -11,9 +12,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+
 import '../../component/button/decoration_button.dart';
 import '../../component/empty_image_widget/saha_empty_image.dart';
 import '../../component/loading/loading_container.dart';
@@ -37,6 +41,68 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchEditingController = TextEditingController();
 
   final ScrollController _scrollController = ScrollController();
+  SpeedDial buildSpeedDial() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 28.0),
+      backgroundColor: Colors.green[900],
+      visible: true,
+      curve: Curves.bounceInOut,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.social_distance, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: () {
+            UrlLauncher.launch("http://zalo.me/3530497876901691451",
+                forceSafariVC: true,
+                forceWebView: true,
+                enableJavaScript: true);
+          },
+          label: 'Zalo',
+          labelStyle:
+              TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          labelBackgroundColor: Colors.black,
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.facebook_sharp, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: () {
+            UrlLauncher.launch(homeController.linkfb.value,
+                forceSafariVC: true,
+                forceWebView: true,
+                enableJavaScript: true);
+          },
+          label: 'Facebook',
+          labelStyle:
+              TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          labelBackgroundColor: Colors.black,
+        ),
+        // SpeedDialChild(
+        //   child: Icon(Icons.laptop_chromebook, color: Colors.white),
+        //   backgroundColor: Colors.green,
+        //   onTap: () => print('Pressed Code'),
+        //   label: 'Chat',
+        //   labelStyle:
+        //       TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+        //   labelBackgroundColor: Colors.black,
+        // ),
+        SpeedDialChild(
+          child: Icon(Icons.phone, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: () {
+            UrlLauncher.launch("tel:${UrlLauncher.launch(
+              homeController.phone.value,
+            )}");
+          },
+          label: 'Gọi điện',
+          labelStyle:
+              TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          labelBackgroundColor: Colors.black,
+        ),
+      ],
+    );
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -53,7 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement build
     return Obx(() {
       if (homeController.appStatus.value == AppState.DONE) {
-        print(homeController.listBanner);
         return Scaffold(
           backgroundColor: Colors.grey[200],
           body: SingleChildScrollView(
@@ -209,6 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+          floatingActionButton: buildSpeedDial(),
         );
       } else {
         return Scaffold(
@@ -562,18 +628,28 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 10,
             ),
-            Wrap(
-                children: homeController.listHotProduct
-                    .map((e) => ProductItem(
-                          width: Get.width / 2,
-                          product: e.pro.first,
-                          image: API.share.baseSite +
-                              '/upload/img/products/' +
-                              (e.pro.first.proDir ?? "") +
-                              "/thumbnail_2_" +
-                              (e.pro.first.image ?? ""),
-                        ))
-                    .toList()),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Wrap(
+                  children: homeController.listTempHotProduct.map((e) {
+                if (homeController.getListPro(e.name).length > 0) {
+                  return Container(
+                      width: Get.width,
+                      child: Column(
+                        children: [
+                          Text(
+                            e.name,
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w500),
+                          ),
+                          listProduct(e.name)
+                        ],
+                      ));
+                } else {
+                  return Container();
+                }
+              }).toList()),
+            ),
             SizedBox(
               height: 10,
             ),
@@ -594,5 +670,28 @@ class _HomeScreenState extends State<HomeScreen> {
             // )
           ],
         ));
+  }
+
+  Widget listProduct(String name) {
+    var listPro = homeController.getListPro(name);
+    // var arr = [];
+    // arr.addAll(listPro);
+    return SingleChildScrollView(
+      // scrollDirection: Scrollver,
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: listPro
+            .map((e) => ProductItem(
+                  width: Get.width / 2,
+                  product: e,
+                  image: API.share.baseSite +
+                      '/upload/img/products/' +
+                      (e.proDir ?? "") +
+                      "/thumbnail_2_" +
+                      (e.image ?? ""),
+                ))
+            .toList(),
+      ),
+    );
   }
 }

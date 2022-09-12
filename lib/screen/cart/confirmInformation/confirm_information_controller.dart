@@ -22,23 +22,20 @@ class ConfirmController extends GetxController {
   var phoneTextController = TextEditingController();
   var diachiTextController = TextEditingController();
   var ghichuTextController = TextEditingController();
+  var emailTextController = TextEditingController();
   List<Provice> arrProvice = [];
   List<District> arrDistrict = [];
   var provice = "".obs;
   var proviceid = "".obs;
   var district = "".obs;
   var districtid = "".obs;
-  var name = "".obs;
-  var phone = "".obs;
-  var diachi = "".obs;
-  var ghichu = "".obs;
   var affiliate = "".obs;
 
   @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
-    await getProfile();
+    // await getProfile();
     await getListPro();
     await getProvice();
   }
@@ -103,110 +100,32 @@ class ConfirmController extends GetxController {
     status.value = AppState.DONE;
   }
 
-  Future<void> getProfile() async {
-    String? token = await AppSharePreference.share.getTokenSharePreference();
-    try {
-      final response =
-          await API.share.postProfile(User(token, password: "", email: ""));
-      if (response.statusCode == 200) {
-        var data = response.data["data"];
-        // print(data);
-        // var datadefault = Product.fromJson(response.data);
-        // print("Number of list product ${datadefault.data!.length}");
-        profile = Profile.fromJson(data);
-        name.value = profile.fullname;
-        phone.value = profile.phone;
-        ghichu.value = profile.ghichu;
-        diachi.value = profile.address;
-        status.value = AppState.DONE;
-      }
-    } catch (e) {
-      print(e);
-      status.value = AppState.ERROR;
-    }
-  }
-
-  Future<void> changeProfile(int option) async {
-    var textfieldController;
-    switch (option) {
-      case 1:
-        textfieldController = nameTextController;
-        break;
-      case 2:
-        textfieldController = phoneTextController;
-        break;
-      case 3:
-        textfieldController = ghichuTextController;
-        break;
-      case 4:
-        textfieldController = diachiTextController;
-        break;
-      default:
-    }
-    Get.defaultDialog(
-        title: '',
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: textfieldController,
-              keyboardType: TextInputType.text,
-              maxLines: 1,
-              decoration: InputDecoration(
-                  labelText: 'Nhập thông tin',
-                  hintMaxLines: 1,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green, width: 4.0))),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            RaisedButton(
-              onPressed: () {
-                switch (option) {
-                  case 1:
-                    name.value = nameTextController.text;
-                    break;
-                  case 2:
-                    if (!phoneTextController.value.text.isNum) {
-                      Get.dialog(
-                        AlertDialog(
-                          title: Text(
-                            "Số điện thoại phải là số",
-                            style: TextStyle(color: Colors.blue, fontSize: 15),
-                          ),
-                        ),
-                      );
-                      return;
-                    }
-
-                    phone.value = phoneTextController.text;
-                    break;
-                  case 3:
-                    ghichu.value = nameTextController.text;
-                    break;
-                  case 4:
-                    diachi.value = diachiTextController.text;
-                    break;
-                  default:
-                }
-
-                Get.back();
-              },
-              child: Text(
-                'Lưu',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-              color: Colors.redAccent,
-            )
-          ],
-        ),
-        radius: 10.0);
-  }
+  // Future<void> getProfile() async {
+  //   String? token = await AppSharePreference.share.getTokenSharePreference();
+  //   try {
+  //     final response =
+  //         await API.share.postProfile(User(token, password: "", email: ""));
+  //     if (response.statusCode == 200) {
+  //       var data = response.data["data"];
+  //       // print(data);
+  //       // var datadefault = Product.fromJson(response.data);
+  //       // print("Number of list product ${datadefault.data!.length}");
+  //       profile = Profile.fromJson(data);
+  //       name.value = profile.fullname;
+  //       phone.value = profile.phone;
+  //       ghichu.value = profile.ghichu;
+  //       diachi.value = profile.address;
+  //       status.value = AppState.DONE;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     status.value = AppState.ERROR;
+  //   }
+  // }
 
   Future<void> order() async {
     Map<String, Object> product = {};
-    if (name.value == "") {
+    if (nameTextController.text == "") {
       Get.dialog(
         AlertDialog(
           title: Text(
@@ -217,22 +136,44 @@ class ConfirmController extends GetxController {
       );
       return;
     }
-    if (diachi.value == "") {
+    if (phoneTextController.text == "") {
       Get.dialog(
         AlertDialog(
           title: Text(
-            "Vui lòng địa chỉ",
+            "Vui lòng số điện thoại",
             style: TextStyle(color: Colors.blue, fontSize: 15),
           ),
         ),
       );
       return;
     }
-    if (phone.value == "") {
+    if (!phoneTextController.text.isNum) {
       Get.dialog(
         AlertDialog(
           title: Text(
-            "Vui lòng nhập số điện thoại",
+            "Số điện thoại phải là số",
+            style: TextStyle(color: Colors.blue, fontSize: 15),
+          ),
+        ),
+      );
+      return;
+    }
+    if (emailTextController.text == "") {
+      Get.dialog(
+        AlertDialog(
+          title: Text(
+            "Vui lòng nhập Email",
+            style: TextStyle(color: Colors.blue, fontSize: 15),
+          ),
+        ),
+      );
+      return;
+    }
+    if (diachiTextController.text == "") {
+      Get.dialog(
+        AlertDialog(
+          title: Text(
+            "Vui lòng nhập địa chỉ của bạn",
             style: TextStyle(color: Colors.blue, fontSize: 15),
           ),
         ),
@@ -252,13 +193,14 @@ class ConfirmController extends GetxController {
     // }
     CartController controller = Get.find();
     controller.affiliate.value = "";
-    product["fullname"] = name.value;
-    product["address"] = diachi.value;
-    product["phone"] = phone.value;
+    product["fullname"] = nameTextController.text;
+    product["address"] = diachiTextController.text;
+    product["phone"] = phoneTextController.text;
     product["province"] = proviceid.value;
     product["district"] = districtid.value;
     product["note"] = ghichuTextController.text;
     product["affiliateCode"] = affiliate.value;
+    product["email"] = emailTextController.text;
     print(affiliate.value);
     Get.dialog(
       AlertDialog(
@@ -310,6 +252,6 @@ class ConfirmController extends GetxController {
         ),
       );
       return;
-     }
+    }
   }
 }

@@ -17,6 +17,31 @@ class HomeController extends GetxController {
   var listBanner = [].obs;
   TextEditingController textEditingControllerSearch = TextEditingController();
   var appStatus = AppState.LOADING.obs;
+  var listTempHotProduct = [].obs;
+  var nameShop = "".obs;
+  var address = "".obs;
+  var phone = "".obs;
+  var email = "".obs;
+  var linkfb = "".obs;
+  var linksitepage = "".obs;
+  var linkyt = "".obs;
+  var copyRight = "".obs;
+
+  Future<void> getContact() async {
+    final reponse = await API.share.getcontact();
+    try {
+      nameShop.value = reponse.data["site_name"];
+      address.value = reponse.data["address"];
+      phone.value = reponse.data["hotline1"];
+      email.value = reponse.data["site_email"];
+      linkyt.value = reponse.data["link_youtube"];
+      linkfb.value = reponse.data["face_id"];
+      linksitepage.value = reponse.data["site_fanpage"];
+      copyRight.value = reponse.data["coppy_right"];
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void onInit() async {
@@ -27,6 +52,7 @@ class HomeController extends GetxController {
     await getListHotProduct();
     await getListNewProduct();
     await getListbanner();
+    await getContact();
   }
 
   Future<void> getListbanner() async {
@@ -82,7 +108,6 @@ class HomeController extends GetxController {
 
   Future<void> getListHotProduct() async {
     final response = await API.share.GetHotProduct();
-    var listTempHotProduct = [].obs;
     try {
       if (response.statusCode == 200) {
         var data = response.data["data"];
@@ -100,6 +125,14 @@ class HomeController extends GetxController {
     } catch (e) {
       // status.value = AppState.ERROR;
     }
+  }
+
+  List getListPro(String name) {
+    var listTempProHot = [].obs;
+    var listProHot =
+        listTempHotProduct.where((p0) => p0.name == name).toList().first;
+    listTempProHot.addAll(listProHot.pro);
+    return listTempProHot;
   }
 
   Future<void> getListNewProduct() async {

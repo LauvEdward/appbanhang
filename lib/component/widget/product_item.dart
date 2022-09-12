@@ -151,7 +151,7 @@ class ProductItem extends StatelessWidget {
                   padding:
                       EdgeInsets.only(left: 5, right: 5, top: 3, bottom: 3),
                   child: Text(
-                    '-10%',
+                    '-${NumberFormat.decimalPattern().format(100 - (int.parse(product!.priceSale ?? "") / int.parse(product!.price ?? "")) * 100)}%',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,

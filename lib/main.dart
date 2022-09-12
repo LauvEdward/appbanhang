@@ -25,6 +25,7 @@ void main() async {
   await Hive.initFlutter(document.path);
   Hive.initFlutter();
   await Hive.openBox('Cart');
+  await Hive.openBox('Seen');
   runApp(const MyApp());
   // imageCache.clearLiveImages();
   // imageCache.clear();

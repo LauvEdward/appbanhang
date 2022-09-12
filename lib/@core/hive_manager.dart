@@ -55,4 +55,22 @@ class HiveService {
     await box.close();
     return userList;
   }
+
+  addSeenBoxes(ProductHive item) async {
+    print("adding boxes");
+    final openBox = Hive.box("Seen");
+    ProductHive? listPro = openBox.get(item.id);
+    if (listPro == null) {
+      print("Add sp moi");
+      openBox.put(item.id, item);
+    }
+  }
+
+  Future<List<ProductHive>> getListlSeen() async {
+    final box = await Hive.openBox('Seen');
+    box.clear();
+    List<ProductHive> userList = box.values as List<ProductHive>;
+    await box.close();
+    return userList;
+  }
 }

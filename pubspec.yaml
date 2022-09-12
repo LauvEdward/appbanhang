@@ -70,7 +70,9 @@ dependencies:
   hive: ^2.0.5
   hive_flutter: ^1.1.0
   path_provider: ^2.0.11
-
+  flutter_rating_bar: ^4.0.1
+  loadmore: ^2.0.1
+  flutter_speed_dial:
 dev_dependencies:
   flutter_test:
     sdk: flutter

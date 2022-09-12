@@ -69,22 +69,25 @@ class ProfileScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           ClipRRect(
-                            child: CachedNetworkImage(
-                              imageUrl: API.share.baseSite +
-                                  "/${_controller.profile.avatar}",
-                              width: 70,
-                              height: 70,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) =>
-                                  SahaLoadingContainer(
-                                height: 40,
-                                width: 40,
-                              ),
-                              errorWidget: (context, url, error) => Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: SahaEmptyImage(),
-                              ),
-                            ),
+                            child: _controller.profile.avatar == null
+                                ? SahaEmptyImage()
+                                : CachedNetworkImage(
+                                    imageUrl: API.share.baseSite +
+                                        "/${_controller.profile.avatar}",
+                                    width: 70,
+                                    height: 70,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        SahaLoadingContainer(
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: SahaEmptyImage(),
+                                    ),
+                                  ),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           SizedBox(
@@ -231,6 +234,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
+                  PaintingBinding.instance.imageCache.clear();
                   _controller.changePassword();
                 },
                 child: Text(

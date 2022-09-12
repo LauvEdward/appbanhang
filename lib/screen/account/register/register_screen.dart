@@ -23,28 +23,28 @@ class MyRegisterScreen extends StatelessWidget {
             child: Container(
               child: Column(children: [
                 inforUser(),
-                inforContract(),
-                address(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(color: Colors.grey, spreadRadius: 1),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        addRadioButton(0, "Male"),
-                        addRadioButton(1, "Female"),
-                        addRadioButton(2, "Other")
-                      ],
-                    ),
-                  ),
-                ),
+                // inforContract(),
+                // address(),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(10),
+                //       color: Colors.white,
+                //       boxShadow: [
+                //         BoxShadow(color: Colors.grey, spreadRadius: 1),
+                //       ],
+                //     ),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //       children: [
+                //         addRadioButton(0, "Male"),
+                //         addRadioButton(1, "Female"),
+                //         addRadioButton(2, "Other")
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
@@ -134,15 +134,15 @@ class MyRegisterScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Text(
-                  "Nhập mật khẩu",
+                  "Số điện thoại",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               Container(
                 height: 50,
                 child: TextField(
-                  controller: _controller.passwordTextController,
-                  obscureText: true,
+                  controller: _controller.phoneTextController,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -152,7 +152,7 @@ class MyRegisterScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: const BorderSide(color: Colors.blueGrey),
                     ),
-                    hintText: "Nhập mật khẩu",
+                    hintText: "Nhập số điện thoại của bạn",
                     hintStyle: const TextStyle(color: Colors.blueGrey),
                   ),
                 ),
@@ -178,6 +178,32 @@ class MyRegisterScreen extends StatelessWidget {
                       borderSide: const BorderSide(color: Colors.blueGrey),
                     ),
                     hintText: "Nhập họ tên của bạn",
+                    hintStyle: const TextStyle(color: Colors.blueGrey),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Text(
+                  "Nhập mật khẩu",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                height: 50,
+                child: TextField(
+                  controller: _controller.passwordTextController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
+                    ),
+                    hintText: "Nhập mật khẩu",
                     hintStyle: const TextStyle(color: Colors.blueGrey),
                   ),
                 ),
@@ -449,10 +475,10 @@ class MyRegisterScreen extends StatelessWidget {
       _showToast(context, "Số điện thoại phải là số");
       return;
     }
-    if (!_controller.bankAccountTextController.value.text.isNum) {
-      _showToast(context, "Số tài khoản phải là số");
-      return;
-    }
+    // if (!_controller.bankAccountTextController.value.text.isNum) {
+    //   _showToast(context, "Số tài khoản phải là số");
+    //   return;
+    // }
 
     _controller.registerUser();
   }

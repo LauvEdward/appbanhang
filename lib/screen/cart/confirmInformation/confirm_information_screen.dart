@@ -216,75 +216,23 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              InkWell(
-                onTap: () async {
-                  // if (_controller.provice.isEmpty) {
-                  //   print("object");
-                  // } else {
-                  //   await _controller.getdistrict(_controller.proviceid.value);
-                  //   Get.to(() => ListProvice(
-                  //         provice: _controller.arrDistrict,
-                  //         changeText: (String text, String id) {
-                  //           _controller.district.value = text;
-                  //         },
-                  //       ));
-                  // }
-                },
-                child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
+              Container(
+                height: 50,
+                child: TextFormField(
+                  controller: _controller.nameTextController,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("${_controller.name}"),
-                          InkWell(
-                              onTap: () {
-                                _controller.changeProfile(1);
-                                // Get.defaultDialog(
-                                //     title: '',
-                                //     content: Column(
-                                //       mainAxisSize: MainAxisSize.min,
-                                //       children: [
-                                //         TextField(
-                                //           // controller: settingsScreenController.categoryNameController,
-                                //           keyboardType: TextInputType.text,
-                                //           maxLines: 1,
-                                //           decoration: InputDecoration(
-                                //               labelText: 'Category Name',
-                                //               hintMaxLines: 1,
-                                //               border: OutlineInputBorder(
-                                //                   borderSide: BorderSide(
-                                //                       color: Colors.green,
-                                //                       width: 4.0))),
-                                //         ),
-                                //         SizedBox(
-                                //           height: 30.0,
-                                //         ),
-                                //         RaisedButton(
-                                //           onPressed: () {
-
-                                //           },
-                                //           child: Text(
-                                //             'Lưu',
-                                //             style: TextStyle(
-                                //                 color: Colors.white,
-                                //                 fontSize: 16.0),
-                                //           ),
-                                //           color: Colors.redAccent,
-                                //         )
-                                //       ],
-                                //     ),
-                                //     radius: 10.0);
-                              },
-                              child: Icon(Icons.edit))
-                        ],
-                      ),
-                    )),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
+                    ),
+                    hintText: "Nhập họ tên",
+                    hintStyle: const TextStyle(color: Colors.blueGrey),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
@@ -293,57 +241,48 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              InkWell(
-                onTap: () async {
-                  _controller.changeProfile(2);
-                  // Get.defaultDialog(
-                  //     title: '',
-                  //     content: Column(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         TextField(
-                  //           // controller: settingsScreenController.categoryNameController,
-                  //           keyboardType: TextInputType.text,
-                  //           maxLines: 1,
-                  //           decoration: InputDecoration(
-                  //               labelText: 'Category Name',
-                  //               hintMaxLines: 1,
-                  //               border: OutlineInputBorder(
-                  //                   borderSide: BorderSide(
-                  //                       color: Colors.green, width: 4.0))),
-                  //         ),
-                  //         SizedBox(
-                  //           height: 30.0,
-                  //         ),
-                  //         RaisedButton(
-                  //           onPressed: () {},
-                  //           child: Text(
-                  //             'Lưu',
-                  //             style: TextStyle(
-                  //                 color: Colors.white, fontSize: 16.0),
-                  //           ),
-                  //           color: Colors.redAccent,
-                  //         )
-                  //       ],
-                  //     ),
-                  //     radius: 10.0);
-                },
-                child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
+              Container(
+                height: 50,
+                child: TextFormField(
+                  controller: _controller.phoneTextController,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("${_controller.phone}"),
-                          Icon(Icons.edit)
-                        ],
-                      ),
-                    )),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
+                    ),
+                    hintText: "Nhập số điện thoại",
+                    hintStyle: const TextStyle(color: Colors.blueGrey),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                child: Text(
+                  "Địa chỉ Email",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                height: 50,
+                child: TextFormField(
+                  controller: _controller.emailTextController,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
+                    ),
+                    hintText: "Nhập địa chỉ Email",
+                    hintStyle: const TextStyle(color: Colors.blueGrey),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
@@ -431,58 +370,24 @@ class _ConfirmInformation extends State<ConfirmInformationScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              InkWell(
-                  onTap: () {
-                    _controller.changeProfile(4);
-                    // Get.defaultDialog(
-                    //     title: '',
-                    //     content: Column(
-                    //       mainAxisSize: MainAxisSize.min,
-                    //       children: [
-                    //         TextField(
-                    //           // controller: settingsScreenController.categoryNameController,
-                    //           keyboardType: TextInputType.text,
-                    //           maxLines: 1,
-                    //           decoration: InputDecoration(
-                    //               labelText: 'Category Name',
-                    //               hintMaxLines: 1,
-                    //               border: OutlineInputBorder(
-                    //                   borderSide: BorderSide(
-                    //                       color: Colors.green, width: 4.0))),
-                    //         ),
-                    //         SizedBox(
-                    //           height: 30.0,
-                    //         ),
-                    //         RaisedButton(
-                    //           onPressed: () {},
-                    //           child: Text(
-                    //             'Lưu',
-                    //             style: TextStyle(
-                    //                 color: Colors.white, fontSize: 16.0),
-                    //           ),
-                    //           color: Colors.redAccent,
-                    //         )
-                    //       ],
-                    //     ),
-                    //     radius: 10.0);
-                  },
-                  child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
+              Container(
+                height: 50,
+                child: TextFormField(
+                  controller: _controller.diachiTextController,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('${_controller.diachi}'),
-                          Icon(Icons.edit)
-                        ],
-                      ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
                     ),
-                  )),
+                    hintText: "Nhập địa chỉ đầy đủ: Số nhà, tên đường",
+                    hintStyle: const TextStyle(color: Colors.blueGrey),
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5),
                 child: Text(

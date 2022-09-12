@@ -301,19 +301,11 @@ class _CartScreenState extends State<CartScreen> {
                             String? token = await AppSharePreference.share
                                 .getTokenSharePreference();
                             if (cartController.listOrder.length > 0) {
-                              if (token != "") {
-                                bool isSuccess =
-                                    await cartController.checkCart();
-                                if (isSuccess) {
-                                  Get.to(() => ConfirmInformationScreen(
-                                        affiliate:
-                                            cartController.affiliate.value,
-                                      ));
-                                }
-                              } else {
-                                NavigationController navigationController =
-                                    Get.find<NavigationController>();
-                                navigationController.moveToTab(4);
+                              bool isSuccess = await cartController.checkCart();
+                              if (isSuccess) {
+                                Get.to(() => ConfirmInformationScreen(
+                                      affiliate: cartController.affiliate.value,
+                                    ));
                               }
                             }
                           },
