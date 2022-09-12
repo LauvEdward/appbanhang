@@ -958,20 +958,20 @@ class ProductSameList extends StatelessWidget {
                         color: Colors.blue, fontWeight: FontWeight.w500),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(5)),
-                  padding:
-                      EdgeInsets.only(left: 5, right: 5, top: 3, bottom: 3),
-                  child: Text(
-                    '-10%',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                )
+                // Container(
+                //   decoration: BoxDecoration(
+                //       color: Colors.red,
+                //       borderRadius: BorderRadius.circular(5)),
+                //   padding:
+                //       EdgeInsets.only(left: 5, right: 5, top: 3, bottom: 3),
+                //   child: Text(
+                //     '-10%',
+                //     style: TextStyle(
+                //       color: Colors.white,
+                //       fontSize: 12,
+                //     ),
+                //   ),
+                // )
               ],
             ),
             SizedBox(

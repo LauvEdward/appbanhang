@@ -415,6 +415,7 @@ class ProductDetailController extends GetxController {
       );
       return;
     }
+    FocusManager.instance.primaryFocus!.unfocus();
     final response = await API.share.summitComment(
         productdetail.data.item.id,
         nameTextController.text,
