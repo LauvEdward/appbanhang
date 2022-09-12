@@ -43,7 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   SpeedDial buildSpeedDial() {
     return SpeedDial(
-      animatedIcon: AnimatedIcons.menu_close,
+      // animatedIcon: AnimatedIcons(Icon.),
+      icon: Icons.contact_phone_rounded,
       animatedIconTheme: IconThemeData(size: 28.0),
       backgroundColor: Colors.blue,
       visible: true,
