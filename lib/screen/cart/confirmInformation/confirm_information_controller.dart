@@ -183,6 +183,9 @@ class ConfirmController extends GetxController {
     for (var i = 0; i < listOrder.length; i++) {
       product["cart_data[${i}][product_id]"] = listOrder[i].id;
       product["cart_data[${i}][qty]"] = listOrder[i].soluong;
+      if (listOrder[i].sizeid != "") {
+        product["cart_data[${i}][size_id]"] = listOrder[i].sizeid;
+      }
       // product["size_id"] = "";
     }
     // for (var item in listOrder) {

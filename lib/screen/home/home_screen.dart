@@ -90,9 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Icon(Icons.phone, color: Colors.white),
           backgroundColor: Colors.green,
           onTap: () {
-            UrlLauncher.launch("tel:${UrlLauncher.launch(
-              homeController.phone.value,
-            )}");
+            UrlLauncher.launch(
+                "tel:${int.tryParse(homeController.phone.value)}");
           },
           label: 'Gọi điện',
           labelStyle:

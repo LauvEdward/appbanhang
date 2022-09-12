@@ -58,14 +58,43 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 style: TextStyle(color: Colors.black87),
               ),
               actions: [
-                // IconButton(
-                //     onPressed: () {},
-                //     icon: Icon(Icons.favorite_border_rounded)),
-                IconButton(
-                    onPressed: () {
-                      Get.to(() => CartScreen());
-                    },
-                    icon: Icon(Icons.shopping_bag_outlined))
+                Obx(
+                  () => Stack(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Get.to(() => CartScreen());
+                          },
+                          icon: Icon(
+                            Icons.shopping_bag_outlined,
+                            color: Colors.black87,
+                          )),
+                      Positioned(
+                        right: 10,
+                        top: 10,
+                        child: new Container(
+                          padding: EdgeInsets.all(1),
+                          decoration: new BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: BoxConstraints(
+                            minWidth: 12,
+                            minHeight: 12,
+                          ),
+                          child: new Text(
+                            '${productDetailController!.numberOfItem}',
+                            style: new TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
             body: SingleChildScrollView(

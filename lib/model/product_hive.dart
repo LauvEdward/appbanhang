@@ -18,4 +18,8 @@ class ProductHive {
   int? soluong;
   @HiveField(6)
   String? prodir;
+  @HiveField(7)
+  String? sizeid;
+  @HiveField(8)
+  String? nameSize;
 }

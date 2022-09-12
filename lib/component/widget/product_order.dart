@@ -120,30 +120,63 @@ class ProductOrder extends StatelessWidget {
                         ),
                       ],
                     ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        padding: EdgeInsets.only(
-                            left: 5, right: 5, top: 5, bottom: 5),
-                        color: Colors.grey[200],
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ConstrainedBox(
-                              constraints: new BoxConstraints(
-                                minWidth: 10,
-                                maxWidth: Get.width * 0.5,
-                              ),
-                              child: Text(
-                                '${oCcy.format(int.parse(pro.priceSale!))} đ',
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: Colors.grey[600], fontSize: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          pro.nameSize! == ""
+                              ? Container()
+                              : Row(
+                                  children: [
+                                    Text(
+                                      'Đơn vị: ',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 13),
+                                    ),
+                                    Text(
+                                      '${pro.nameSize!}',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              // margin: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(
+                                  left: 5, right: 5, top: 5, bottom: 5),
+                              color: Colors.grey[200],
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Giá:',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: Colors.grey[600], fontSize: 12),
+                                  ),
+                                  ConstrainedBox(
+                                    constraints: new BoxConstraints(
+                                      minWidth: 10,
+                                      maxWidth: Get.width * 0.5,
+                                    ),
+                                    child: Text(
+                                      '${oCcy.format(int.parse(pro.priceSale!))} đ',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 10),

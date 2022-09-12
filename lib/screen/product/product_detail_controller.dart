@@ -34,11 +34,30 @@ class ProductDetailController extends GetxController {
   var secondHalf;
   var listProductSeen = [].obs;
   var flag = true;
+  var listOrder = [].obs;
+  var numberOfItem = 0.obs;
   @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
     await getDetailProduct(int.parse(id));
+    await getListPro();
+  }
+
+  Future<void> getListPro() async {
+    listOrder.clear();
+    numberOfItem.value = 0;
+    var box = Hive.box('Cart');
+    // box.clear();
+    // if (box.get("name"))
+    // ProductHive listPro = box.get('name');
+    // // listPro = HiveService.share.getBoxes();
+    // print("getListPro ${listPro.name}");
+    Box<dynamic> box1 = Hive.box<dynamic>('Cart');
+    if (box1.isNotEmpty) {
+      listOrder.addAll(box1.values);
+      numberOfItem.value = listOrder.length;
+    }
   }
 
   Future<void> productSame(String id) async {
@@ -138,9 +157,11 @@ class ProductDetailController extends GetxController {
       var price = 0.obs;
       var soLuong = 1.obs;
       var idOption;
-      var priceTemp = 0.obs;
+      var priceTemp = (-1).obs;
       var soLuongTemp = 1.obs;
       var idOptionTemp;
+      var namesize;
+      var nameTemp;
       final oCcy = new NumberFormat("#,##0", "en_US");
       if (productdetail.data.sizeS.length > 0 ||
           productdetail.data.sizeSType.length > 0) {
@@ -154,7 +175,7 @@ class ProductDetailController extends GetxController {
           Container(
             color: Colors.white,
             width: Get.width,
-            height: Get.height / 2.5,
+            // height: Get.height / 2.5,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -173,7 +194,7 @@ class ProductDetailController extends GetxController {
                               '/${productdetail.data.item.image}',
                         ),
                       ),
-                      Obx(() => Text(priceTemp.value == 0
+                      Obx(() => Text(priceTemp.value == -1
                           ? "Liên hệ"
                           : "${oCcy.format(priceTemp.value)}đ"))
                     ],
@@ -188,6 +209,7 @@ class ProductDetailController extends GetxController {
                                   onTap: () {
                                     priceTemp.value = int.parse(e.priceSale);
                                     idOptionTemp = e.id;
+                                    nameTemp = e.name;
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -294,6 +316,7 @@ class ProductDetailController extends GetxController {
                               soLuong = soLuongTemp;
                               price = priceTemp;
                               idOption = idOptionTemp;
+                              namesize = nameTemp;
                               Get.back();
                             },
                             child: Text("Thêm vào"))),
@@ -305,13 +328,15 @@ class ProductDetailController extends GetxController {
         );
         if (idOption != null) {
           var productBox = ProductHive()
-            ..id = idOption
+            ..id = productdetail.data.item.id
             ..image = productdetail.data.item.image
             ..name = productdetail.data.item.name
             ..price = productdetail.data.item.price
             ..priceSale = priceTemp.value.toString()
             ..soluong = soLuong.value
-            ..prodir = productdetail.data.item.proDir;
+            ..prodir = productdetail.data.item.proDir
+            ..sizeid = idOption
+            ..nameSize = namesize;
           HiveService.share.addBoxes(productBox);
           Get.dialog(
             AlertDialog(
@@ -321,7 +346,7 @@ class ProductDetailController extends GetxController {
               ),
             ),
           );
-
+          await getListPro();
           await Future.delayed(Duration(seconds: 1));
           Navigator.of(Get.overlayContext!).pop();
           CartController cartController = Get.find();
@@ -335,7 +360,9 @@ class ProductDetailController extends GetxController {
           ..price = productdetail.data.item.price
           ..priceSale = productdetail.data.item.priceSale
           ..soluong = 1
-          ..prodir = productdetail.data.item.proDir;
+          ..prodir = productdetail.data.item.proDir
+          ..sizeid = ""
+          ..nameSize = "";
         HiveService.share.addBoxes(productBox);
         Get.dialog(
           AlertDialog(
@@ -345,7 +372,7 @@ class ProductDetailController extends GetxController {
             ),
           ),
         );
-
+        await getListPro();
         await Future.delayed(Duration(seconds: 1));
         Navigator.of(Get.overlayContext!).pop();
         CartController cartController = Get.find();
