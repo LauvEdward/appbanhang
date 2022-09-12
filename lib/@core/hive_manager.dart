@@ -7,10 +7,10 @@ class HiveService {
   addBoxes(ProductHive item) async {
     print("adding boxes");
     final openBox = Hive.box("Cart");
-    ProductHive? listPro = openBox.get(item.id);
+    ProductHive? listPro = openBox.get(item.keyid);
     if (listPro == null) {
       print("Add sp moi");
-      openBox.put(item.id, item);
+      openBox.put(item.keyid, item);
     } else {
       print("Add sp ton tai");
       // listPro.soluong == null ? 0 : (listPro.soluong! + 1);
@@ -21,7 +21,10 @@ class HiveService {
         ..price = listPro.price
         ..priceSale = listPro.priceSale
         ..soluong = ((listPro.soluong ?? 0) + 1)
-        ..prodir = listPro.prodir;
+        ..prodir = listPro.prodir
+        ..keyid = listPro.keyid
+        ..nameSize = listPro.nameSize
+        ..sizeid = listPro.sizeid;
       openBox.put(item.id, proUpdate);
     }
     // openBox.add(item);
@@ -59,7 +62,7 @@ class HiveService {
   addSeenBoxes(ProductHive item) async {
     print("adding boxes");
     final openBox = Hive.box("Seen");
-    ProductHive? listPro = openBox.get(item.id);
+    ProductHive? listPro = openBox.get(item.keyid);
     if (listPro == null) {
       print("Add sp moi");
       openBox.put(item.id, item);

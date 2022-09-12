@@ -25,13 +25,14 @@ class ProductHiveAdapter extends TypeAdapter<ProductHive> {
       ..soluong = fields[5] as int?
       ..prodir = fields[6] as String?
       ..sizeid = fields[7] as String?
-      ..nameSize = fields[8] as String?;
+      ..nameSize = fields[8] as String?
+      ..keyid = fields[9] as String?;
   }
 
   @override
   void write(BinaryWriter writer, ProductHive obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -49,7 +50,9 @@ class ProductHiveAdapter extends TypeAdapter<ProductHive> {
       ..writeByte(7)
       ..write(obj.sizeid)
       ..writeByte(8)
-      ..write(obj.nameSize);
+      ..write(obj.nameSize)
+      ..writeByte(9)
+      ..write(obj.keyid);
   }
 
   @override

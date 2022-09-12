@@ -336,7 +336,8 @@ class ProductDetailController extends GetxController {
             ..soluong = soLuong.value
             ..prodir = productdetail.data.item.proDir
             ..sizeid = idOption
-            ..nameSize = namesize;
+            ..nameSize = namesize
+            ..keyid = productdetail.data.item.id + idOption;
           HiveService.share.addBoxes(productBox);
           Get.dialog(
             AlertDialog(
@@ -362,7 +363,8 @@ class ProductDetailController extends GetxController {
           ..soluong = 1
           ..prodir = productdetail.data.item.proDir
           ..sizeid = ""
-          ..nameSize = "";
+          ..nameSize = ""
+          ..keyid = productdetail.data.item.id + idOption;
         HiveService.share.addBoxes(productBox);
         Get.dialog(
           AlertDialog(

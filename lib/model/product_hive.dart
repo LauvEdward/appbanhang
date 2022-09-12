@@ -22,4 +22,6 @@ class ProductHive {
   String? sizeid;
   @HiveField(8)
   String? nameSize;
+  @HiveField(9)
+  String? keyid;
 }

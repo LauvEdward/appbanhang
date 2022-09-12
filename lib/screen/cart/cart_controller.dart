@@ -52,14 +52,14 @@ class CartController extends GetxController {
 
   Future<void> removeItem(ProductHive pro) async {
     var box = Hive.box('Cart');
-    HiveService.share.removeItem(pro.id!);
+    HiveService.share.removeItem(pro.id! + pro.sizeid!);
     getListPro();
     update();
   }
 
   Future<void> removeSoLuong(ProductHive pro) async {
     var box = Hive.box('Cart');
-    HiveService.share.removeSoluong(pro.id!);
+    HiveService.share.removeSoluong(pro.id! + pro.sizeid!);
     getListPro();
     update();
   }
